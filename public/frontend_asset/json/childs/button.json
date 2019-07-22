@@ -1,0 +1,9 @@
+{
+	"tag" : "button",
+	"category" : "button",
+	"attr" : {
+		"class" : "box",
+		"style" :{}
+	},
+	"content" : "Button"
+}

@@ -1,0 +1,8 @@
+//cac thuoc tinh co gia tri nhap vao thi de trong
+//cac thuoc tinh biet san dc cac property thi se luu vao mang de load ra select box
+{
+	"method" : ["post","get"],
+	"action" : "",
+	"style" : [{
+	}]
+}

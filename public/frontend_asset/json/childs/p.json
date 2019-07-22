@@ -1,0 +1,10 @@
+{
+	"tag" : "p",
+	"content" : "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sit tempore quidem repellat modi, eos nam!",
+	"category" : "text",
+	"attr" : {
+		"class" : "box",
+		"contenteditable": "true",
+		"style": {}
+	}
+}

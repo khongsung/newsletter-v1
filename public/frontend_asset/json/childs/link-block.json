@@ -1,0 +1,13 @@
+{
+	"tag" : "a",
+	"category" : "link",
+	"attr" : {
+		"class" : "column",
+		"style": {
+			"display" : "inline-block",
+			"width" : "150px",
+			"height" : "80px"
+		}
+	},
+	"content" : []
+}

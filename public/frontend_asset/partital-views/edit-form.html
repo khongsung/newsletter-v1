@@ -1,0 +1,124 @@
+
+<div class="form-group">
+  	<div class="col-sm-10">          
+        <input class="decorative-input inspectletIgnore form-control" value="" id="content" placeholder="" name="content" style="display: none;">
+  	</div>
+</div>
+
+<div class="form-group">
+	<label class="control-label col-md-3" for="pwd">Template's Name: </label>
+  	<div class="col-md-9">          
+        <input class="decorative-input inspectletIgnore form-control" placeholder="Name of layout" name="name" type="text">
+  	</div>
+</div>
+<div class="form-group">
+	<label class="control-label col-md-3" for="pwd">Select Category: </label>
+  	<div class="col-md-9">          
+        <select name="category" required="true" class="form-control" id="category">
+		<!-- <option value="">--Select a Category--</option> -->
+	</select>
+  	</div>
+</div>
+
+<div class="form-group">
+	<label class="control-label col-md-3" for="pwd">Select Tag(s): </label>
+  	<div class="col-md-9" style="display: flex; justify-content: center;">          
+        <!-- <select name="category" required="true" class="form-control" id="category">
+	</select> -->
+	<select id='custom-headers' multiple='multiple' name="tag[]" required="true">
+	  	
+	</select>
+  	</div>
+  	<script>
+  		var option_tag='';
+  		var array_tag = [];
+  		$(document).ready(function() {
+  			$.ajax({
+	      	url: 'get-tag', 
+	      	type: 'get',   
+		    success: function(data){ 
+		    	for (var i = 0; i < data.length; i++) {
+		    	 	$("#custom-headers").multiSelect('addOption', { value: data[i].id, text: data[i].name });
+		    	}
+		    }
+			})
+  		});
+  		$('#custom-headers').multiSelect({
+		  	selectableHeader: "<div class='custom-header'>Your Tags</div>",
+		  	selectionHeader: "<div class='custom-header'>Selected</div>",
+		  	afterSelect: function(values){
+			},
+			afterDeselect: function(values){
+
+			}
+		});
+
+		$('#custom-headers').change(function() {
+		    var multipleValues = $( "#custom-headers" ).val();
+		    console.log(multipleValues);
+		});
+  	</script>
+</div>
+
+<div class="control-group row-space-2 form-group">
+	
+</div>
+<a href="javascript:void(0);" class="btn btn-xs btn-primary" style="margin-bottom: 5px;" onclick="addCategory()"><i class="fa fa-plus-square" aria-hidden="true"></i> Add new category</a>
+<a href="javascript:void(0);" class="btn btn-xs btn-primary" style="margin-bottom: 5px;" onclick="addTag()"><i class="fa fa-plus-square" aria-hidden="true"></i> Add new tag</a>
+<!-- <input class="btn btn-success btn-block btn-large" id="save_layout" type="submit" value="Save as My Layout"> -->
+<input class="btn btn-success btn-block btn-large" type="submit" value="Save">
+<a href="javascript:void(0);" onclick="exportZip()" class="btn btn-success btn-block btn-large">Export to .Zip File(HTML, CSS, JS)</a>
+
+<script type="text/javascript">
+	$(document).ready(function() {
+		var option_category = '<option value="">--Select a Category--</option>';
+		$.ajax({
+	      	url: 'get-category', 
+	      	type: 'get',   
+		    success: function(data){ 
+		    	for (var i = 0; i < data.length; i++) {
+		    	 	option_category += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
+		    	}
+		        $("#category").html(option_category);
+		    }
+
+		})
+
+	});
+	//validate
+// 	jQuery.validator.addMethod("nameCategoryRegex", function(value, element) {
+// 	    return this.optional(element) || /^[a-z\ \s]+$/i.test(value);
+// 	}, "Category's name must contain only letters & space");
+// 	jQuery.validator.addMethod("nameTagRegex", function(value, element) {
+// 	    return this.optional(element) || /^[a-z0-9_ÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưăạảấầẩẫậắằẳẵặẹẻẽềềểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ\\s]+$/i.test(value);
+// 	}, "Tag's name must contain only letters & number. No space allowed");
+// 	$("#form").validate({
+// 	onfocusout: false,
+// 	onkeyup: false,
+// 	onclick: false,
+// 	rules: {
+// 		"name": {
+// 			required: true
+// 		},
+// 		"category" : {
+// 			required: true,
+// 			nameCategoryRegex: true
+// 		},
+// 		"tag[]" : {
+// 			required: true,
+// 			nameTagRegex : true
+// 		},
+// 	},
+// 	messages: {
+// 		"name": {
+// 			required: "This field is required!"
+// 		},
+// 		"category" : {
+// 			required: "Please select an item!",
+// 		},
+// 		"tag[]" : {
+// 			required: "Please select an item!",
+// 		}
+// 	}
+// });
+</script>

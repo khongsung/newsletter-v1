@@ -1,0 +1,10 @@
+{
+	"tag" : "span",
+	"content" : "tag span",
+	"category" : "text",
+	"attr" : {
+		"class" : "box",
+		"contenteditable": "true",
+		"style": {}
+	}
+}

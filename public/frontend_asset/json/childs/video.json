@@ -1,0 +1,15 @@
+{
+	"tag" : "video",
+	"category" : "video",
+	"attr" : {
+		"class" : "box",
+		"autoplay" : "true",
+		"controls" : "true",
+		"src" : "https://www.youtube.com/embed/O5woJ_gWG_8",
+		"style" : {					
+			"width" : "500px",
+			"height" : "300px"
+		}
+	},
+	"content" : ""
+}

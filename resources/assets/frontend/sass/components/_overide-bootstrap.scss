@@ -1,0 +1,14 @@
+.nav>li>a {
+    padding: 10px 10px;
+}
+
+label {
+	margin-bottom: 0 !important;
+}
+
+@media (min-width: 768px){
+	.navbar-nav>li>a {
+		padding-top: 9px !important;
+		padding-bottom: 9px !important;
+	}
+}

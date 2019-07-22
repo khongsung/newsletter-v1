@@ -1,0 +1,12 @@
+{
+	"tag" : "a",
+	"category" : "link",
+	"attr" : {
+		"class" : "box",
+		"contenteditable" : "true",
+		"href" : "#",
+		"target" : "",
+		"style": {}
+	},
+	"content" : "Link to ..."
+}

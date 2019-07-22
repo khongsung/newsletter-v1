@@ -1,0 +1,296 @@
+.title {
+	font-size: 1.3rem;
+	font-weight: lighter;
+	letter-spacing: 1px;
+	padding: 9px 10px 9px 20px;
+	border-bottom: 1px solid rgba(0,0,0,0.1);
+	text-align: left;
+	position: relative;
+	cursor: pointer;
+	background: rgba(0,0,0,0.1);
+	.fa {
+		margin-right: 10px;
+	}
+}
+.properties {
+	font-size: 1.1rem;
+	padding: 10px 5px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: flex-end;
+	box-sizing: border-box;
+	width: 100%;
+	.property {
+		box-sizing: border-box;
+		float: left;
+		width: 50%;
+		margin-bottom: 5px;
+		padding: 0 5px;
+		.label {
+			font-size: 1em;
+			font-weight: 300;
+			margin: 5px 5px 3px 0;
+		}
+		.fields {
+			display: flex;
+			.field {
+				border: none;
+				box-shadow: none;
+				border-radius: 2px;
+				box-sizing: border-box;
+				padding: 0;
+				position: relative;
+				width: 100%;
+				.sel-arrow {
+					height: 100%;
+					width: 9px;
+					position: absolute;
+					right: 0;
+					top: 0;
+					z-index: 0;
+					.d-s-arrow {
+						bottom: 0;
+						top: 0;
+						margin: auto;
+						right: 5px;
+						border-top: 4px solid rgba(255,255,255,0.7);
+						position: absolute;
+						height: 0;
+						width: 0;
+						border-left: 3px solid transparent;
+						border-right: 4px solid transparent;
+						cursor: pointer;
+					}
+				}
+				.field-color-picker {
+					width: 20px;
+					height: 20px;
+					position: absolute;
+					z-index: 100;
+					right: 4px;
+					top: 3px;
+					border: 1px solid rgba(255,255,255,0.5);
+				}
+			}
+
+			.field-color, .field-radio {
+				width: 100%;
+			}
+
+			.field-radio {
+				.radio-items {
+					display: flex;
+					.radio-item:first-child {
+						border: none;
+					}
+					.radio-item {
+						flex: 1 1 auto;
+						text-align: center;
+						border-left: 1px solid rgba(0,0,0,0.2);
+						input {
+							display: none;
+						}
+						.icons-flex {
+							background-size: 40% 50% !important;
+							height: 100%;
+							width: 100%;
+							opacity: 0.9;
+						}
+						.icon-dir-row {
+							background: url(./images/flex-dir-row.png) no-repeat center;
+						}
+						.icon-dir-row-rev {
+							background: url(./images/flex-dir-row-rev.png) no-repeat center;
+						}
+						.icon-dir-col {
+							background: url(./images/flex-dir-col.png) no-repeat center;
+						}
+						.icon-dir-col-rev {
+							background: url(./images/flex-dir-col-rev.png) no-repeat center;
+						}
+						.icon-just-start {
+							background: url(./images/flex-just-start.png) no-repeat center;
+						}
+						.icon-just-end {
+							background: url(./images/flex-just-end.png) no-repeat center;
+						}
+						.icon-just-sp-bet {
+							background: url(./images/flex-just-sp-bet.png) no-repeat center;
+						}
+						.icon-just-sp-ar {
+							background: url(./images/flex-just-sp-ar.png) no-repeat center;
+						}
+						.icon-just-sp-cent {
+							background: url(./images/flex-just-sp-cent.png) no-repeat center;
+						}
+						.icon-al-start {
+							background: url(./images/flex-al-start.png) no-repeat center;
+						}
+						.icon-al-end {
+							background: url(./images/flex-al-end.png) no-repeat center;
+						}
+						.icon-al-str {
+							background: url(./images/flex-al-str.png) no-repeat center;
+						}
+						.icon-al-center {
+							background: url(./images/flex-al-center.png) no-repeat center;
+						}
+					}
+					.radio-item-label {
+						cursor: pointer;
+						display: block;
+						padding: 5px;
+					}
+				}
+			}
+
+			.field-integer {
+				input {
+					padding-right: 30px;
+				}
+				.field-units {
+					position: absolute;
+					margin: auto;
+					right: 10px;
+					bottom: 0;
+					top: 0;
+				}
+				.field-arrows {
+					position: absolute;
+					cursor: ns-resize;
+					margin: auto;
+					height: 20px;
+					width: 9px;
+					z-index: 10;
+					bottom: 0;
+					right: 3px;
+					top: 0;
+				}
+				.field-arrow-u, .field-arrow-d {
+					position: absolute;
+					height: 0;
+					width: 0;
+					border-left: 3px solid transparent;
+					border-right: 4px solid transparent;
+					border-top: 4px solid rgba(255,255,255,0.7);
+					bottom: 4px;
+					cursor: pointer;
+				}
+				.field-arrow-u {
+					border-bottom: 4px solid rgba(255,255,255,0.7);
+					border-top: none;
+					top: 4px;
+				}
+			}
+
+			.field-range {
+				background-color: transparent;
+				border: none;
+				box-shadow: none;
+				padding: 0;
+				flex: 9 1 auto;
+				input {
+					margin: 0;
+					height: 100%;
+				}
+			}
+		}
+	}
+}
+
+.sector {
+	.field {
+		input, select {
+			background-color: transparent;
+			border: none;
+			width: 100%;
+		}
+	}
+}
+
+.sector .field input:focus,
+.sector .field select:focus {
+	outline: none;
+}
+
+.property--full, 
+.sector .property.composite,
+.sector .property.stack,
+.sector .property.color,
+.sector .property.file,
+.sector .property.property__background-gradient_type,
+.sector .property.slider {
+	width: 100% !important;
+}
+
+.sector .slider .field-integer, .clm-tags .slider .field-integer {
+	flex: 1 1 65px;
+}
+
+.field {
+	background-color: rgba(0,0,0,.2);
+	input[type=range] {
+		-webkit-appearance: slider-horizontal !important;
+		cursor: default;
+		padding: initial;
+		border: initial;
+		margin: 2px;
+	}
+	input, select, textarea {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		color: inherit;
+		border: none;
+		background-color: transparent;
+		box-sizing: border-box;
+		width: 100%;
+		position: relative;
+		padding: 5px;
+		z-index: 1;
+	}
+
+	input[type=number] {
+		-webkit-appearance: textfield !important;
+		-moz-appearance: textfield !important;
+		appearance: textfield !important;
+	}
+
+	input[type=number]::-webkit-inner-spin-button, 
+	input[type=number]::-webkit-outer-spin-button { 
+		-webkit-appearance: none !important;
+	}
+}
+.radio-item .radio-item-label:hover {
+	background-color: $radio-hover;
+}
+.radio-item input:checked + .radio-item-label {
+	background-color: $radio-checked;
+}
+.checkbox+.checkbox, .radio+.radio {
+	margin-top: 5px;
+}
+
+.clear {
+    line-height: 0;
+    cursor: pointer;
+}
+
+.traits {
+	.trait {
+		display: flex;
+		justify-content: flex-start;
+		padding: 5px 0px;
+		font-weight: lighter;
+		.label {
+			font-size: 1rem;
+			width: 40%;
+			text-align: left;
+			text-overflow: ellipsis;
+			overflow: hidden;
+		}
+		.field {
+			width: 70%;
+		}
+	}
+}

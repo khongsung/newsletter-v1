@@ -1,0 +1,13 @@
+{
+	"tag" : "img",
+	"category" : "image",
+	"attr" : {
+		"class" : "box",
+		"src" : "frontend_asset/images/test.jpg",
+		"style" : {					
+			"width" : "200px",
+			"height" : "auto"
+		}
+	},
+	"content" : ""
+}

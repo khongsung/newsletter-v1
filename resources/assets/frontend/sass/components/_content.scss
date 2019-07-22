@@ -1,0 +1,37 @@
+#content {
+	width: calc(100% - 355px);
+}
+.content {
+	margin: 15px auto 0;
+	max-height: 95vh;
+	overflow-y: scroll;
+	.active {
+		outline: 2px dashed #66afe9;
+	}
+	.menu-name {
+		color: red;
+	}
+
+	.group {
+		min-height: calc(100% - 30px);
+		border: 1px solid #999;
+		padding: 5px;
+		position: relative;
+		box-sizing: border-box;
+	}
+
+	&__control {
+		position: absolute;
+		top: -15px;
+		right: 0px;
+		display: none;
+		.btn {
+			font-size: 10px;
+			font-weight: normal;
+			margin-right: 10px;
+			padding: 2px 16px;
+			position: relative;
+			top: 0px;
+		}
+	}
+}

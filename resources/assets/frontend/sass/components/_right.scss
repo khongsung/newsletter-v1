@@ -1,0 +1,270 @@
+.right {
+	width: 180px;
+	height: 95vh;
+	padding-top: 5px;
+	overflow-y: scroll;
+	color: $color-primary;
+	background: $background;
+	border: 1px solid rgba(0,0,0,.2);
+	box-sizing: border-box;
+	.sidebar-nav {
+		font-size: 1em !important;
+		.nav-tabs {
+			a {
+				color: $color-primary;
+				&:hover {
+					color: #555;
+				}
+			}
+			display: flex !important;
+			justify-content: center;
+			>li.active {
+				>a {
+					color: $color-focus !important;
+					background-color: $background !important;
+				}
+			}
+		}
+
+		.fa {
+			font-size: 0.8em;
+		}
+		.edit-box {
+			margin-top: 5px;
+			font-size: 1.1rem;
+			color: $color-primary;
+			padding: 5px 10px;
+			label {
+				text-transform: capitalize;
+				margin: 0;
+			}
+			div {
+				margin-bottom: 5px;
+			}
+			input {
+				width: 100%;
+				padding: 2px 5px;
+				border-radius: 3px;
+				background: transparent;
+				margin-bottom: 5px;
+				border: 1px solid #ccc;
+			}
+			select {
+				width: 100%;
+				padding: 2px 5px;
+				border-radius: 3px;
+				background: transparent;
+			}
+		}
+
+		.edit-base {
+			>.properties >.label >span {
+				color: orange;
+			}
+			.content {
+				display: flex;
+				border: none !important;
+				justify-content: space-around;
+				margin: 2px 0;
+				.fa {
+					color: rgba(255,255,255,.7);
+				}
+				div {
+					width: 20px;
+					height: 20px;
+					box-sizing: border-box;
+					display: flex;
+					align-items: center;
+					flex-flow: row nowrap;
+					justify-content: center;
+					border: 1px solid transparent;
+					border-radius: 2px;
+					background-clip: padding-box;
+					position: relative;
+					
+
+				}
+				.selected {
+					background-color: rgba(0,0,0,.2);
+					border-radius: 2px;
+					border-color: rgba(0,0,0,.3);
+					.fa {
+						color: $color-focus;
+					}
+					span {
+						fill: $color-focus;
+					}
+				}
+
+				input {
+					background-color: transparent;
+					width: 100%;
+					margin-left: 5px;
+					height: 28px;
+					border: 1px solid transparent;
+					background-clip: padding-box;
+					min-width: 0;
+					font-size: 1.1rem;
+				}
+				.col30 {
+					width: 30%
+				}
+				.col40 {
+					width: 40%;
+				}
+
+				.col60 {
+					width: 60%;
+				}
+			}
+
+			.base-text {
+				.content {
+					justify-content: space-around;
+					> label {
+						user-select: none;
+						display: flex;
+						align-items: center;
+						border: 1px solid transparent;
+						height: 28px;
+						margin: 1px 0;
+						box-sizing: border-box;
+					}
+					span {
+						fill: rgba(255,255,255,0.7);
+						pointer-events: none;
+						display: flex;
+						flex: 0 0 32px;
+						justify-content: center;
+					}
+				}
+				.selectable {
+					.base-text-item {
+						&:hover {
+							background: rgba(0,0,0,.4);
+							color: $color-focus;
+							.fa {
+								color: $color-focus;
+							}
+							span {
+								fill: $color-focus;
+							}
+						}
+					}
+				}
+				.font-family-size {
+					select {
+						width: 65%;
+						margin-left: 10px;
+						font-size: 1.1rem;
+						background: transparent;
+						border-radius: 3px;
+					}
+					input {
+						font-size: 1.1rem;
+						width: 30%;
+					}
+				}
+				.content__label {
+					font-size: 12px;
+					font-family: arial;
+					font-weight: 400;
+					color: #444 !important;
+				}
+
+				.color > label {
+					width: 35%;
+					display: flex;
+					justify-content: space-around;
+				}
+				.colorpkr {
+					border: 1px solid rgba(255,255,255,0.5);
+				}
+				#font-color {
+					// height: 17px;
+					// background: url('./images/icons.png') no-repeat 0 -432px;
+					font-size: 1.5em;
+				}
+				#background-color {
+					// height: 17px;
+					// background: url('images/icons.png') no-repeat 0 -408px;
+					font-size: 1.9em;
+				}
+			}
+
+			.base-decorations {
+				#background-gradient {
+					#add-color {
+						background: none;
+						border: none;
+						cursor: pointer;
+						outline: none;
+						font-size: 20px;
+						line-height: 10px;
+					}
+				}
+			}
+
+			.base-flex {
+				.field {
+					.radio-item {
+						display: flex;
+						justify-content: center;
+						align-items: center;
+						&:hover {
+							background-color: $radio-hover;
+						}
+					}
+					.radio-item input:checked + .radio-item-label {
+						background-color: $radio-checked;
+					}
+				}
+			}
+		}
+
+		.code-edit {
+			padding: 10px;
+			&--css {
+				font-size: 11px;
+				line-height: 22px;
+				font-family: monospace;
+				.hl-string, .hl-number, .hl-color {
+					&:after {
+						content: ';';
+						color: $color-primary;
+					}
+				}
+
+				.hl-string {
+					color: #0072ff;
+				}
+
+				.hl-number {
+					color: #f00;
+				}
+				
+				.hl-color {
+					color: #ff7600;
+				}
+
+				.hl-attr:after {
+					content: ' : ';
+				}
+				pre {
+					font-size: 1rem !important;
+				}
+			}
+		}
+	}
+	select {
+		option {
+			background: #444;
+		}
+	}
+	input::-webkit-input-placeholder {
+		color: rgba(255,255,255,0.7);
+	}
+	.two-color {
+		color: $color-primary !important;
+	}
+}

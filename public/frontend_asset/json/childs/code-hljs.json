@@ -1,0 +1,20 @@
+{
+	"tag" : "pre",
+	"category" : "code",
+	"attr" : {
+		"class" : "box",
+		"style": {}
+	},
+	"content" : [
+		{
+			"tag" : "code",
+			"category" : "code",
+			"attr" : {
+				"class" : "box",
+				"contenteditable" : "true",
+				"style": {}
+			},
+			"content" : "{\nbackground:red\n}"
+		}
+	]
+}

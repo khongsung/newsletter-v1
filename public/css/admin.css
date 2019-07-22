@@ -1,0 +1,16 @@
+#modalPreview .modal-dialog {
+  width: 80% !important;
+}
+#modalPreview .box {
+  position: static;
+  border: none !important;
+  box-shadow: none !important;
+}
+#modalPreview #sortable-area2 {
+  margin: inherit;
+  padding: inherit;
+}
+
+.error {
+  color: red;
+}

@@ -1,0 +1,10 @@
+{
+	"tag" : "h5",
+	"category" : "text",
+	"attr" : {
+		"class" : "box",
+		"contenteditable" : "true",
+		"style": {}
+	},
+	"content" : "Heading 5"
+}

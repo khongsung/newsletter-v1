@@ -1,0 +1,9 @@
+{
+	"tag" : "div",
+	"category" : "grid",
+	"attr" : {
+		"class" : "column",
+		"style": {}
+	},
+	"content" : []
+}

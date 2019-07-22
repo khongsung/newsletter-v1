@@ -1,0 +1,18 @@
+#modalPreview {
+	.modal-dialog {
+		width: 80% !important;
+	}
+	.box {
+		position:static;
+		border: none !important;
+		box-shadow: none !important;
+	}
+	#sortable-area2 {
+		margin: inherit;
+		padding: inherit;
+	}
+}
+
+.error{
+	color: red;
+}

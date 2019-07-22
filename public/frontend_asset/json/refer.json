@@ -1,0 +1,82 @@
+{
+	"a": {
+		"icon": "<i class=\"fa fa-link fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "link"
+	},
+	"link-block": {
+		"icon": "<i class=\"fa fa-link fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "link block"
+	},
+	"button": {
+		"icon": "<button class='fa btn btn-default'>button</button>",
+		"text": "button"
+	},
+	"h1": {
+		"icon": "<h1><i class=\"fa fa-header\" aria-hidden=\"true\"></i></h1>",
+		"text": "heading 1"
+	},
+	"h2": {
+		"icon": "<h2><i class=\"fa fa-header\" aria-hidden=\"true\"></i></h2>",
+		"text": "heading 2"
+	},
+	"h3": {
+		"icon": "<h3><i class=\"fa fa-header\" aria-hidden=\"true\"></i></h3>",
+		"text": "heading 3"
+	},
+	"h4": {
+		"icon": "<h4><i class=\"fa fa-header\" aria-hidden=\"true\"></i></h4>",
+		"text": "heading 4"
+	},
+	"h5": {
+		"icon": "<h5><i class=\"fa fa-header\" aria-hidden=\"true\"></i></h5>",
+		"text": "heading 5"
+	},
+	"h6": {
+		"icon": "<h6><i class=\"fa fa-header\" aria-hidden=\"true\"></i></h6>",
+		"text": "heading 6"
+	},
+	"html-embed": {
+		"icon": "<i class=\"fa fa-code fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "html"
+	},
+	"code-hljs": {
+		"icon": "<i class=\"fa fa-lightbulb-o fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "code light"
+	},
+	"iframe": {
+		"icon": "<i class=\"fa fa-window-maximize fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "iframe"
+	},
+	"img": {
+		"icon": "<i class=\"fa fa-picture-o fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "image"
+	},
+	"video": {
+		"icon": "<i class=\"fa fa-youtube-play fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "video"
+	},
+	"ul": {
+		"icon": "<i class=\"fa fa-list-ul fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "list ul"
+	},
+	"ol": {
+		"icon": "<i class=\"fa fa-list-ol fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "list ol"
+	},
+	"li": {
+		"icon": "<i class=\"fa fa-minus fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "li item"
+	},
+	"p": {
+		"icon": "<i class=\"fa fa-align-left fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "paragraph"
+	},
+	"span": {
+		"icon": "<i class=\"fa fa-text-width fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "text"
+	},
+	"div" : {
+		"icon": "<i class=\"fa fa-square-o fa-3x\" aria-hidden=\"true\"></i>",
+		"text": "div"
+	}
+}

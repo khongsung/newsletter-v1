@@ -1,0 +1,9 @@
+{
+	"tag" : "li",
+	"category" : "text",
+	"attr" : {
+		"class" : "column",
+		"style": {}
+	},
+	"content" : []
+}
