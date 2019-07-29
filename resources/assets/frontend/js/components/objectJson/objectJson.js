@@ -1,5 +1,4 @@
 import getObjParent  from './getObjParent';
-import createGrid  from './createGrid';
 
 var w = window;
 function objectJson() {};
@@ -87,7 +86,7 @@ function treeData(json) {
 };
 
 objectJson.prototype.createJsonGrid = function(el) {
-	let cols = $(el).val().split(" ",12);
+	let cols = $(el).val().split(" ",10);
 	let obj = {
 		"tag" : "table",
 		"category" : "grid",
@@ -100,13 +99,23 @@ objectJson.prototype.createJsonGrid = function(el) {
 		},
 		"content" : [
 			{
-				"tag" : "tr",
+				"tag" : "tbody",
 				"category" : "grid",
 				"attr" : {
-					"class" : "column",
+					"class" : "grid-tbody",
 					"style" : {}
 				},
-				"content" : []
+				"content" : [
+					{
+						"tag" : "tr",
+						"category" : "grid",
+						"attr" : {
+							"class" : "grid-tr",
+							"style" : {}
+						},
+						"content" : []
+					}
+				]
 			}
 		]
 	};
@@ -115,7 +124,7 @@ objectJson.prototype.createJsonGrid = function(el) {
 			"tag" : "td",
 			"category" : "grid",
 			"attr" : {
-				"class" : " column",
+				"class" : "grid-td",
 				"style" : {
 					"width": parseInt(value) * 10 + "%",
 					"padding" : "5px"
@@ -123,7 +132,7 @@ objectJson.prototype.createJsonGrid = function(el) {
 			},
 			"content" : []
 		};
-		obj.content[0].content.push(col);
+		obj.content[0].content[0].content.push(col);
 	});
 	return obj;
 };

@@ -1008,8 +1008,14 @@ $.fn.extend({
 });
 
 sortableElement.prototype.draggable = function () {
-  $('body .sidebar-nav .box, body .sidebar-nav .item-user, body .sidebar-nav .item-public, .sidebar-nav .lyrow').draggable({
-    connectToSortable: "#sortable-area2, .column",
+  $('.sidebar-nav .lyrow').draggable({
+    connectToSortable: "#sortable-area2, .grid-td",
+    helper: "clone",
+    handle: ".drag",
+    scroll: false
+  });
+  $('body .sidebar-nav .box, body .sidebar-nav .item-user, body .sidebar-nav .item-public').draggable({
+    connectToSortable: ".grid-td",
     helper: "clone",
     handle: ".drag",
     scroll: false
@@ -1018,56 +1024,11 @@ sortableElement.prototype.draggable = function () {
 
 sortableElement.prototype.sortableArea = function () {
   sortableElement.prototype.draggable();
-  $('#sortable-area2, #sortable-area2 .column').sortable({
-    start: function start(e, ui) {
-      // if($(ui.item).parents().prop("tagName") == "DIV") {
-      console.log('start area');
-      w.indexStart = ui.item.index();
-      w.nodeRemove = w.objectJson.getParent(ui.helper); // }
-
-      $('.right').hide();
-    },
-    sort: function sort(event, ui) {
-      /* check if placeholder position is 0 add back placeholder */
-      var pos = ui.placeholder.position();
-
-      if (pos.left == 0 & pos.top == 0) {
-        $(ui.item).before(ui.placeholder);
-      }
-    },
-    stop: function stop(e, ui) {
-      w.indexStop = $(ui.item).index();
-      var notSort = ["box ui-draggable", "item-user ui-draggable", "box v-more ui-draggable", "item-user v-more ui-draggable"];
-
-      if (indexStop != -1 && !$(ui.item).hasClasses(notSort)) {
-        console.log('stop area');
-        w.item = w.nodeRemove.content.splice(indexStart, 1);
-        w.nodeReceive = w.objectJson.getParent(ui.item);
-        w.nodeReceive.content.splice(indexStop, 0, item[0]);
-      }
-
-      $('#content .active').removeClass('active');
-      sortableElement.prototype.sortableArea();
-      w.objectJson.drawTreeData();
-    },
-    receive: function receive(e, ui) {
-      if ($(ui.item).parent().prop("tagName") == "LI") {
-        console.log('receive area');
-        var tree = w.objectJson.getParent(ui.helper);
-        sortableElement.prototype.dragdrop(ui, tree);
-        sortableElement.prototype.sortableArea();
-      }
-    },
-    scroll: false,
-    tolerance: "pointer",
-    placeholder: "ui-state-highlight",
-    cursorAt: {
-      left: -5,
-      top: -5
-    },
-    cancel: '',
-    connectWith: '#sortable-area2, .column'
-  }).disableSelection();
+  sort('#sortable-area2', '#sortable-area2 .grid-table');
+  sort('#sortable-area2 .grid-table', '#sorable-area2, .grid-table, .grid-td');
+  sort('#sortable-area2 .grid-tbody', '.grid-tr');
+  sort('#sortable-area2 .grid-tr', '.grid-tbody, .grid-td');
+  sort('#sortable-area2 .grid-td', '.grid-tr, .grid-table, .grid-td');
 };
 
 sortableElement.prototype.dragdrop = function (el, obj) {
@@ -1173,6 +1134,59 @@ sortableElement.prototype.dragdrop = function (el, obj) {
     w.objectJson.drawTreeData();
   }
 };
+
+function sort(selector, connect) {
+  $(selector).sortable({
+    start: function start(e, ui) {
+      // if($(ui.item).parents().prop("tagName") == "DIV") {
+      console.log('start area');
+      w.indexStart = ui.item.index();
+      w.nodeRemove = w.objectJson.getParent(ui.helper); // }
+
+      $('.right').hide();
+    },
+    sort: function sort(event, ui) {
+      /* check if placeholder position is 0 add back placeholder */
+      var pos = ui.placeholder.position();
+
+      if (pos.left == 0 & pos.top == 0) {
+        $(ui.item).before(ui.placeholder);
+      }
+    },
+    stop: function stop(e, ui) {
+      w.indexStop = $(ui.item).index();
+      var notSort = ["box ui-draggable", "item-user ui-draggable", "item-public ui-draggable", "item-public v-more ui-draggable", "item-user v-more ui-draggable"];
+
+      if (indexStop != -1 && !$(ui.item).hasClasses(notSort)) {
+        console.log('stop area');
+        w.item = w.nodeRemove.content.splice(indexStart, 1);
+        w.nodeReceive = w.objectJson.getParent(ui.item);
+        w.nodeReceive.content.splice(indexStop, 0, item[0]);
+      }
+
+      $('#content .active').removeClass('active');
+      sortableElement.prototype.sortableArea();
+      w.objectJson.drawTreeData();
+    },
+    receive: function receive(e, ui) {
+      if ($(ui.item).parent().prop("tagName") == "LI") {
+        console.log('receive area');
+        var tree = w.objectJson.getParent(ui.helper);
+        sortableElement.prototype.dragdrop(ui, tree);
+        sortableElement.prototype.sortableArea();
+      }
+    },
+    scroll: false,
+    tolerance: "pointer",
+    placeholder: "ui-state-highlight",
+    cursorAt: {
+      left: 0,
+      top: 0
+    },
+    cancel: '',
+    connectWith: connect
+  });
+}
 
 /* harmony default export */ __webpack_exports__["default"] = (sortableElement);
 
@@ -1332,12 +1346,12 @@ function isValidate() {}
 
 isValidate.prototype.validateInputGrid = function () {
   var sum = 0;
-  var cols = $(this).val().split(" ", 12);
+  var cols = $(this).val().split(" ", 10);
   $.each(cols, function (index, value) {
     sum = sum + parseInt(value);
   });
 
-  if (sum == 12) {
+  if (sum == 10) {
     $(this).parent().find('label').show();
   } else {
     $(this).parent().find('label').hide();
@@ -1377,50 +1391,6 @@ function keyDelete() {
 }
 
 
-
-/***/ }),
-
-/***/ "./resources/assets/frontend/js/components/objectJson/createGrid.js":
-/*!**************************************************************************!*\
-  !*** ./resources/assets/frontend/js/components/objectJson/createGrid.js ***!
-  \**************************************************************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-function createGrid() {}
-
-;
-
-createGrid.prototype.createJsonGrid = function (el) {
-  var cols = $(el).val().split(" ", 12);
-  var obj = {
-    "tag": "div",
-    "category": "grid",
-    "attr": {
-      "class": "row",
-      "style": {}
-    },
-    "content": []
-  };
-  $.each(cols, function (index, value) {
-    var col = {
-      "tag": "div",
-      "category": "grid",
-      "attr": {
-        "sort": "" + index,
-        "class": "col-md-" + value + " column",
-        "style": {}
-      },
-      "content": []
-    };
-    obj.content.push(col);
-  });
-  return obj;
-};
-
-/* harmony default export */ __webpack_exports__["default"] = (createGrid);
 
 /***/ }),
 
@@ -1495,8 +1465,6 @@ getObjParent.prototype.getParent = function (el) {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _getObjParent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getObjParent */ "./resources/assets/frontend/js/components/objectJson/getObjParent.js");
-/* harmony import */ var _createGrid__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./createGrid */ "./resources/assets/frontend/js/components/objectJson/createGrid.js");
-
 
 var w = window;
 
@@ -1596,7 +1564,7 @@ function treeData(json) {
 ;
 
 objectJson.prototype.createJsonGrid = function (el) {
-  var cols = $(el).val().split(" ", 12);
+  var cols = $(el).val().split(" ", 10);
   var obj = {
     "tag": "table",
     "category": "grid",
@@ -1608,13 +1576,21 @@ objectJson.prototype.createJsonGrid = function (el) {
       }
     },
     "content": [{
-      "tag": "tr",
+      "tag": "tbody",
       "category": "grid",
       "attr": {
-        "class": "column",
+        "class": "grid-tbody",
         "style": {}
       },
-      "content": []
+      "content": [{
+        "tag": "tr",
+        "category": "grid",
+        "attr": {
+          "class": "grid-tr",
+          "style": {}
+        },
+        "content": []
+      }]
     }]
   };
   $.each(cols, function (index, value) {
@@ -1622,7 +1598,7 @@ objectJson.prototype.createJsonGrid = function (el) {
       "tag": "td",
       "category": "grid",
       "attr": {
-        "class": " column",
+        "class": "grid-td",
         "style": {
           "width": parseInt(value) * 10 + "%",
           "padding": "5px"
@@ -1630,7 +1606,7 @@ objectJson.prototype.createJsonGrid = function (el) {
       },
       "content": []
     };
-    obj.content[0].content.push(col);
+    obj.content[0].content[0].content.push(col);
   });
   return obj;
 };
@@ -2707,7 +2683,7 @@ $(document).ready(function () {
     $('.right').hide();
     $('.lyrow input').bind('keyup', valid.validateInputGrid); //click element
 
-    $('body').unbind().on('click', ".content .box, .content .row, .content .column", function (e) {
+    $('body').unbind().on('click', ".content .box, .content .row, .content .grid-table, .grid-tbody, .grid-tr, .grid-td", function (e) {
       removeFocus();
       var hash = findHash(e);
       $('.left #tree-data .active').removeClass('active');

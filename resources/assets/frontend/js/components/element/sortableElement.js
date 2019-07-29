@@ -17,8 +17,15 @@ $.fn.extend({
 });
 
 sortableElement.prototype.draggable = function() {
-	$('body .sidebar-nav .box, body .sidebar-nav .item-user, body .sidebar-nav .item-public, .sidebar-nav .lyrow').draggable({
-		connectToSortable: "#sortable-area2, .column",
+	$('.sidebar-nav .lyrow').draggable({
+		connectToSortable: "#sortable-area2, .grid-td",
+		helper: "clone",
+		handle: ".drag",
+		scroll: false
+	});
+
+	$('body .sidebar-nav .box, body .sidebar-nav .item-user, body .sidebar-nav .item-public').draggable({
+		connectToSortable: ".grid-td",
 		helper: "clone",
 		handle: ".drag",
 		scroll: false
@@ -27,50 +34,12 @@ sortableElement.prototype.draggable = function() {
 
 sortableElement.prototype.sortableArea = function() {
 	sortableElement.prototype.draggable();
-	$('#sortable-area2, #sortable-area2 .column').sortable({
-		start: function(e, ui) {
-			// if($(ui.item).parents().prop("tagName") == "DIV") {
-				console.log('start area');
-				w.indexStart = ui.item.index();
-				w.nodeRemove = w.objectJson.getParent(ui.helper);
-			// }
-			$('.right').hide();			
-		},
-		sort: function(event, ui) {
-			/* check if placeholder position is 0 add back placeholder */
-			var pos = ui.placeholder.position();
-			if(pos.left == 0 & pos.top == 0) {
-				$(ui.item).before(ui.placeholder);
-			}
-		},
-		stop: function(e, ui) {
-			w.indexStop = $(ui.item).index();
-			let notSort = ["box ui-draggable", "item-user ui-draggable", "box v-more ui-draggable", "item-user v-more ui-draggable"];
-			if(indexStop != -1 && !$(ui.item).hasClasses(notSort)) {
-				console.log('stop area');
-				w.item = w.nodeRemove.content.splice(indexStart, 1);
-				w.nodeReceive = w.objectJson.getParent(ui.item);
-				w.nodeReceive.content.splice(indexStop, 0, item[0]);
-			}
-			$('#content .active').removeClass('active');
-			sortableElement.prototype.sortableArea();
-			w.objectJson.drawTreeData();
-		},
-		receive: function(e, ui){
-			if($(ui.item).parent().prop("tagName") == "LI") {
-				console.log('receive area');
-				let tree = w.objectJson.getParent(ui.helper);
-				sortableElement.prototype.dragdrop(ui,tree);
-				sortableElement.prototype.sortableArea();
-			}
-		},
-		scroll: false,
-		tolerance: "pointer",
-		placeholder: "ui-state-highlight",
-		cursorAt: { left: -5, top: -5 },
-		cancel: '',
-		connectWith: '#sortable-area2, .column'
-	}).disableSelection();
+	
+	sort('#sortable-area2', '#sortable-area2 .grid-table');
+	sort('#sortable-area2 .grid-table', '#sorable-area2, .grid-table, .grid-td');
+	sort('#sortable-area2 .grid-tbody', '.grid-tr');
+	sort('#sortable-area2 .grid-tr', '.grid-tbody, .grid-td');
+	sort('#sortable-area2 .grid-td', '.grid-tr, .grid-table, .grid-td');
 };
 
 sortableElement.prototype.dragdrop = function(el, obj) {
@@ -162,5 +131,52 @@ sortableElement.prototype.dragdrop = function(el, obj) {
 		w.objectJson.drawTreeData();
 	}
 };
+
+function sort(selector, connect) {
+	$(selector).sortable({
+		start: function(e, ui) {
+			// if($(ui.item).parents().prop("tagName") == "DIV") {
+				console.log('start area');
+				w.indexStart = ui.item.index();
+				w.nodeRemove = w.objectJson.getParent(ui.helper);
+			// }
+			$('.right').hide();			
+		},
+		sort: function(event, ui) {
+			/* check if placeholder position is 0 add back placeholder */
+			var pos = ui.placeholder.position();
+			if(pos.left == 0 & pos.top == 0) {
+				$(ui.item).before(ui.placeholder);
+			}
+		},
+		stop: function(e, ui) {
+			w.indexStop = $(ui.item).index();
+			let notSort = ["box ui-draggable", "item-user ui-draggable", "item-public ui-draggable", "item-public v-more ui-draggable", "item-user v-more ui-draggable"];
+			if(indexStop != -1 && !$(ui.item).hasClasses(notSort)) {
+				console.log('stop area');
+				w.item = w.nodeRemove.content.splice(indexStart, 1);
+				w.nodeReceive = w.objectJson.getParent(ui.item);
+				w.nodeReceive.content.splice(indexStop, 0, item[0]);
+			}
+			$('#content .active').removeClass('active');
+			sortableElement.prototype.sortableArea();
+			w.objectJson.drawTreeData();
+		},
+		receive: function(e, ui){
+			if($(ui.item).parent().prop("tagName") == "LI") {
+				console.log('receive area');
+				let tree = w.objectJson.getParent(ui.helper);
+				sortableElement.prototype.dragdrop(ui,tree);
+				sortableElement.prototype.sortableArea();
+			}
+		},
+		scroll: false,
+		tolerance: "pointer",
+		placeholder: "ui-state-highlight",
+		cursorAt: { left: 0, top: 0 },
+		cancel: '',
+		connectWith: connect
+	});
+}
 
 export default sortableElement;

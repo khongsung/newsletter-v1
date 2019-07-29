@@ -470,6 +470,18 @@
   position: relative;
   top: 0px;
 }
+.content div.column {
+  padding: 5px;
+}
+.content .column, .content .grid-td {
+  min-height: 30px;
+  outline: 0.5px dashed #bbb9b9;
+  box-sizing: border-box;
+}
+.content .grid-table {
+  margin: 0;
+  outline: 1px dotted #bbb9b9;
+}
 
 .right {
   width: 180px;
@@ -1051,21 +1063,6 @@ label {
 
 .flex-column {
   flex-direction: column !important;
-}
-
-div.column {
-  padding: 5px;
-}
-
-.column {
-  min-height: 30px;
-  outline: 0.5px dashed #bbb9b9;
-  box-sizing: border-box;
-}
-
-.row {
-  margin: 0;
-  outline: 1px dotted #bbb9b9;
 }
 
 .sourcepreview .group {

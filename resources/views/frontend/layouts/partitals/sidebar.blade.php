@@ -25,7 +25,7 @@
 							<label class="btn btn-basic drag">2 col 3/7</label>
 						</div>
 						<div class="lyrow">
-							<input type="text" value="3.3 3.3 3.3 ">
+							<input type="text" value="3.3 3.3 3.3">
 							<label class="btn btn-basic drag">3 columns</label>
 						</div>
 

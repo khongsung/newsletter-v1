@@ -34,4 +34,20 @@
 			top: 0px;
 		}
 	}
+
+	div.column {
+		padding: 5px;
+	}
+
+	.column, .grid-td {
+		min-height: 30px;
+		outline: .5px dashed #bbb9b9;
+		box-sizing: border-box;
+	}
+
+	.grid-table {
+		margin: 0;
+		outline: 1px dotted #bbb9b9;
+	}
+
 }

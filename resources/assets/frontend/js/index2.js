@@ -163,7 +163,7 @@ $(document).ready(function() {
 			$('.lyrow input').bind('keyup', valid.validateInputGrid);
 
 			//click element
-			$('body').unbind().on('click', ".content .box, .content .row, .content .column", function(e) {
+			$('body').unbind().on('click', ".content .box, .content .row, .content .grid-table, .grid-tbody, .grid-tr, .grid-td", function(e) {
 				removeFocus();
 				let hash = findHash(e);
 				$('.left #tree-data .active').removeClass('active');
