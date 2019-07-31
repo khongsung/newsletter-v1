@@ -591,20 +591,32 @@ sortableElement.prototype.draggable = function () {
     handle: ".drag",
     scroll: false
   });
+  $('body .box-tr').draggable({
+    connectToSortable: ".grid-tbody",
+    helper: "clone",
+    handle: ".drag",
+    scroll: false
+  });
+  $('body .box-td').draggable({
+    connectToSortable: ".grid-tr",
+    helper: "clone",
+    handle: ".drag",
+    scroll: false
+  });
 };
 
 sortableElement.prototype.sortableArea = function () {
   sortableElement.prototype.draggable();
-  sort('#sortable-area2', '#sortable-area2 .grid-table');
-  sort('#sortable-area2 .grid-table', '#sorable-area2, .grid-table, .grid-td');
-  sort('#sortable-area2 .grid-tbody', '.grid-tr');
-  sort('#sortable-area2 .grid-tr', '.grid-tbody, .grid-td');
-  sort('#sortable-area2 .grid-td', '.grid-tr, .grid-table, .grid-td');
+  sort('#sortable-area2', '.grid-td'); // sort('#sortable-area2 .grid-table', '.grid-td');
+
+  sort('#sortable-area2 .grid-tbody', '.grid-tbody');
+  sort('#sortable-area2 .grid-tr', '.grid-tr', '.grid-tbody');
+  sort('#sortable-area2 .grid-td', '.grid-td, #sortable-area2', '.grid-tr');
 };
 
 sortableElement.prototype.dragdrop = function (el, obj) {
   // debugger;
-  if ($(el.item).hasClass('box')) {
+  if ($(el.item).hasClass('box') || $(el.item).hasClass('box-td') || $(el.item).hasClass('box-tr')) {
     var file = $(el.item).attr('value');
     $.ajax({
       url: "./frontend_asset/json/childs/" + file,
@@ -706,7 +718,7 @@ sortableElement.prototype.dragdrop = function (el, obj) {
   }
 };
 
-function sort(selector, connect) {
+function sort(selector, connect, append) {
   $(selector).sortable({
     start: function start(e, ui) {
       // if($(ui.item).parents().prop("tagName") == "DIV") {
@@ -726,7 +738,7 @@ function sort(selector, connect) {
     },
     stop: function stop(e, ui) {
       w.indexStop = $(ui.item).index();
-      var notSort = ["box ui-draggable", "item-user ui-draggable", "item-public ui-draggable", "item-public v-more ui-draggable", "item-user v-more ui-draggable"];
+      var notSort = ["box ui-draggable", "box-tr ui-draggable", "box-td ui-draggable", "item-user ui-draggable", "item-public ui-draggable", "item-public v-more ui-draggable", "item-user v-more ui-draggable"];
 
       if (indexStop != -1 && !$(ui.item).hasClasses(notSort)) {
         console.log('stop area');
@@ -755,7 +767,8 @@ function sort(selector, connect) {
       top: 0
     },
     cancel: '',
-    connectWith: connect
+    connectWith: connect,
+    appendTo: append
   });
 }
 
@@ -953,7 +966,7 @@ objectJson.prototype.createJsonGrid = function (el) {
       },
       "content": [{
         "tag": "tr",
-        "category": "grid",
+        "category": "grid-tr",
         "attr": {
           "class": "grid-tr",
           "style": {}
@@ -965,12 +978,11 @@ objectJson.prototype.createJsonGrid = function (el) {
   $.each(cols, function (index, value) {
     var col = {
       "tag": "td",
-      "category": "grid",
+      "category": "grid-td",
       "attr": {
         "class": "grid-td",
         "style": {
-          "width": parseInt(value) * 10 + "%",
-          "padding": "5px"
+          "width": parseInt(value) * 10 + "%"
         }
       },
       "content": []

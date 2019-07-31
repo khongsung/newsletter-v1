@@ -30,21 +30,35 @@ sortableElement.prototype.draggable = function() {
 		handle: ".drag",
 		scroll: false
 	});
+
+	$('body .box-tr').draggable({
+		connectToSortable: ".grid-tbody",
+		helper: "clone",
+		handle: ".drag",
+		scroll: false
+	});
+
+	$('body .box-td').draggable({
+		connectToSortable: ".grid-tr",
+		helper: "clone",
+		handle: ".drag",
+		scroll: false
+	});
 }
 
 sortableElement.prototype.sortableArea = function() {
 	sortableElement.prototype.draggable();
 	
-	sort('#sortable-area2', '#sortable-area2 .grid-table');
-	sort('#sortable-area2 .grid-table', '#sorable-area2, .grid-table, .grid-td');
-	sort('#sortable-area2 .grid-tbody', '.grid-tr');
-	sort('#sortable-area2 .grid-tr', '.grid-tbody, .grid-td');
-	sort('#sortable-area2 .grid-td', '.grid-tr, .grid-table, .grid-td');
+	sort('#sortable-area2', '.grid-td');
+	// sort('#sortable-area2 .grid-table', '.grid-td');
+	sort('#sortable-area2 .grid-tbody', '.grid-tbody');
+	sort('#sortable-area2 .grid-tr', '.grid-tr', '.grid-tbody');
+	sort('#sortable-area2 .grid-td', '.grid-td, #sortable-area2', '.grid-tr');
 };
 
 sortableElement.prototype.dragdrop = function(el, obj) {
 	// debugger;
-	if($(el.item).hasClass('box')) {
+	if($(el.item).hasClass('box') || $(el.item).hasClass('box-td') || $(el.item).hasClass('box-tr')) {
 		let file = $(el.item).attr('value');
 		$.ajax({
 			url: "./frontend_asset/json/childs/" + file,
@@ -132,7 +146,7 @@ sortableElement.prototype.dragdrop = function(el, obj) {
 	}
 };
 
-function sort(selector, connect) {
+function sort(selector, connect, append) {
 	$(selector).sortable({
 		start: function(e, ui) {
 			// if($(ui.item).parents().prop("tagName") == "DIV") {
@@ -151,7 +165,7 @@ function sort(selector, connect) {
 		},
 		stop: function(e, ui) {
 			w.indexStop = $(ui.item).index();
-			let notSort = ["box ui-draggable", "item-user ui-draggable", "item-public ui-draggable", "item-public v-more ui-draggable", "item-user v-more ui-draggable"];
+			let notSort = ["box ui-draggable", "box-tr ui-draggable", "box-td ui-draggable", "item-user ui-draggable", "item-public ui-draggable", "item-public v-more ui-draggable", "item-user v-more ui-draggable"];
 			if(indexStop != -1 && !$(ui.item).hasClasses(notSort)) {
 				console.log('stop area');
 				w.item = w.nodeRemove.content.splice(indexStart, 1);
@@ -175,7 +189,8 @@ function sort(selector, connect) {
 		placeholder: "ui-state-highlight",
 		cursorAt: { left: 0, top: 0 },
 		cancel: '',
-		connectWith: connect
+		connectWith: connect,
+		appendTo: append
 	});
 }
 

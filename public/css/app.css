@@ -299,19 +299,19 @@
   background-size: contain;
   background-repeat: no-repeat;
 }
-.left .sidebar-nav .panel #collapse-base-css .box {
+.left .sidebar-nav .panel #collapse-base-css .box, .left .sidebar-nav .panel #collapse-base-css .box-tr, .left .sidebar-nav .panel #collapse-base-css .box-td {
   width: 40%;
   display: inline-block;
   margin: 5px;
   font-size: 1rem;
 }
-.left .sidebar-nav .panel #collapse-base-css .box .fa {
+.left .sidebar-nav .panel #collapse-base-css .box .fa, .left .sidebar-nav .panel #collapse-base-css .box-tr .fa, .left .sidebar-nav .panel #collapse-base-css .box-td .fa {
   margin: 5px 0 10px;
 }
-.left .sidebar-nav .panel #collapse-base-css .box h1, .left .sidebar-nav .panel #collapse-base-css .box h2, .left .sidebar-nav .panel #collapse-base-css .box h3, .left .sidebar-nav .panel #collapse-base-css .box h4, .left .sidebar-nav .panel #collapse-base-css .box h5, .left .sidebar-nav .panel #collapse-base-css .box h6 {
+.left .sidebar-nav .panel #collapse-base-css .box h1, .left .sidebar-nav .panel #collapse-base-css .box h2, .left .sidebar-nav .panel #collapse-base-css .box h3, .left .sidebar-nav .panel #collapse-base-css .box h4, .left .sidebar-nav .panel #collapse-base-css .box h5, .left .sidebar-nav .panel #collapse-base-css .box h6, .left .sidebar-nav .panel #collapse-base-css .box-tr h1, .left .sidebar-nav .panel #collapse-base-css .box-tr h2, .left .sidebar-nav .panel #collapse-base-css .box-tr h3, .left .sidebar-nav .panel #collapse-base-css .box-tr h4, .left .sidebar-nav .panel #collapse-base-css .box-tr h5, .left .sidebar-nav .panel #collapse-base-css .box-tr h6, .left .sidebar-nav .panel #collapse-base-css .box-td h1, .left .sidebar-nav .panel #collapse-base-css .box-td h2, .left .sidebar-nav .panel #collapse-base-css .box-td h3, .left .sidebar-nav .panel #collapse-base-css .box-td h4, .left .sidebar-nav .panel #collapse-base-css .box-td h5, .left .sidebar-nav .panel #collapse-base-css .box-td h6 {
   margin: 0;
 }
-.left .sidebar-nav .panel #collapse-base-css .box label {
+.left .sidebar-nav .panel #collapse-base-css .box label, .left .sidebar-nav .panel #collapse-base-css .box-tr label, .left .sidebar-nav .panel #collapse-base-css .box-td label {
   width: 100%;
   height: 100%;
   padding: 5px 7px;
@@ -322,11 +322,11 @@
   flex-direction: column;
   justify-content: flex-end;
 }
-.left .sidebar-nav .panel #collapse-base-css .box label:hover {
+.left .sidebar-nav .panel #collapse-base-css .box label:hover, .left .sidebar-nav .panel #collapse-base-css .box-tr label:hover, .left .sidebar-nav .panel #collapse-base-css .box-td label:hover {
   color: orange;
   box-shadow: 1px 1px 4px 2px rgba(255, 255, 255, 0.4);
 }
-.left .sidebar-nav .panel #collapse-base-css .box label:hover button {
+.left .sidebar-nav .panel #collapse-base-css .box label:hover button, .left .sidebar-nav .panel #collapse-base-css .box-tr label:hover button, .left .sidebar-nav .panel #collapse-base-css .box-td label:hover button {
   background: orange;
 }
 .left .sidebar-nav .panel #collapse-base-css.in {
@@ -444,7 +444,7 @@
   overflow-y: scroll;
 }
 .content .active {
-  outline: 2px dashed #66afe9;
+  outline: 2px dashed #66afe9 !important;
 }
 .content .menu-name {
   color: red;
@@ -473,14 +473,20 @@
 .content div.column {
   padding: 5px;
 }
+.content .grid-table {
+  margin: 5px;
+  outline: 1px solid #bfbfbf;
+  border-spacing: 5px !important;
+  border-collapse: separate !important;
+}
+.content .grid-td {
+  padding: 5px;
+  margin: 5px;
+}
 .content .column, .content .grid-td {
   min-height: 30px;
   outline: 0.5px dashed #bbb9b9;
   box-sizing: border-box;
-}
-.content .grid-table {
-  margin: 0;
-  outline: 1px dotted #bbb9b9;
 }
 
 .right {

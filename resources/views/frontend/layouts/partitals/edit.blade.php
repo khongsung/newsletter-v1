@@ -17,12 +17,8 @@
 					@include($url.'setting')
 				</div>
 
-				<div id="text" class="base base-text" style="display: none;">
+				<div id="text" class="base base-text sector sector__typography no-select">
 					@include($url.'typography')
-				</div>
-
-				<div id="general" class="base base-general">
-					@include($url.'general')
 				</div>
 
 				<div id="dimension" class="base base-dimension sector sector__dimension no-select">
@@ -31,10 +27,6 @@
 
 				<div id="decorations" class="base base-decorations sector sector__decorations no-select">
 					@include($url.'decorations')
-				</div>
-
-				<div class="base base-flex sector sector__flex no-select">
-					@include($url.'flex')
 				</div>
 
 			</div>

@@ -112,7 +112,7 @@ $left-hove-transition: .3s;
 				}
 			}
 			#collapse-base-css {
-				.box {
+				.box, .box-tr, .box-td {
 					width: 40%;
 					display: inline-block;
 					margin: 5px;

@@ -1,123 +1,311 @@
-<div class="title">
-	<i class="fa fa-caret-down"></i>Typography
-</div>
-<div class="properties">
-	<div class="content assignable font-family-size">
-		<select class="base-text-item" name="font-family" title="font-family" placeholder="Font family">
-			<option value="unset" style="font-family: unset;">Unset</option>
-			<option value="Arial" style="font-family: Arial;">Arial</option>
-			<option value="Helvetica" style="font-family: Helvetica;">Helvetica</option>
-			<option value="Times New Roman" style="font-family: &quot;Times New Roman&quot;;">Times New Roman</option>
-			<option value="Courier New" style="font-family: &quot;Courier New&quot;;">Courier New</option>
-			<option value="Verdana" style="font-family: Verdana;">Verdana</option>
-			<option value="Georgia" style="font-family: Georgia;">Georgia</option>
-			<option value="Tahoma" style="font-family: Tahoma;">Tahoma</option>
-			<option value="Calibri" style="font-family: Calibri;">Calibri</option>
-			<option value="Garamond" style="font-family: Garamond;">Garamond</option>
-			<option value="Bookman" style="font-family: Bookman;">Bookman</option>
-			<option value="Roboto" style="font-family: Roboto;">Roboto</option>
-		</select>
-		<input class="base-text-item px" type="number" name="font-size" placeholder="auto" value="" title="font-size" min="4" max="72" />
-	</div>
 
-	<div class="content property--full">
-		<div class="content col40 selectable select-many">
-			<div class="base-text-item" data-attr-name="font-weight" data-attr-value="700" title="Bold">
-				<i class="fa fa-bold" aria-hidden="true"></i>
+	<div class="title" data-sector-title="">
+		<i id="caret" class="fa fa-caret-down"></i>
+		Typography
+	</div>
+	<div class="properties" style="">
+		<div id="font-family" class="property select property__font-family" style="display: block;">
+			<div class="label color-warn">
+				<span class="icon undefined" title="undefined">
+					Font
+				</span>
+				<b class="clear" data-clear-style="" style="display: none;">⨯</b>
 			</div>
-			<div class="base-text-item" data-attr-name="font-style" data-attr-value="italic" title="Italic">
-				<i class="fa fa-italic" aria-hidden="true"></i>
+			<div class="fields">
+				<div class="field select">
+					<span id="input-holder">
+						<select>
+							<option value="Arial, Helvetica, sans-serif" style="font-family: Arial, Helvetica, sans-serif">Arial</option>
+							<option value="Arial Black, Gadget, sans-serif"  style="font-family: Arial Black, Gadget, sans-serif">Arial Black</option>
+							<option value="Brush Script MT, sans-serif"  style="font-family: Brush Script MT, sans-serif">Brush Script MT</option>
+							<option value="Comic Sans MS, cursive, sans-serif"  style="font-family: Comic Sans MS, cursive, sans-serif">Comic Sans MS</option>
+							<option value="Courier New, Courier, monospace"  style="font-family: Courier New, Courier, monospace">Courier New</option>
+							<option value="Georgia, serif"  style="font-family: Georgia, serif">Georgia</option>
+							<option value="Helvetica, serif"  style="font-family: Helvetica, serif">Helvetica</option>
+							<option value="Impact, Charcoal, sans-serif"  style="font-family: Impact, Charcoal, sans-serif">Impact</option>
+							<option value="Lucida Sans Unicode, Lucida Grande, sans-serif"  style="font-family: Lucida Sans Unicode, Lucida Grande, sans-seri">Lucida Sans Unicode</option>
+							<option value="Tahoma, Geneva, sans-serif"  style="font-family: Tahoma, Geneva, sans-serif">Tahoma</option>
+							<option value="Times New Roman, Times, serif"  style="font-family: Times New Roman, Times, serif">Times New Roman</option>
+							<option value="Trebuchet MS, Helvetica, sans-serif"  style="font-family: Trebuchet MS, Helvetica, sans-serif">Trebuchet MS</option>
+							<option value="Verdana, Geneva, sans-serif"  style="font-family: Verdana, Geneva, sans-serif">Verdana</option>
+						</select>
+					</span>
+					<div class="sel-arrow">
+						<div class="d-s-arrow"></div>
+					</div>
+				</div>
 			</div>
 		</div>
-
-		<div class="content col60 selectable select-one">
-			<div class="base-text-item" data-attr-name="text-decoration" data-attr-value="underline" title="Underline">
-				<i class="fa fa-underline" aria-hidden="true"></i>
+		<div id="font-size" class="property integer property__font-size" style="display: block;">
+			<div class="label">
+				<span class="icon " title="">
+					Font size
+				</span>
+				<b class="clear" data-clear-style="" style="display: none;">⨯</b>
 			</div>
-			<div class="base-text-item" data-attr-name="text-decoration" data-attr-value="line-through" title="Strikethrough">
-				<i class="fa fa-strikethrough" aria-hidden="true"></i>
+			<div class="fields">
+				<div class="field field-integer">
+					<span class="input-holder"><input type="text" placeholder="medium"></span>
+					<span class="field-units">
+						<select class="input-unit">
+							<option>px</option>
+							<option>em</option>
+							<option>rem</option>
+							<option>%</option>
+						</select>
+					</span>
+					<div class="field-arrows" data-arrows="">
+						<div class="field-arrow-u" data-arrow-up=""></div>
+						<div class="field-arrow-d" data-arrow-down=""></div>
+					</div>
+				</div>
 			</div>
-			<div class="new-line" style="cursor: default;" title="New line">
-				⏎ 
+		</div>
+		<div id="font-weight" class="property select property__font-weight" style="display: block;">
+			<div class="label color-warn">
+				<span class="icon undefined" title="undefined">
+					Weight
+				</span>
+				<b class="clear" data-clear-style="" style="display: none;">⨯</b>
+			</div>
+			<div class="fields">
+				<div class="field select">
+					<span id="input-holder">
+						<select>
+							<option value="100">Thin</option>
+							<option value="200">Extra-Light</option>
+							<option value="300">Light</option>
+							<option value="400">Normal</option>
+							<option value="500">Medium</option>
+							<option value="600">Semi-Bold</option>
+							<option value="700">Bold</option>
+							<option value="800">Extra-Bold</option>
+							<option value="900">Ultra-Bold</option>
+						</select>
+					</span>
+					<div class="sel-arrow">
+						<div class="d-s-arrow"></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="letter-spacing" class="property integer property__letter-spacing" style="display: block;">
+			<div class="label">
+				<span class="icon " title="">
+					Letter spacing
+				</span>
+				<b class="clear" data-clear-style="" style="display: none;">⨯</b>
+			</div>
+			<div class="fields">
+				<div class="field field-integer">
+					<span class="input-holder"><input type="text" placeholder="normal"></span>
+					<span class="field-units">
+						<select class="input-unit">
+							<option>px</option>
+							<option>em</option>
+							<option>rem</option>
+							<option>%</option>
+						</select>
+					</span>
+					<div class="field-arrows" data-arrows="">
+						<div class="field-arrow-u" data-arrow-up=""></div>
+						<div class="field-arrow-d" data-arrow-down=""></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="color" class="property color property__color" style="display: block;">
+			<div class="label four-color">
+				<span class="icon " title="">
+					Font color
+				</span>
+				<b class="clear" data-clear-style="" style="display: inline;">⨯</b>
+			</div>
+			<div class="fields">
+				<div class="field field-color">
+					<div class="input-holder">
+						<input type="text" placeholder="black">
+					</div>
+					<div id="colorpkr-font-color" class="field-color-picker base-text-item colorpkr" data-attr-name="color">
+						<!-- <div></div> -->
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="line-height" class="property integer property__line-height" style="display: block;">
+			<div class="label four-color">
+				<span class="icon " title="">
+					Line height
+				</span>
+				<b class="clear" data-clear-style="" style="display: inline;">⨯</b>
+			</div>
+			<div class="fields">
+				<div class="field field-integer">
+					<span class="input-holder"><input type="text" placeholder="normal"></span>
+					<span class="field-units">
+						<select class="input-unit">
+							<option>px</option>
+							<option>em</option>
+							<option>rem</option>
+							<option>%</option>
+						</select>
+					</span>
+					<div class="field-arrows" data-arrows="">
+						<div class="field-arrow-u" data-arrow-up=""></div>
+						<div class="field-arrow-d" data-arrow-down=""></div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="text-align" class="property radio property__text-align property--full" style="display: block;">
+			<div class="label">
+				<span class="icon " title="">
+					Text align
+				</span>
+				<b class="clear" data-clear-style="" style="display: none;">⨯</b>
+			</div>
+			<div class="fields">
+				<div class="field field-radio">
+					<div class="radio-items">
+						<div class="radio-item">
+							<input type="radio" class="radio" id="text-align-left" name="text-align" value="left">
+							<label class="fa fa-align-left icon radio-item-label" for="text-align-left"></label>
+						</div>
+						<div class="radio-item">
+							<input type="radio" class="radio" id="text-align-center" name="text-align" value="center">
+							<label class="fa fa-align-center icon radio-item-label" for="text-align-center"></label>
+						</div>
+						<div class="radio-item">
+							<input type="radio" class="radio" id="text-align-right" name="text-align" value="right">
+							<label class="fa fa-align-right icon radio-item-label" for="text-align-right"></label>
+						</div>
+						<div class="radio-item">
+							<input type="radio" class="radio" id="text-align-justify" name="text-align" value="justify">
+							<label class="fa fa-align-justify icon radio-item-label" for="text-align-justify"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="text-decoration" class="property radio property__text-decoration property--full" style="display: block;">
+			<div class="label color-warn">
+				<span class="icon " title="">
+					Text decoration
+				</span>
+				<b class="clear" data-clear-style="" style="display: none;">⨯</b>
+			</div>
+			<div class="fields">
+				<div class="field field-radio">
+					<div class="radio-items">
+						<div class="radio-item">
+							<input type="radio" class="radio" id="text-decoration-none" name="text-decoration" value="none">
+							<label class="fa fa-times icon radio-item-label" for="text-decoration-none"></label>
+						</div>
+						<div class="radio-item">
+							<input type="radio" class="radio" id="text-decoration-underline" name="text-decoration" value="underline">
+							<label class="fa fa-underline icon radio-item-label" for="text-decoration-underline"></label>
+						</div>
+						<div class="radio-item">
+							<input type="radio" class="radio" id="text-decoration-line-through" name="text-decoration" value="line-through">
+							<label class="fa fa-strikethrough icon radio-item-label" for="text-decoration-line-through"></label>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="text-shadow" class="property stack property__text-shadow properties--group">
+			<div class="label four-color">
+				<span class="icon " title="">
+					Text shadow
+				</span>
+				<b class="clear" data-clear-style="" style="display: none;">⨯</b>
+			</div>
+			<div class="fields">
+				<div class="field stack">
+					<div class="properties">
+						<div id="text-shadow-h" class="property integer property__text-shadow-h">
+							<div class="label">
+								<span class="icon " title="">
+									X position
+								</span>
+							</div>
+							<div class="fields">
+								<div class="field field-integer">
+									<span class="input-holder"><input type="text" placeholder=""></span>
+									<span class="field-units">
+										<select class="input-unit">
+											<option selected="">px</option>
+											<option>%</option>
+										</select>
+									</span>
+									<div class="field-arrows" data-arrows="">
+										<div class="field-arrow-u" data-arrow-up=""></div>
+										<div class="field-arrow-d" data-arrow-down=""></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="text-shadow-v" class="property integer property__text-shadow-v">
+							<div class="label">
+								<span class="icon " title="">
+									Y position
+								</span>
+							</div>
+							<div class="fields">
+								<div class="field field-integer">
+									<span class="input-holder"><input type="text" placeholder=""></span>
+									<span class="field-units">
+										<select class="input-unit">
+											<option selected="">px</option>
+											<option>%</option>
+										</select>
+									</span>
+									<div class="field-arrows" data-arrows="">
+										<div class="field-arrow-u" data-arrow-up=""></div>
+										<div class="field-arrow-d" data-arrow-down=""></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="text-shadow-blur" class="property integer property__text-shadow-blur">
+							<div class="label">
+								<span class="icon " title="">
+									Blur
+								</span>
+							</div>
+							<div class="fields">
+								<div class="field field-integer">
+									<span class="input-holder"><input type="text" placeholder=""></span>
+									<span class="field-units">
+										<select class="input-unit">
+											<option selected="">px</option>
+											<option>%</option>
+										</select>
+									</span>
+									<div class="field-arrows" data-arrows="">
+										<div class="field-arrow-u" data-arrow-up=""></div>
+										<div class="field-arrow-d" data-arrow-down=""></div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div id="text-shadow-color" class="property color property__text-shadow-color">
+							<div class="label">
+								<span class="icon " title="">
+									Color
+								</span>
+							</div>
+							<div class="fields">
+								<div class="field field-color">
+									<div class="input-holder"><input type="text" placeholder="black"></div>
+									<div id="colorpkr-color-textshadow" class="field-color-picker base-text-item" data-attr-name="border-color">
+										<!-- <div></div> -->
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>
-
-	<div class="content selectable select-one property--full">
-		<div class="base-text-item" data-attr-name="text-align" data-attr-value="left" title="text-align-left">
-			<i class="fa fa-align-left"></i>
-		</div>
-		<div class="base-text-item" data-attr-name="text-align" data-attr-value="center" title="text-align-center">
-			<i class="fa fa-align-center"></i>
-		</div>
-		<div class="base-text-item" data-attr-name="text-align" data-attr-value="right" title="text-align-right">
-			<i class="fa fa-align-right"></i>
-		</div>
-		<div class="base-text-item" data-attr-name="text-align" data-attr-value="justify" title="text-align-justified">
-			<i class="fa fa-align-justify"></i>
-		</div>
-	</div>
-
-	<div class="content assignable property--full">
-		<label title="Line Height">
-			<span class="">
-				<svg class="svg" width="14" height="14" xmlns="http://www.w3.org/2000/svg">
-					<path d="M14 1H0V0h14v1zm0 13H0v-1h14v1z"></path>
-					<path d="M3.548 11l2.8-8h1.304l2.8 8h-.954l-.7-2H5.202l-.7 2h-.954zM7 3.862L8.448 8H5.552L7 3.862z" fill-rule="evenodd"></path>
-				</svg>
-			</span>
-			<input class="base-text-item px" type="number" name="line-height" spellcheck="false" value="" placeholder="14" min="0">
-		</label>
-		<label title="Letter Spacing">
-			<span class="">
-				<svg class="svg" width="16" height="12" xmlns="http://www.w3.org/2000/svg">
-					<path d="M0 12V0h1v12H0zm15 0V0h1v12h-1z"></path>
-					<path d="M4.548 10l2.8-8h1.304l2.8 8h-.954l-.7-2H6.202l-.7 2h-.954zM8 2.862L9.448 7H6.552L8 2.862z" fill-rule="evenodd"></path>
-				</svg>
-			</span>
-			<input type="number" name="letter-spacing" spellcheck="false" class="base-text-item px" placeholder="0" min="0">
-		</label>
-	</div>
-
-	<div class="content assignable color property--full">
-		<label title="Color">
-			<div id="font-color"><i class="fa fa-font" aria-hidden="true"></i></div>
-			<div id="colorpkr-font" class="base-text-item colorpkr" data-attr-name="color">
-				<!-- <div></div> -->
-			</div>
-		</label>
-		<label title="Bacground">
-			<div id="background-color"><i class="fa fa-buysellads" aria-hidden="true"></i></div>
-			<div id="colorpkr-background" class="base-text-item colorpkr" data-attr-name="background">
-				<!-- <div></div> -->
-			</div>
-		</label>
-	</div>
-
-	<div class="content selectable select-one property--full">
-		<div class="base-text-item" data-attr-name="text-transform" data-attr-value="uppercase" title="Uppercase">
-			<span class="svg-container">
-				<svg class="svg" width="14" height="8" xmlns="http://www.w3.org/2000/svg">
-					<path d="M.049 8l2.8-8h1.303l2.8 8H6l-.7-2H1.702l-.7 2H.05zM3.5.862L4.949 5H2.052L3.501.862zM10.89 8h-2.89V0h2.796c1.672 0 2.454.953 2.454 2.125 0 1.031-.61 1.484-1.297 1.672v.078c.734.047 1.61.734 1.61 2C13.563 7.078 12.781 8 10.89 8zm-1.89-3.64V7h1.921c1.079 0 1.624-.422 1.624-1.125 0-.813-.561-1.516-1.608-1.516H9.001zM9 1v2.516h1.765c.875 0 1.51-.547 1.51-1.391 0-.703-.44-1.125-1.447-1.125H9z" fill-rule="evenodd"></path>
-				</svg>
-			</span>
-		</div>
-		<div class="base-text-item" data-attr-name="text-transform" data-attr-value="lowercase" title="Lowercase">
-			<span class="svg-container">
-				<svg class="svg" width="12" height="9" xmlns="http://www.w3.org/2000/svg">
-					<path d="M2.159 8.14c1.047 0 1.593-.562 1.78-.953h.048V8h.922V4.047c0-1.906-1.453-2.125-2.22-2.125-.905 0-1.937.312-2.405 1.406l.875.313c.203-.438.683-.907 1.562-.907.856 0 1.266.457 1.266 1.235 0 .445-.453.422-1.547.562-1.113.145-2.328.39-2.328 1.766 0 1.172.906 1.844 2.047 1.844zm.14-.828c-.734 0-1.265-.328-1.265-.968 0-.703.64-.922 1.36-1.016.39-.047 1.437-.156 1.593-.344v.844c0 .75-.594 1.484-1.688 1.484zM6.591 8h.89v-.922h.11c.203.328.594 1.047 1.75 1.047 1.5 0 2.547-1.203 2.547-3.11 0-1.89-1.047-3.093-2.562-3.093-1.172 0-1.532.719-1.735 1.031h-.078V0h-.922v8zm.907-3c0-1.344.593-2.25 1.718-2.25 1.172 0 1.75.984 1.75 2.25 0 1.281-.593 2.297-1.75 2.297-1.11 0-1.718-.938-1.718-2.297z"></path>
-				</svg>
-			</span>
-		</div>
-		<div class="base-text-item" data-attr-name="text-transform" data-attr-value="capitalize" title="Capitalize">
-			<span class="svg-container">
-				<svg class="svg" width="14" height="9" xmlns="http://www.w3.org/2000/svg">
-					<path d="M8.97 8H8V0h1v2.953h.079l.047-.074c.212-.339.6-.957 1.687-.957 1.516 0 2.563 1.203 2.563 3.094 0 1.906-1.047 3.109-2.547 3.109-1.109 0-1.514-.66-1.724-1.004l-.026-.043h-.11V8zm1.734-5.25c-1.125 0-1.719.906-1.719 2.25 0 1.36.61 2.297 1.719 2.297 1.156 0 1.75-1.016 1.75-2.297 0-1.266-.578-2.25-1.75-2.25zM.049 8l2.8-8h1.303l2.8 8H6l-.7-2H1.702l-.7 2H.05zM3.5.862L4.949 5H2.052L3.501.862z" fill-rule="evenodd"></path>
-				</svg>
-			</span>
-		</div>
-	</div>
-	<div class="text-center base-text-advance property--full">
-		<a href="#md-ckeditor" data-toggle="modal" style="color: #eaeaea;">Advance...</a>
-	</div>
-</div>

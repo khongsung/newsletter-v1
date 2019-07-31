@@ -6,7 +6,7 @@
 	max-height: 95vh;
 	overflow-y: scroll;
 	.active {
-		outline: 2px dashed #66afe9;
+		outline: 2px dashed #66afe9 !important;
 	}
 	.menu-name {
 		color: red;
@@ -39,15 +39,22 @@
 		padding: 5px;
 	}
 
+	.grid-table {
+		margin: 5px;
+		outline: 1px solid #bfbfbf;
+		border-spacing: 5px !important;
+		border-collapse: separate !important;
+	}
+
+	.grid-td {
+		padding: 5px;
+		margin: 5px;
+	}
+
 	.column, .grid-td {
 		min-height: 30px;
 		outline: .5px dashed #bbb9b9;
 		box-sizing: border-box;
-	}
-
-	.grid-table {
-		margin: 0;
-		outline: 1px dotted #bbb9b9;
 	}
 
 }

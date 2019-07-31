@@ -59,7 +59,6 @@ $(document).ready(function() {
 				w.objectJson.saveLocalStorage();
 			});
 			$('.base-text-advance').show();
-			$('.edit-base > #text').show();
 			$(el).focus();
 			$(el).dblclick(function(e) {
 				var cell = e.target;
@@ -76,8 +75,6 @@ $(document).ready(function() {
 					selection.addRange(range);
 				}
 			});
-		} else {
-			$('.edit-base > #text').hide();
 		}
 	},
 	editELe = function(element) {

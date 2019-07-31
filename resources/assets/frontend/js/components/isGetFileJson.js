@@ -33,12 +33,20 @@ function getFileName(response, refer) {
 		if(v != "." && v != "..") {
 			let name = detachName(v);
 			let icon = '', text = name;
+			let classBox = '';
 			if(refer[name] != undefined) {
 				icon = refer[name]['icon'];
 				text = refer[name]['text'];
 			}
+			if(name == "td") {
+				classBox = 'box-td';
+			} else if (name == 'tr') {
+				classBox = 'box-tr';
+			} else {
+				classBox = 'box';
+			}
 			let html = `
-			<div class="box" value="${name}.json">
+			<div class="${classBox}" value="${name}.json">
 			<label class="btn drag">${icon + text}</label>
 			</div>
 			`;

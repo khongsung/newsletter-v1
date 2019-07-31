@@ -1,0 +1,8 @@
+{
+	"colspan" : "",
+	"rowspan" : "",
+	"style": {
+		"box-sizing" : ["none", "content-box", "border-box", "initial", "inherit"],
+		"overflow" : ["hidden", "auto", "scroll", "inherit"]
+	}
+}

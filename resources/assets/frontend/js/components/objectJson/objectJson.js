@@ -108,7 +108,7 @@ objectJson.prototype.createJsonGrid = function(el) {
 				"content" : [
 					{
 						"tag" : "tr",
-						"category" : "grid",
+						"category" : "grid-tr",
 						"attr" : {
 							"class" : "grid-tr",
 							"style" : {}
@@ -122,12 +122,11 @@ objectJson.prototype.createJsonGrid = function(el) {
 	$.each(cols, function(index,value){
 		let col = {
 			"tag" : "td",
-			"category" : "grid",
+			"category" : "grid-td",
 			"attr" : {
 				"class" : "grid-td",
 				"style" : {
-					"width": parseInt(value) * 10 + "%",
-					"padding" : "5px"
+					"width": parseInt(value) * 10 + "%"
 				}
 			},
 			"content" : []

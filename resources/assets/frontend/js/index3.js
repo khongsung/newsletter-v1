@@ -8,8 +8,10 @@ $(document).ready(function() {
 
 	$('#edit').click(function(){
 		hoverItemInContent();
-		$('.content .row').css('outline', '1px dotted #bbb9b9');
+		$('.content').find('.grid-table, .grid-td').css('outline', '1px solid #bfbfbf');
 		$('#content').css('width', 'calc(100% - 340px)');
+		$(this).hide();
+		$('#preview').show();
 	});
 
 	// privew page
@@ -20,8 +22,10 @@ $(document).ready(function() {
 		$('.content .active').removeClass('active');
 		$('body').off('click');
 		$('body').off('mouseover mouseout');
-		$('.content .row').css('outline', 'none');
+		$('.content').find('.grid-table, .grid-td').css('outline', 'none');
 		$('#content').css('width', '100%');
+		$('#edit').show();
+		$(this).hide();
 	});
 
 	// delete all element created in page
@@ -33,7 +37,8 @@ $(document).ready(function() {
 			$('.right').hide();
 			$('.left .active').removeClass('active');
 			$('.left .nav-tabs .tab-item-drag').find('a').click();
-			object.content = [];
+			w.object.content = [];
+			w.object.css     = {}
 			localStorage.removeItem("object");
 		}
 	});
@@ -43,7 +48,6 @@ $(document).ready(function() {
 		let hash = $(this).data('hash');
 		let el   = document.querySelectorAll(`#content [data-hash="${hash}"]`)[0];
 		$(this).css('outline', '1px solid #ca8200');
-		$(this).css('transition', '.3s');
 		if(w.el != el) {
 			$(el).css('outline', '2px solid #66afe9');
 		}
@@ -54,11 +58,8 @@ $(document).ready(function() {
 	$('body').on('mouseout', '.left #tree-data div', function(e) {
 		let hash = $(this).data('hash');
 		let el = document.getElementById('content').querySelectorAll(`[data-hash="${hash}"]`)[0];
-		$(this).css('outline', 'none');
-		$(this).css('transition', '.3s');
-		if(w.el != el) {
-			$(el).css('outline', '');
-		}
+		$(this).css('outline', '');
+		$(el).css('outline', '');
 		e.stopPropagation();
 	});
 

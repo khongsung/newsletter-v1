@@ -9,7 +9,7 @@
 				<span class="icon-bar"></span>
 			</button>
 			<span id="control">
-				<button class="btn btn-basic btn-xs" id="edit"><i class="fa fa-pencil-square" aria-hidden="true"></i> Edit</button>
+				<button class="btn btn-basic btn-xs" id="edit" style="display: none;"><i class="fa fa-pencil-square" aria-hidden="true"></i> Edit</button>
 				<button class="btn btn-basic btn-xs" id="preview"><i class="fa fa-eye" aria-hidden="true"></i> Preview</button>
 				<button class="btn btn-basic btn-xs" id="delete"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
 				<button class="btn btn-basic btn-xs" id="save" onclick="save()"><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>

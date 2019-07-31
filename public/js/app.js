@@ -1020,20 +1020,32 @@ sortableElement.prototype.draggable = function () {
     handle: ".drag",
     scroll: false
   });
+  $('body .box-tr').draggable({
+    connectToSortable: ".grid-tbody",
+    helper: "clone",
+    handle: ".drag",
+    scroll: false
+  });
+  $('body .box-td').draggable({
+    connectToSortable: ".grid-tr",
+    helper: "clone",
+    handle: ".drag",
+    scroll: false
+  });
 };
 
 sortableElement.prototype.sortableArea = function () {
   sortableElement.prototype.draggable();
-  sort('#sortable-area2', '#sortable-area2 .grid-table');
-  sort('#sortable-area2 .grid-table', '#sorable-area2, .grid-table, .grid-td');
-  sort('#sortable-area2 .grid-tbody', '.grid-tr');
-  sort('#sortable-area2 .grid-tr', '.grid-tbody, .grid-td');
-  sort('#sortable-area2 .grid-td', '.grid-tr, .grid-table, .grid-td');
+  sort('#sortable-area2', '.grid-td'); // sort('#sortable-area2 .grid-table', '.grid-td');
+
+  sort('#sortable-area2 .grid-tbody', '.grid-tbody');
+  sort('#sortable-area2 .grid-tr', '.grid-tr', '.grid-tbody');
+  sort('#sortable-area2 .grid-td', '.grid-td, #sortable-area2', '.grid-tr');
 };
 
 sortableElement.prototype.dragdrop = function (el, obj) {
   // debugger;
-  if ($(el.item).hasClass('box')) {
+  if ($(el.item).hasClass('box') || $(el.item).hasClass('box-td') || $(el.item).hasClass('box-tr')) {
     var file = $(el.item).attr('value');
     $.ajax({
       url: "./frontend_asset/json/childs/" + file,
@@ -1135,7 +1147,7 @@ sortableElement.prototype.dragdrop = function (el, obj) {
   }
 };
 
-function sort(selector, connect) {
+function sort(selector, connect, append) {
   $(selector).sortable({
     start: function start(e, ui) {
       // if($(ui.item).parents().prop("tagName") == "DIV") {
@@ -1155,7 +1167,7 @@ function sort(selector, connect) {
     },
     stop: function stop(e, ui) {
       w.indexStop = $(ui.item).index();
-      var notSort = ["box ui-draggable", "item-user ui-draggable", "item-public ui-draggable", "item-public v-more ui-draggable", "item-user v-more ui-draggable"];
+      var notSort = ["box ui-draggable", "box-tr ui-draggable", "box-td ui-draggable", "item-user ui-draggable", "item-public ui-draggable", "item-public v-more ui-draggable", "item-user v-more ui-draggable"];
 
       if (indexStop != -1 && !$(ui.item).hasClasses(notSort)) {
         console.log('stop area');
@@ -1184,7 +1196,8 @@ function sort(selector, connect) {
       top: 0
     },
     cancel: '',
-    connectWith: connect
+    connectWith: connect,
+    appendTo: append
   });
 }
 
@@ -1242,13 +1255,22 @@ function getFileName(response, refer) {
       var name = detachName(v);
       var icon = '',
           text = name;
+      var classBox = '';
 
       if (refer[name] != undefined) {
         icon = refer[name]['icon'];
         text = refer[name]['text'];
       }
 
-      var html = "\n\t\t\t<div class=\"box\" value=\"".concat(name, ".json\">\n\t\t\t<label class=\"btn drag\">").concat(icon + text, "</label>\n\t\t\t</div>\n\t\t\t");
+      if (name == "td") {
+        classBox = 'box-td';
+      } else if (name == 'tr') {
+        classBox = 'box-tr';
+      } else {
+        classBox = 'box';
+      }
+
+      var html = "\n\t\t\t<div class=\"".concat(classBox, "\" value=\"").concat(name, ".json\">\n\t\t\t<label class=\"btn drag\">").concat(icon + text, "</label>\n\t\t\t</div>\n\t\t\t");
       $('.left .base-css').append(html);
     }
   });
@@ -1584,7 +1606,7 @@ objectJson.prototype.createJsonGrid = function (el) {
       },
       "content": [{
         "tag": "tr",
-        "category": "grid",
+        "category": "grid-tr",
         "attr": {
           "class": "grid-tr",
           "style": {}
@@ -1596,12 +1618,11 @@ objectJson.prototype.createJsonGrid = function (el) {
   $.each(cols, function (index, value) {
     var col = {
       "tag": "td",
-      "category": "grid",
+      "category": "grid-td",
       "attr": {
         "class": "grid-td",
         "style": {
-          "width": parseInt(value) * 10 + "%",
-          "padding": "5px"
+          "width": parseInt(value) * 10 + "%"
         }
       },
       "content": []
@@ -1870,7 +1891,15 @@ function colorpkr(div, styleName, styleValue) {
     onChange: function onChange(hsb, hex, rgb) {
       styleValue = test(styleName, document.getElementById(styleName));
       var value = styleValue.split(" ");
-      styleName == 'border' ? value[2] = "#" + hex : value[4] = "#" + hex;
+
+      if (styleName == 'border') {
+        value[2] = "#" + hex;
+      } else if (styleName == 'text-shadow') {
+        value[3] = "#" + hex;
+      } else {
+        value[4] = "#" + hex;
+      }
+
       styleValue = value.join(' ');
       assign(styleName, styleValue);
       $(div).css('background', '#' + hex);
@@ -1879,7 +1908,15 @@ function colorpkr(div, styleName, styleValue) {
     onSubmit: function onSubmit(hsb, hex, rgb, el) {
       styleValue = test(styleName, document.getElementById(styleName));
       var value = styleValue.split(" ");
-      styleName == 'border' ? value[2] = "#" + hex : value[4] = "#" + hex;
+
+      if (styleName == 'border') {
+        value[2] = "#" + hex;
+      } else if (styleName == 'text-shadow') {
+        value[3] = "#" + hex;
+      } else {
+        value[4] = "#" + hex;
+      }
+
       styleValue = value.join(' ');
       assign(styleName, styleValue);
       $(div).css('background', '#' + hex);
@@ -2577,7 +2614,6 @@ $(document).ready(function () {
         w.objectJson.saveLocalStorage();
       });
       $('.base-text-advance').show();
-      $('.edit-base > #text').show();
       $(el).focus();
       $(el).dblclick(function (e) {
         var cell = e.target;
@@ -2595,8 +2631,6 @@ $(document).ready(function () {
           selection.addRange(range);
         }
       });
-    } else {
-      $('.edit-base > #text').hide();
     }
   },
       editELe = function editELe(element) {
@@ -2765,8 +2799,10 @@ $(document).ready(function () {
   hoverItemInContent();
   $('#edit').click(function () {
     hoverItemInContent();
-    $('.content .row').css('outline', '1px dotted #bbb9b9');
+    $('.content').find('.grid-table, .grid-td').css('outline', '1px solid #bfbfbf');
     $('#content').css('width', 'calc(100% - 340px)');
+    $(this).hide();
+    $('#preview').show();
   }); // privew page
 
   $('#preview').click(function (e) {
@@ -2776,8 +2812,10 @@ $(document).ready(function () {
     $('.content .active').removeClass('active');
     $('body').off('click');
     $('body').off('mouseover mouseout');
-    $('.content .row').css('outline', 'none');
+    $('.content').find('.grid-table, .grid-td').css('outline', 'none');
     $('#content').css('width', '100%');
+    $('#edit').show();
+    $(this).hide();
   }); // delete all element created in page
 
   $('#delete').click(function () {
@@ -2788,7 +2826,8 @@ $(document).ready(function () {
       $('.right').hide();
       $('.left .active').removeClass('active');
       $('.left .nav-tabs .tab-item-drag').find('a').click();
-      object.content = [];
+      w.object.content = [];
+      w.object.css = {};
       localStorage.removeItem("object");
     }
   }); //hover tree data find same element
@@ -2797,7 +2836,6 @@ $(document).ready(function () {
     var hash = $(this).data('hash');
     var el = document.querySelectorAll("#content [data-hash=\"".concat(hash, "\"]"))[0];
     $(this).css('outline', '1px solid #ca8200');
-    $(this).css('transition', '.3s');
 
     if (w.el != el) {
       $(el).css('outline', '2px solid #66afe9');
@@ -2809,13 +2847,8 @@ $(document).ready(function () {
   $('body').on('mouseout', '.left #tree-data div', function (e) {
     var hash = $(this).data('hash');
     var el = document.getElementById('content').querySelectorAll("[data-hash=\"".concat(hash, "\"]"))[0];
-    $(this).css('outline', 'none');
-    $(this).css('transition', '.3s');
-
-    if (w.el != el) {
-      $(el).css('outline', '');
-    }
-
+    $(this).css('outline', '');
+    $(el).css('outline', '');
     e.stopPropagation();
   });
   $('body').on('click', '.left #tree-data .tree-angle', function (e) {

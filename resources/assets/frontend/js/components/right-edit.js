@@ -206,7 +206,13 @@ function colorpkr(div, styleName, styleValue) {
 		onChange: function (hsb, hex, rgb) {
 			styleValue = test(styleName, document.getElementById(styleName));
 			let value  = styleValue.split(" ");
-			styleName  == 'border' ? value[2] = "#" + hex : value[4] = "#" + hex;
+			if (styleName  == 'border') {
+				value[2] = "#" + hex;
+			} else if (styleName  == 'text-shadow') {
+				value[3] = "#" + hex;
+			} else {
+				value[4] = "#" + hex;
+			}
 			styleValue = value.join(' ');
 			assign(styleName, styleValue);
 			$(div).css('background', '#' + hex);
@@ -215,7 +221,13 @@ function colorpkr(div, styleName, styleValue) {
 		onSubmit: function(hsb, hex, rgb, el) {
 			styleValue = test(styleName, document.getElementById(styleName));
 			let value  = styleValue.split(" ");
-			styleName  == 'border' ? value[2] = "#" + hex : value[4] = "#" + hex;
+			if (styleName  == 'border') {
+				value[2] = "#" + hex;
+			} else if (styleName  == 'text-shadow') {
+				value[3] = "#" + hex;
+			} else {
+				value[4] = "#" + hex;
+			}
 			styleValue = value.join(' ');
 			assign(styleName, styleValue);
 			$(div).css('background', '#' + hex);

@@ -37,10 +37,12 @@
                         let obj = <?php echo $template->content; ?>;
                         $('#sortable-area2').empty();
                         w.object.content = [];
+                        w.object['css'] = obj.css;
+                        delete obj.css;
                         $.each(obj.content, (k,v) => {
                             w.object.content.push(v);
-                            $('#sortable-area2').append(w.objectJson.draw(v));
                         });
+                        $('#sortable-area2').append(w.objectJson.draw(w.object));
                         document.querySelectorAll('pre code').forEach((block) => {
                             hljs.highlightBlock(block);
                         });
@@ -49,6 +51,7 @@
                 @endif
             </div>
         </div>
+        <div id="rules-css"></div>
 	</body>
 
 </html>

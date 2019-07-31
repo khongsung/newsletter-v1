@@ -1,0 +1,19 @@
+{
+	"tag" : "tr",
+	"category" : "grid-tr",
+	"attr" : {
+		"class" : "grid-tr",
+		"style" : {}
+	},
+	"content" : [
+		{
+			"tag" : "td",
+			"category" : "grid-td",
+			"attr" : {
+				"class" : "grid-td",
+				"style" : {}
+			},
+			"content" : []
+		}
+	]
+}
