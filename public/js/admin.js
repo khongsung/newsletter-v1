@@ -910,34 +910,28 @@ objectJson.prototype.drawTreeData = function () {
 function treeData(json) {
   var tag = document.createElement('div');
 
-  if (typeof json.content != "string") {
+  if (typeof json.content != "string" && json.content != '') {
     var html = '';
     var angle = '';
     var length = json.content.length;
-
-    if (json.attr["class"].search('row') > -1) {
-      $(tag).html("<span class='tree-label'>Row</span>");
-    } else if (json.attr["class"].search('column')) {
-      $(tag).html("<span class='tree-label'>Column</span>");
-    } else {
-      $(tag).html("<span class='tree-label'>Frame</span>");
-    }
+    var nameNode = "<span class='tree-label'>" + json.tag + "</span>";
 
     if (length > 0) {
       html = "<span class=\"pull-right\" style=\"margin-right:5px;\">".concat(length, "</span>");
       angle = "<i class=\"fa fa-angle-right tree-angle\" aria-hidden=\"true\"></i>";
     }
 
-    $(tag).html(angle + $(tag).html() + "<i class=\"fa fa-trash pull-right\" aria-hidden=\"true\"></i>".concat(html));
+    $(tag).html(angle + nameNode + "<i class=\"fa fa-trash pull-right\" aria-hidden=\"true\"></i>".concat(html));
     $(tag).addClass('tree-parent');
     $(tag).attr('data-hash', json.hash);
+    console.log('test', json.content);
     $.each(json.content, function (k, v) {
       tag.appendChild(treeData(v));
     });
   } else {
     $(tag).attr('data-hash', json.hash);
     $(tag).addClass('tree-child');
-    $(tag).html("   " + "<span class='tree-label'>".concat(json.tag, "/").concat(json.category, "</span><i class=\"fa fa-trash pull-right\" aria-hidden=\"true\"></i>"));
+    $(tag).html("<span class='tree-label'>".concat(json.tag, "/").concat(json.category, "</span><i class=\"fa fa-trash pull-right\" aria-hidden=\"true\"></i>"));
   }
 
   return tag;
@@ -949,13 +943,10 @@ objectJson.prototype.createJsonGrid = function (el) {
   var cols = $(el).val().split(" ", 10);
   var obj = {
     "tag": "table",
-    "category": "grid",
+    "category": "grid-table",
     "attr": {
       "class": "grid-table",
-      "style": {
-        "min-height": "70px",
-        "width": "100%"
-      }
+      "style": {}
     },
     "content": [{
       "tag": "tbody",

@@ -163,27 +163,20 @@ $(document).ready(function() {
 			$('body').unbind().on('click', ".content .box, .content .row, .content .grid-table, .grid-tbody, .grid-tr, .grid-td", function(e) {
 				removeFocus();
 				let hash = findHash(e);
+				let el   = document.querySelectorAll(`#tree-data [data-hash="${hash}"]`)[0];
+				let y    = $('.left').scrollTop();
 				$('.left #tree-data .active').removeClass('active');
-				let el = document.querySelectorAll(`#tree-data [data-hash="${hash}"]`)[0];
 				$(el).addClass('active');
-				var y = $('.left').scrollTop();
 				if ($('.left .tab-tree-data').hasClass('active')) {
 					$('.left').animate({ scrollTop: el.offsetTop - 150 }, 500);
 				}
 				$.each($(el).parents(), (k,v) => {
-					if($(v).find('>.tree-label').text() == 'Frame'){
+					if($(v).attr('id') != 'tree-data'){
 						$(v).children().slideDown();
 						$(v).find('> .tree-angle').removeClass('fa-angle-right');
 						$(v).find('> .tree-angle').addClass('fa-angle-down');
-					}
-				});
-				$.each($(el).parents(), (k,v) => {
-					if($(v).find('>.tree-label').text() == 'Frame') {
-						return false;
 					} else {
-						$(v).children().slideDown();
-						$(v).find('> .tree-angle').removeClass('fa-angle-right');
-						$(v).find('> .tree-angle').addClass('fa-angle-down');
+						return false;
 					}
 				});
 				CKEDITOR.instances['editor-ck'].setData(w.el.innerHTML);

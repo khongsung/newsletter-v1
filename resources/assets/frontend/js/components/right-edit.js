@@ -398,7 +398,7 @@ function opacityChange() {
 		obj.attr.style[styleName] = value;
 		if (value == "1") {
 			delete obj.attr.style[styleName];
-			$(el).css(styleName, '1');
+			$(el).css(styleName, '');
 		}
 		e.stopPropagation();
 	});

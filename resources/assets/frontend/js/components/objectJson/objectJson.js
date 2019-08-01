@@ -56,31 +56,26 @@ objectJson.prototype.drawTreeData = function() {
 
 function treeData(json) {
 	let tag = document.createElement('div');
-	if(typeof(json.content) != "string") {
+	if(typeof(json.content) != "string" && json.content != '') {
 		let html   = '';
 		let angle  = '';
 		let length = json.content.length;
-		if(json.attr.class.search('row') > -1) {
-			$(tag).html("<span class='tree-label'>Row</span>");
-		} else if(json.attr.class.search('column')) {
-			$(tag).html("<span class='tree-label'>Column</span>");
-		}else {
-			$(tag).html("<span class='tree-label'>Frame</span>");
-		}
+		let nameNode = "<span class='tree-label'>"+json.tag+"</span>";
 		if(length > 0) {
 			html = `<span class="pull-right" style="margin-right:5px;">${length}</span>`;
 			angle = `<i class="fa fa-angle-right tree-angle" aria-hidden="true"></i>`;
 		}
-		$(tag).html(angle + $(tag).html() + `<i class="fa fa-trash pull-right" aria-hidden="true"></i>${html}`);
+		$(tag).html(angle + nameNode + `<i class="fa fa-trash pull-right" aria-hidden="true"></i>${html}`);
 		$(tag).addClass('tree-parent')
 		$(tag).attr('data-hash', json.hash);
+		console.log('test', json.content);
 		$.each(json.content, (k,v)=>{
 			tag.appendChild(treeData(v));
 		})
 	} else {
 		$(tag).attr('data-hash', json.hash);
 		$(tag).addClass('tree-child');
-		$(tag).html("   " + `<span class='tree-label'>${json.tag}/${json.category}</span><i class="fa fa-trash pull-right" aria-hidden="true"></i>`);
+		$(tag).html(`<span class='tree-label'>${json.tag}/${json.category}</span><i class="fa fa-trash pull-right" aria-hidden="true"></i>`);
 	}
 	return tag;
 };
@@ -89,13 +84,10 @@ objectJson.prototype.createJsonGrid = function(el) {
 	let cols = $(el).val().split(" ",10);
 	let obj = {
 		"tag" : "table",
-		"category" : "grid",
+		"category" : "grid-table",
 		"attr" : {
 			"class" : "grid-table",
-			"style" : {
-				"min-height": "70px",
-				"width": "100%"
-			}
+			"style" : {}
 		},
 		"content" : [
 			{

@@ -19,12 +19,12 @@ createBoxByStyle.prototype.create = function(json, el, box) {
 				$.each(v, (j,i) => {
 					let option = document.createElement('option');
 					$(option).attr('value', i);
-					$(option).css(k, i);
 					$(option).html(i);
 					$(select).append(option);
 				});
 				$(div).append(select);
 				$(box).append(div);
+				$(select).val(style.getPropertyValue(k));
 			}
 		} else {
 			let input = document.createElement('input');

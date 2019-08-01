@@ -9,6 +9,9 @@ $(document).ready(function() {
 	$('#edit').click(function(){
 		hoverItemInContent();
 		$('.content').find('.grid-table, .grid-td').css('outline', '1px solid #bfbfbf');
+		$('.content').find('.grid-table, .grid-td').css('paddign', '5px');
+		$('.content .grid-table:first').find('.grid-table').css('margin', '5px');
+		$('.content .grid-table:first').find('.grid-table').css('border-collapse', 'separate');
 		$('#content').css('width', 'calc(100% - 340px)');
 		$(this).hide();
 		$('#preview').show();
@@ -23,6 +26,9 @@ $(document).ready(function() {
 		$('body').off('click');
 		$('body').off('mouseover mouseout');
 		$('.content').find('.grid-table, .grid-td').css('outline', 'none');
+		$('.content').find('.grid-table, .grid-td').css('pading', '0');
+		$('.content .grid-table:first').find('.grid-table').css('margin', '0');
+		$('.content .grid-table:first').find('.grid-table').css('border-collapse', 'collapse');
 		$('#content').css('width', '100%');
 		$('#edit').show();
 		$(this).hide();
