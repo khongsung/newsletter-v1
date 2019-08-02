@@ -17,14 +17,14 @@ $.fn.extend({
 });
 
 sortableElement.prototype.draggable = function() {
-	$('.sidebar-nav .lyrow').draggable({
+	$('.sidebar-nav .lyrow, body .sidebar-nav .item-user, body .sidebar-nav .item-public').draggable({
 		connectToSortable: "#sortable-area2, .grid-td",
 		helper: "clone",
 		handle: ".drag",
 		scroll: false
 	});
 
-	$('body .sidebar-nav .box, body .sidebar-nav .item-user, body .sidebar-nav .item-public').draggable({
+	$('body .sidebar-nav .box').draggable({
 		connectToSortable: ".grid-td",
 		helper: "clone",
 		handle: ".drag",
@@ -119,9 +119,14 @@ sortableElement.prototype.dragdrop = function(el, obj) {
 				let data = JSON.parse(response.content);
 				console.log('test', data);
 				if(el.helper != null) {
-					obj.content.splice(el.helper.index(), 0, data);
+					$.each(data, (k,v)=> {
+						obj.content.splice(el.helper.index()+k, 0, v);
+					});
 				}
-				$(el.helper).replaceWith(w.objectJson.draw(data));
+				$.each(data, (j,i)=> {
+					$(el.helper).before(w.objectJson.draw(i));
+				});
+				$(el.helper).replaceWith('');
 				setTimeout(() => {
 					w.objectJson.drawTreeData();
 					document.querySelectorAll('pre code').forEach((block) => {

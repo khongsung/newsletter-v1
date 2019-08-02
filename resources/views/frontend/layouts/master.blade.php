@@ -21,6 +21,7 @@
     <!-- font google -->
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
 
+    <link rel="stylesheet" href="{{ asset('css/filemanager.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
@@ -31,6 +32,7 @@
     <link rel="stylesheet" href="{{ asset( mix('/css/app.css') ) }}">
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
+
     <script src="{{ asset('js/jquery.min.js') }}"></script>
     <script src="{{ asset('js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('js/jquery.validate.min.js') }}"></script>
@@ -39,41 +41,46 @@
     <script src="{{ asset('js/filesaver.js') }}"></script>
     <script src="{{ asset('frontend_asset/ckeditor/ckeditor.js') }}"></script>
     <script src="{{ asset('js/jquery.multi-select.js')}}" type="text/javascript"></script>
-
-    <!-- index js -->
-    <script src="{{ asset(mix('/js/app.js')) }}"></script>
 </head><!--/head-->
 
 <body oncontextmenu="return false;">
-  @include('frontend.layouts.partitals.header')
+    @include('frontend.layouts.partitals.header')
 	@yield('content')
        
-@if(Session::has('errors'))
-    <script>
-        var errors = "{!! $errors->first('email') ? $errors->first('email') : $errors->first('error_login') !!}";
-        console.log(errors);
-        $(document).ready(function() {
-            $("#modal").modal('show');
-            $(".modal-title").html('Login');
-            $("#form").attr('action', 'login');
-            $("#group").append('<center style="color:red;font-weight:bold;">'+errors+'<center>');
-            $.get("frontend_asset/partital-views/login-form.html", function(data){
-                $("#group").append(data);
+    @if(Session::has('errors'))
+        <script>
+            var errors = "{!! $errors->first('email') ? $errors->first('email') : $errors->first('error_login') !!}";
+            console.log(errors);
+            $(document).ready(function() {
+                $("#modal").modal('show');
+                $(".modal-title").html('Login');
+                $("#form").attr('action', 'login');
+                $("#group").append('<center style="color:red;font-weight:bold;">'+errors+'<center>');
+                $.get("frontend_asset/partital-views/login-form.html", function(data){
+                    $("#group").append(data);
+                });
             });
-        });
-    </script>
-@endif   
+        </script>
+    @endif   
 
-         
-@if(Session::has('clear'))
-    <script>
-        $(document).ready(function() {
-            localStorage.removeItem("object");
+             
+    @if(Session::has('clear'))
+        <script>
+            $(document).ready(function() {
+                localStorage.removeItem("object");
+            });
+        </script>
+    @endif              
+    <!-- index js -->
+    <script src="{{ asset(mix('/js/app.js')) }}"></script>            
+    <script src="{{ asset('js/filemanager.js') }}"></script>
+    <script type="text/javascript">
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
     </script>
-@endif              
-            
-    
     
 </body>
 </html>

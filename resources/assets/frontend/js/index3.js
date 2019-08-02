@@ -160,4 +160,8 @@ $(document).ready(function() {
 			$(e.target).css('outline', '');
 		});
 	}
+
+	// $('#sortable-area2 img').dblclick(function() {
+	// 	alert('asdfasdf');
+	// });
 });

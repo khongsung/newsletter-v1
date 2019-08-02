@@ -42,7 +42,9 @@ w.exportZip = function(){
 			url: "./frontend_asset/partital-views/head-html-file.html",
 			success: (response) => {
 				html_content += response;
-				html_content +=  w.objectJson.draw(w.object).outerHTML;
+				$.each(w.object.content, (k,v) => {
+					html_content +=  w.objectJson.draw(v).outerHTML;
+				});
 				html_content += 
 				`</body>
 				<script type="text/javascript" src="js/highlight.min.js"></script>
@@ -130,7 +132,7 @@ w.addTag = function(){
 w.save = function(){
 	if ($("body #sortable-area2").children().length > 0) {
 		var option = "";
-		var content = JSON.stringify(w.object);
+		var content = JSON.stringify(w.object.content);
 		$("#modal").modal('show');
 		$("#group").css('height', '60px');
 		$("#group").html('<div class="loader col-md-6 col-md-offset-5"></div>');
@@ -138,14 +140,7 @@ w.save = function(){
 		$.ajax({
 			url: 'get-category', 
 			type: 'get',   
-			success: function(data){ 
-				//if(data == "You must login before!!"){
-					// $(".modal-title").html('Login');
-					// $("#form").attr('action', 'login');
-					// $.get("frontend_asset/partital-views/login-form.html", function(data){
-					// 	$("#group").html(data);
-					// });
-				//}else{
+			success: function(data){
 					for (var i = 0; i < data.length; i++) {
 						option += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
 					}
@@ -163,9 +158,6 @@ w.save = function(){
 	}else{alert("Nothing to save!");}
 }
 
-// $('body').on('click', '#save_template', function() {
-// 	$(this).parent().append('<input type="text" value="1" name="status">');
-// });
 
 //validate
 $("#form").validate({
@@ -216,7 +208,7 @@ $("#form").validate({
 
 
 w.addContent= function(){
-    $("#form #content").val(JSON.stringify(w.object));
+    $("#form #content").val(JSON.stringify(w.object.content));
 }
 
 $(document).ready(function() {

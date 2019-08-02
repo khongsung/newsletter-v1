@@ -28,4 +28,18 @@ class HomeController extends Controller
     public function guide(){
         return view('frontend.guide');
     }
+
+    public function uploadImage(Request $request) {
+        $this->validate($request, [
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        if($request->hasFile('file')) {
+            $image = $request->file('file');
+            $name = $image->getClientOriginalName();
+            $name = date('Y-m-d H i s') . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/'. \Auth::id() . '/');
+            $image->move($destinationPath, $name);
+        }
+    }
 }

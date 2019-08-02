@@ -1,0 +1,20 @@
+#file-manager {
+  widows: 600px;
+  height: 500px;
+}
+#file-manager .content {
+  height: 83%;
+  padding: 10px;
+  border: 1px solid #ccc;
+}
+#file-manager .content .item {
+  width: 100px;
+  margin: 10px 15px;
+  float: left;
+}
+#file-manager .content .item img {
+  width: 100%;
+}
+#file-manager .content .item span {
+  font-size: 0.8em;
+}

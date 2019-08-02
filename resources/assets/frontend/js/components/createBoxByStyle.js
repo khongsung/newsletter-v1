@@ -1,8 +1,8 @@
-var flag = 0;
+var w = window;
+
 function createBoxByStyle() {};
 
-createBoxByStyle.prototype.create = function(json, el, box) {
-	flag++;
+createBoxByStyle.prototype.create = function(json, el, box, property="attr") {
 	let style = window.getComputedStyle(el);
 	$.each(json, (k,v)=> {
 		let label = document.createElement('label');
@@ -11,10 +11,10 @@ createBoxByStyle.prototype.create = function(json, el, box) {
 		$(label).html(k);
 		if(typeof(v) == "object") {
 			if(k == "style") {
-				createBoxByStyle.prototype.create(v, el, box);
+				createBoxByStyle.prototype.create(v, el, box, "css");
 			} else {
 				var select = document.createElement('select');
-				(flag%2 != 0)? $(select).attr('data-type', 'attr') : $(select).attr('data-type', 'css');
+				$(select).attr('data-type', property);
 				$(select).attr('name', k);
 				$.each(v, (j,i) => {
 					let option = document.createElement('option');
@@ -27,29 +27,37 @@ createBoxByStyle.prototype.create = function(json, el, box) {
 				$(select).val(style.getPropertyValue(k));
 			}
 		} else {
-			let input = document.createElement('input');
-			(flag%2 != 0)? $(input).attr('data-type', 'attr') : $(input).attr('data-type', 'css');
-			$(input).attr('name', k);
-			if(pxPattern.indexOf(k) > -1) {
-				$(input).attr('type', 'number');
-			}
 			if (k == "src") {
 				if ($(el).prop('tagName').toLowerCase() == 'img') {
-					$(input).attr('type', 'file');
-					let inputLink = document.createElement('input');
-					$(inputLink).attr('type', 'text');
-					$(inputLink).attr('placeholder', obj.attr[k]);
-					$(div).append(inputLink);
+					let button = document.createElement('button');
+					$(button).html("chang image");
+					$(button).addClass('btn btn-basic btn-xs');
+					$(button).css({'color' : '#111', 'margin-left': '20px'});
+					$(div).append(button);
+					$(button).click(function() {
+						$('#modal-filemanager').modal('show');
+					});
 				} else {
+					let input = document.createElement('input');
+					$(input).attr('data-type', 'attr');
 					$(input).attr('placeholder', 'link here');
+					$(input).attr('placeholder', obj.attr[k]);
+					$(div).prepend(input);
 				}
-			}
-			if($(input).data('type') == 'attr') {
-				$(input).attr('placeholder', obj.attr[k]);
 			} else {
-				$(input).attr('placeholder',style.getPropertyValue(k));
+				let input = document.createElement('input');
+				$(input).attr('data-type', property);
+				$(input).attr('name', k);
+				if(pxPattern.indexOf(k) > -1) {
+					$(input).attr('type', 'number');
+				}
+				if($(input).data('type') == 'attr') {
+					$(input).attr('placeholder', obj.attr[k]);
+				} else {
+					$(input).attr('placeholder',style.getPropertyValue(k));
+				}
+				$(div).prepend(input);
 			}
-			$(div).prepend(input);
 			$(box).append(div);
 		}
 		$(div).prepend(label);
