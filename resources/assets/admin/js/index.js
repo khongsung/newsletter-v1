@@ -1,5 +1,8 @@
 import element from './../../frontend/js/components/element/element.js';
 
+var w = window;
+w.object = {};
+
 $(document).ready(function(){
 	$('.templatePreview').click(function() {
 		let id = $(this).attr('data-id-template');
@@ -9,12 +12,14 @@ $(document).ready(function(){
     		data:{'id':id},
     		dataType: "json", 
     		success: (response) => {
-    			window.object = JSON.parse(response.content);
+    			w.object['content'] = JSON.parse(response.content);
     			let temp = $('#modalPreview .modal-body');
 				$(".preview_id").attr('href', 'edittid='+id);
 				$(".view_id").attr('href', 'view-templateid='+id);
 				temp.empty();
-				temp.html(objectJson.draw(object));
+				$.each(w.object.content, (k,v)=> {
+					temp.append(objectJson.draw(v));
+				});
 				$('#modalPreview').modal('show');
 				document.querySelectorAll('pre code').forEach((block) => {
 		          hljs.highlightBlock(block);
@@ -27,8 +32,8 @@ $(document).ready(function(){
 	})
 });
 
-window.exportZip = function(){
-	if (window.object.content == '') {
+w.exportZip = function(){
+	if (w.object.content == '') {
 		alert('Nothing to export!');
 		return false;
 	}
@@ -42,7 +47,9 @@ window.exportZip = function(){
 			url: "./frontend_asset/partital-views/head-html-file.html",
 			success: (response) => {
 				html_content += response;
-				html_content +=  (objectJson.draw(object)).outerHTML;
+				$.each(w.object.content, (k,v) => {
+					html_content +=  w.objectJson.draw(v).outerHTML;
+				});
 				html_content += "</body></html>";
 				$.ajax({
 					url: "./css/bootstrap-grid.css",

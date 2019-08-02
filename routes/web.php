@@ -61,6 +61,11 @@ Route::prefix('/')->group(function(){
   	Route::post('/save-template','Frontend\TemplateController@addNewTemplate')->name('template.addNewTemplate');
   	
     Route::get('/get-template','Frontend\TemplateController@getTemplate')->name('template.getTemplate');
+
+    //upload img
+    Route::post('/upload-img','Frontend\HomeController@uploadImage');
+    //get img
+    Route::get('/get-all-img','Frontend\HomeController@getAllImages');
   	//Route::get('/get-template-public','Frontend\TemplateController@getTemplatePublic')->name('template.getTemplatePublic');
   });
  

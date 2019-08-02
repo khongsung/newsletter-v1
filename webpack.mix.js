@@ -30,3 +30,7 @@ mix.sass('resources/assets/admin/sass/admin.scss', 'public/css')
       processCssUrls: false
    });
 
+
+// layouts component
+mix.sass('resources/assets/layouts/sass/filemanager.scss', 'public/css');
+mix.js('resources/assets/layouts/js/filemanager.js', 'public/js');

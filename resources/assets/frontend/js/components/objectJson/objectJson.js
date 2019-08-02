@@ -68,7 +68,6 @@ function treeData(json) {
 		$(tag).html(angle + nameNode + `<i class="fa fa-trash pull-right" aria-hidden="true"></i>${html}`);
 		$(tag).addClass('tree-parent')
 		$(tag).attr('data-hash', json.hash);
-		console.log('test', json.content);
 		$.each(json.content, (k,v)=>{
 			tag.appendChild(treeData(v));
 		})

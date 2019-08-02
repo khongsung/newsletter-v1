@@ -237,6 +237,8 @@ $("#formPublic").validate({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _frontend_js_components_element_element_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../../frontend/js/components/element/element.js */ "./resources/assets/frontend/js/components/element/element.js");
 
+var w = window;
+w.object = {};
 $(document).ready(function () {
   $('.templatePreview').click(function () {
     var id = $(this).attr('data-id-template');
@@ -248,12 +250,14 @@ $(document).ready(function () {
       },
       dataType: "json",
       success: function success(response) {
-        window.object = JSON.parse(response.content);
+        w.object['content'] = JSON.parse(response.content);
         var temp = $('#modalPreview .modal-body');
         $(".preview_id").attr('href', 'edittid=' + id);
         $(".view_id").attr('href', 'view-templateid=' + id);
         temp.empty();
-        temp.html(objectJson.draw(object));
+        $.each(w.object.content, function (k, v) {
+          temp.append(objectJson.draw(v));
+        });
         $('#modalPreview').modal('show');
         document.querySelectorAll('pre code').forEach(function (block) {
           hljs.highlightBlock(block);
@@ -266,8 +270,8 @@ $(document).ready(function () {
   });
 });
 
-window.exportZip = function () {
-  if (window.object.content == '') {
+w.exportZip = function () {
+  if (w.object.content == '') {
     alert('Nothing to export!');
     return false;
   }
@@ -283,7 +287,9 @@ window.exportZip = function () {
       url: "./frontend_asset/partital-views/head-html-file.html",
       success: function success(response) {
         html_content += response;
-        html_content += objectJson.draw(object).outerHTML;
+        $.each(w.object.content, function (k, v) {
+          html_content += w.objectJson.draw(v).outerHTML;
+        });
         html_content += "</body></html>";
         $.ajax({
           url: "./css/bootstrap-grid.css",
@@ -579,13 +585,13 @@ $.fn.extend({
 });
 
 sortableElement.prototype.draggable = function () {
-  $('.sidebar-nav .lyrow').draggable({
+  $('.sidebar-nav .lyrow, body .sidebar-nav .item-user, body .sidebar-nav .item-public').draggable({
     connectToSortable: "#sortable-area2, .grid-td",
     helper: "clone",
     handle: ".drag",
     scroll: false
   });
-  $('body .sidebar-nav .box, body .sidebar-nav .item-user, body .sidebar-nav .item-public').draggable({
+  $('body .sidebar-nav .box').draggable({
     connectToSortable: ".grid-td",
     helper: "clone",
     handle: ".drag",
@@ -688,10 +694,15 @@ sortableElement.prototype.dragdrop = function (el, obj) {
         console.log('test', data);
 
         if (el.helper != null) {
-          obj.content.splice(el.helper.index(), 0, data);
+          $.each(data, function (k, v) {
+            obj.content.splice(el.helper.index() + k, 0, v);
+          });
         }
 
-        $(el.helper).replaceWith(w.objectJson.draw(data));
+        $.each(data, function (j, i) {
+          $(el.helper).before(w.objectJson.draw(i));
+        });
+        $(el.helper).replaceWith('');
         setTimeout(function () {
           w.objectJson.drawTreeData();
           document.querySelectorAll('pre code').forEach(function (block) {
@@ -924,7 +935,6 @@ function treeData(json) {
     $(tag).html(angle + nameNode + "<i class=\"fa fa-trash pull-right\" aria-hidden=\"true\"></i>".concat(html));
     $(tag).addClass('tree-parent');
     $(tag).attr('data-hash', json.hash);
-    console.log('test', json.content);
     $.each(json.content, function (k, v) {
       tag.appendChild(treeData(v));
     });

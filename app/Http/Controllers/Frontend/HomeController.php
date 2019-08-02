@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Category;
 use File;
+use Auth;
 use App\Template;
 
 class HomeController extends Controller
@@ -27,5 +28,35 @@ class HomeController extends Controller
 
     public function guide(){
         return view('frontend.guide');
+    }
+
+    public function uploadImage(Request $request) {
+        $this->validate($request, [
+            'file' => 'required|image|mimes:jpeg,png,jpg,gif,svg',
+        ]);
+
+        if($request->hasFile('file')) {
+            $image = $request->file('file');
+            $name = time() . $image->getClientOriginalName();
+            $name = str_replace(' ', '', $name);
+            $destinationPath = public_path('/images/'. Auth::id() .'/');
+            $image->move($destinationPath, $name);
+            $path = '/images/'. Auth::id() . '/' . $name;
+            echo $name . '|' . $path;
+        }
+    }
+
+    public function getAllImages() {
+        $host = $actual_link = 'http://'.$_SERVER['HTTP_HOST'];
+        $path = 'images/' . Auth::id();
+        $arr = [];
+        $files = File::allFiles($path);
+        foreach ($files as $path) {
+            $file = pathinfo($path);
+            $pathName = $file['dirname'] . $file['basename'];
+            $arr[] = $pathName;
+        }
+
+        echo json_encode($list);
     }
 }

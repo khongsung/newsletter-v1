@@ -1,7 +1,8 @@
 function isImage() {};
+var w = window;
 
 isImage.prototype.readImage = function (el, obj) {
-	$('.right .edit-box input[type="file"]').change(function() {
+	$('#modal-filemanager .type-file input').change(function() {
 		let reader = new FileReader();
 		let dataImg;
 		reader.onload = function (e) {
@@ -10,39 +11,47 @@ isImage.prototype.readImage = function (el, obj) {
 			obj.attr['src'] = dataImg;
 		};
 		reader.readAsDataURL(this.files[0]);
-		// let src = $(this).val();
-		// let arr = src.split("\\");
-		// src = arr[arr.length-1];
-		// $('.right .edit-box input[type="file"]').next().val('').blur();
-		// obj.attr.src = "./frontend_asset/images/" + src;
-		// pushImage();
-	});
-
-	$('.right .edit-box input[type="file"]').next().unbind().change(function() {
-		if($(this).val() != '') {
-			$(el).attr('src', $(this).val());
-			obj.attr['src'] = $(this).val();
-		} else {
-			delete obj.attr['src'];
-			$(el).attr('src', 'frontend_asset/images/test.jpg');
-		}
-		$('.right input[type="file"]').val('').blur();
+		let src = $(this).val();
+		let arr = src.split("\\");
+		src = arr[arr.length-1];
+		obj.attr.src = "./frontend_asset/images/" + src;
+		pushImage();
 	});
 };
 
 function pushImage () {
 	var myFormData = new FormData();
-	myFormData.append("file", $('.right input[type="file"]').prop('files')[0]);
+	myFormData.append("file", $('#modal-filemanager .type-file input').prop('files')[0]);
+	console.log('test', myFormData);
 	$.ajax({
         type: 'POST',               
         processData: false, // important
         contentType: false, // important
         data: myFormData,
-        url: "./frontend_asset/images/upload.php",
+        url: "design/upload-img",
         success: function(data){
-            console.log(data);
+        	let result = data.split('|');
+        	let path = w.location.origin + result[1];
+            let html = `<div class="item">
+							<img src="${path}">
+							<span>${result[0]}</span>
+						</div>`;
+			$('#modal-filemanager .content').prepend(html);
         }
     });
 }
 
+function getAllImages() {
+	$.ajax({
+		url: '/get-all-img',
+		success: function(response) {
+			console.log(response);
+		},
+		error: function(err) {
+			console.log('error : ', err.message);
+		}
+	});
+}
+
+w.isImage = new isImage();
 export default isImage;

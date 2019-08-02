@@ -679,14 +679,14 @@ __webpack_require__(/*! ./custom */ "./resources/assets/frontend/js/custom.js");
 __webpack_require__.r(__webpack_exports__);
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
-var flag = 0;
+var w = window;
 
 function createBoxByStyle() {}
 
 ;
 
 createBoxByStyle.prototype.create = function (json, el, box) {
-  flag++;
+  var property = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "attr";
   var style = window.getComputedStyle(el);
   $.each(json, function (k, v) {
     var label = document.createElement('label');
@@ -696,10 +696,10 @@ createBoxByStyle.prototype.create = function (json, el, box) {
 
     if (_typeof(v) == "object") {
       if (k == "style") {
-        createBoxByStyle.prototype.create(v, el, box);
+        createBoxByStyle.prototype.create(v, el, box, "css");
       } else {
         var select = document.createElement('select');
-        flag % 2 != 0 ? $(select).attr('data-type', 'attr') : $(select).attr('data-type', 'css');
+        $(select).attr('data-type', property);
         $(select).attr('name', k);
         $.each(v, function (j, i) {
           var option = document.createElement('option');
@@ -712,33 +712,45 @@ createBoxByStyle.prototype.create = function (json, el, box) {
         $(select).val(style.getPropertyValue(k));
       }
     } else {
-      var input = document.createElement('input');
-      flag % 2 != 0 ? $(input).attr('data-type', 'attr') : $(input).attr('data-type', 'css');
-      $(input).attr('name', k);
-
-      if (pxPattern.indexOf(k) > -1) {
-        $(input).attr('type', 'number');
-      }
-
       if (k == "src") {
         if ($(el).prop('tagName').toLowerCase() == 'img') {
-          $(input).attr('type', 'file');
-          var inputLink = document.createElement('input');
-          $(inputLink).attr('type', 'text');
-          $(inputLink).attr('placeholder', obj.attr[k]);
-          $(div).append(inputLink);
+          var button = document.createElement('button');
+          $(button).html("chang image");
+          $(button).addClass('btn btn-basic btn-xs');
+          $(button).css({
+            'color': '#111',
+            'margin-left': '20px'
+          });
+          $(div).append(button);
+          $(button).click(function () {
+            $('#modal-filemanager').modal('show');
+          });
         } else {
+          var input = document.createElement('input');
+          $(input).attr('data-type', 'attr');
           $(input).attr('placeholder', 'link here');
+          $(input).attr('placeholder', obj.attr[k]);
+          $(div).prepend(input);
         }
-      }
-
-      if ($(input).data('type') == 'attr') {
-        $(input).attr('placeholder', obj.attr[k]);
       } else {
-        $(input).attr('placeholder', style.getPropertyValue(k));
+        var _input = document.createElement('input');
+
+        $(_input).attr('data-type', property);
+        $(_input).attr('name', k);
+
+        if (pxPattern.indexOf(k) > -1) {
+          $(_input).attr('type', 'number');
+        }
+
+        if ($(_input).data('type') == 'attr') {
+          $(_input).attr('placeholder', obj.attr[k]);
+        } else {
+          $(_input).attr('placeholder', style.getPropertyValue(k));
+        }
+
+        $(div).prepend(_input);
       }
 
-      $(div).prepend(input);
       $(box).append(div);
     }
 
@@ -1008,13 +1020,13 @@ $.fn.extend({
 });
 
 sortableElement.prototype.draggable = function () {
-  $('.sidebar-nav .lyrow').draggable({
+  $('.sidebar-nav .lyrow, body .sidebar-nav .item-user, body .sidebar-nav .item-public').draggable({
     connectToSortable: "#sortable-area2, .grid-td",
     helper: "clone",
     handle: ".drag",
     scroll: false
   });
-  $('body .sidebar-nav .box, body .sidebar-nav .item-user, body .sidebar-nav .item-public').draggable({
+  $('body .sidebar-nav .box').draggable({
     connectToSortable: ".grid-td",
     helper: "clone",
     handle: ".drag",
@@ -1117,10 +1129,15 @@ sortableElement.prototype.dragdrop = function (el, obj) {
         console.log('test', data);
 
         if (el.helper != null) {
-          obj.content.splice(el.helper.index(), 0, data);
+          $.each(data, function (k, v) {
+            obj.content.splice(el.helper.index() + k, 0, v);
+          });
         }
 
-        $(el.helper).replaceWith(w.objectJson.draw(data));
+        $.each(data, function (j, i) {
+          $(el.helper).before(w.objectJson.draw(i));
+        });
+        $(el.helper).replaceWith('');
         setTimeout(function () {
           w.objectJson.drawTreeData();
           document.querySelectorAll('pre code').forEach(function (block) {
@@ -1300,9 +1317,10 @@ __webpack_require__.r(__webpack_exports__);
 function isImage() {}
 
 ;
+var w = window;
 
 isImage.prototype.readImage = function (el, obj) {
-  $('.right .edit-box input[type="file"]').change(function () {
+  $('#modal-filemanager .type-file input').change(function () {
     var reader = new FileReader();
     var dataImg;
 
@@ -1312,29 +1330,19 @@ isImage.prototype.readImage = function (el, obj) {
       obj.attr['src'] = dataImg;
     };
 
-    reader.readAsDataURL(this.files[0]); // let src = $(this).val();
-    // let arr = src.split("\\");
-    // src = arr[arr.length-1];
-    // $('.right .edit-box input[type="file"]').next().val('').blur();
-    // obj.attr.src = "./frontend_asset/images/" + src;
-    // pushImage();
-  });
-  $('.right .edit-box input[type="file"]').next().unbind().change(function () {
-    if ($(this).val() != '') {
-      $(el).attr('src', $(this).val());
-      obj.attr['src'] = $(this).val();
-    } else {
-      delete obj.attr['src'];
-      $(el).attr('src', 'frontend_asset/images/test.jpg');
-    }
-
-    $('.right input[type="file"]').val('').blur();
+    reader.readAsDataURL(this.files[0]);
+    var src = $(this).val();
+    var arr = src.split("\\");
+    src = arr[arr.length - 1];
+    obj.attr.src = "./frontend_asset/images/" + src;
+    pushImage();
   });
 };
 
 function pushImage() {
   var myFormData = new FormData();
-  myFormData.append("file", $('.right input[type="file"]').prop('files')[0]);
+  myFormData.append("file", $('#modal-filemanager .type-file input').prop('files')[0]);
+  console.log('test', myFormData);
   $.ajax({
     type: 'POST',
     processData: false,
@@ -1342,13 +1350,29 @@ function pushImage() {
     contentType: false,
     // important
     data: myFormData,
-    url: "./frontend_asset/images/upload.php",
+    url: "design/upload-img",
     success: function success(data) {
-      console.log(data);
+      var result = data.split('|');
+      var path = w.location.origin + result[1];
+      var html = "<div class=\"item\">\n\t\t\t\t\t\t\t<img src=\"".concat(path, "\">\n\t\t\t\t\t\t\t<span>").concat(result[0], "</span>\n\t\t\t\t\t\t</div>");
+      $('#modal-filemanager .content').prepend(html);
     }
   });
 }
 
+function getAllImages() {
+  $.ajax({
+    url: '/get-all-img',
+    success: function success(response) {
+      console.log(response);
+    },
+    error: function error(err) {
+      console.log('error : ', err.message);
+    }
+  });
+}
+
+w.isImage = new isImage();
 /* harmony default export */ __webpack_exports__["default"] = (isImage);
 
 /***/ }),
@@ -1564,7 +1588,6 @@ function treeData(json) {
     $(tag).html(angle + nameNode + "<i class=\"fa fa-trash pull-right\" aria-hidden=\"true\"></i>".concat(html));
     $(tag).addClass('tree-parent');
     $(tag).attr('data-hash', json.hash);
-    console.log('test', json.content);
     $.each(json.content, function (k, v) {
       tag.appendChild(treeData(v));
     });
@@ -2313,7 +2336,9 @@ w.exportZip = function () {
       url: "./frontend_asset/partital-views/head-html-file.html",
       success: function success(response) {
         html_content += response;
-        html_content += w.objectJson.draw(w.object).outerHTML;
+        $.each(w.object.content, function (k, v) {
+          html_content += w.objectJson.draw(v).outerHTML;
+        });
         html_content += "</body>\n\t\t\t\t<script type=\"text/javascript\" src=\"js/highlight.min.js\"></script>\n\t\t\t\t<script>\n\t\t\t\tdocument.querySelectorAll('pre code').forEach((block) => {\n\t\t\t\t\thljs.highlightBlock(block);\n\t\t\t\t});\n\t\t\t\t</script>\n\t\t\t\t</html>";
         $.ajax({
           url: "./css/bootstrap-grid.css",
@@ -2392,7 +2417,7 @@ w.addTag = function () {
 w.save = function () {
   if ($("body #sortable-area2").children().length > 0) {
     var option = "";
-    var content = JSON.stringify(w.object);
+    var content = JSON.stringify(w.object.content);
     $("#modal").modal('show');
     $("#group").css('height', '60px');
     $("#group").html('<div class="loader col-md-6 col-md-offset-5"></div>');
@@ -2401,13 +2426,6 @@ w.save = function () {
       url: 'get-category',
       type: 'get',
       success: function success(data) {
-        //if(data == "You must login before!!"){
-        // $(".modal-title").html('Login');
-        // $("#form").attr('action', 'login');
-        // $.get("frontend_asset/partital-views/login-form.html", function(data){
-        // 	$("#group").html(data);
-        // });
-        //}else{
         for (var i = 0; i < data.length; i++) {
           option += '<option value="' + data[i].id + '">' + data[i].name + '</option>';
         }
@@ -2424,10 +2442,7 @@ w.save = function () {
   } else {
     alert("Nothing to save!");
   }
-}; // $('body').on('click', '#save_template', function() {
-// 	$(this).parent().append('<input type="text" value="1" name="status">');
-// });
-//validate
+}; //validate
 
 
 $("#form").validate({
@@ -2477,7 +2492,7 @@ $("#form").validate({
 });
 
 w.addContent = function () {
-  $("#form #content").val(JSON.stringify(w.object));
+  $("#form #content").val(JSON.stringify(w.object.content));
 };
 
 $(document).ready(function () {
@@ -2934,7 +2949,10 @@ $(document).ready(function () {
     $('body').on('mouseout', '.content .box, .content .row, .content .column', function (e) {
       $(e.target).css('outline', '');
     });
-  }
+  } // $('#sortable-area2 img').dblclick(function() {
+  // 	alert('asdfasdf');
+  // });
+
 });
 
 /***/ }),
@@ -2961,17 +2979,29 @@ $(document).ready(function () {
 
 /***/ }),
 
+/***/ "./resources/assets/layouts/sass/filemanager.scss":
+/*!********************************************************!*\
+  !*** ./resources/assets/layouts/sass/filemanager.scss ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
-/*!*******************************************************************************************************************************************************************************************!*\
-  !*** multi ./resources/assets/frontend/js/app.js ./resources/assets/frontend/sass/bootstrap-grid.scss ./resources/assets/frontend/sass/app.scss ./resources/assets/admin/sass/admin.scss ***!
-  \*******************************************************************************************************************************************************************************************/
+/*!********************************************************************************************************************************************************************************************************************************************!*\
+  !*** multi ./resources/assets/frontend/js/app.js ./resources/assets/frontend/sass/bootstrap-grid.scss ./resources/assets/frontend/sass/app.scss ./resources/assets/admin/sass/admin.scss ./resources/assets/layouts/sass/filemanager.scss ***!
+  \********************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! C:\AppServ\www\project\newletter\resources\assets\frontend\js\app.js */"./resources/assets/frontend/js/app.js");
 __webpack_require__(/*! C:\AppServ\www\project\newletter\resources\assets\frontend\sass\bootstrap-grid.scss */"./resources/assets/frontend/sass/bootstrap-grid.scss");
 __webpack_require__(/*! C:\AppServ\www\project\newletter\resources\assets\frontend\sass\app.scss */"./resources/assets/frontend/sass/app.scss");
-module.exports = __webpack_require__(/*! C:\AppServ\www\project\newletter\resources\assets\admin\sass\admin.scss */"./resources/assets/admin/sass/admin.scss");
+__webpack_require__(/*! C:\AppServ\www\project\newletter\resources\assets\admin\sass\admin.scss */"./resources/assets/admin/sass/admin.scss");
+module.exports = __webpack_require__(/*! C:\AppServ\www\project\newletter\resources\assets\layouts\sass\filemanager.scss */"./resources/assets/layouts/sass/filemanager.scss");
 
 
 /***/ })

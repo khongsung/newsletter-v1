@@ -54,7 +54,7 @@
                     <span class="icon-bar"></span>
                 </button>
                 <span id="control">
-                    <button class="btn btn-basic btn-xs" id="edit"><i class="fa fa-pencil-square" aria-hidden="true"></i> Edit</button>
+                    <button class="btn btn-basic btn-xs" id="edit" style="display: none;"><i class="fa fa-pencil-square" aria-hidden="true"></i> Edit</button>
                     <button class="btn btn-basic btn-xs" id="preview"><i class="fa fa-eye" aria-hidden="true"></i> Preview</button>
                     <button class="btn btn-basic btn-xs" id="delete"><i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
                     <button data-toggle="modal" data-target="#modal" class="btn btn-basic btn-xs" ><i class="fa fa-floppy-o" aria-hidden="true"></i> Save</button>
@@ -77,12 +77,6 @@
                 <script>
                     var w = window;
                     w.object = {
-                        "tag" : "div",
-                        "category" : "grid",
-                        "attr" : {
-                            "class" : "column",
-                            "style" : {}
-                        },
                         "content" : []
                     };
                     $(document).ready(function() {
@@ -101,7 +95,7 @@
                             console.log('test');
                             localStorage.setItem('id', <?php echo $template->id; ?>);
                             localStorage.setItem('category_id', <?php echo $template->category_id; ?>);
-                            $.each(obj.content, (k,v) => {
+                            $.each(obj, (k,v) => {
                                 w.object.content.push(v);
                                 $('#sortable-area2').append(w.objectJson.draw(v));
                             });

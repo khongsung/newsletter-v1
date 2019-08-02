@@ -26,7 +26,18 @@
 			</div>
 		</div>
 	</div>
-
+	
+	
+	<div class="modal fade" tabindex="-1" role="dialog" id="modal-filemanager" >
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">File Manager</div>
+				<div class="modal-body">
+					@include('layouts.filemanager')
+				</div>
+			</div>
+		</div>
+	</div>
 
 </div>
 
