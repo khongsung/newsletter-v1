@@ -104,7 +104,6 @@ $(document).ready(function() {
 			success: (response) => {
 				createBoxStyle.create(response, w.el, box);
 				ele.editElement(w.el, w.obj);
-				img.readImage(w.el, w.obj);
 			}, 
 			error : (response) => {
 				console.log("error : ",response);

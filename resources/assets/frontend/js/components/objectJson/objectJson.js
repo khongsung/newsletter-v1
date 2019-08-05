@@ -1,6 +1,7 @@
 import getObjParent  from './getObjParent';
 
 var w = window;
+w.images = [];
 function objectJson() {};
 
 objectJson.prototype = new getObjParent();
@@ -40,6 +41,39 @@ objectJson.prototype.draw = function(json) {
 		$(tag).html(json.content);
 	}
 	// objectJson.prototype.drawTreeData();
+	return tag;
+};
+
+objectJson.prototype.drawExport = function(json) {
+	let tag   = document.createElement(json.tag);
+	if(json.attr != null) {
+		$.each(json.attr, (k,v) => {
+			if(k != "class" && k != "contenteditable" && k.match(/data-/g) == null) {
+				$(tag).attr(k, v);	
+			}
+			if (k == 'src') {
+				console.log(k, v);
+				w.images.push(v);
+			}
+			if(k == "style") {
+				$.each(v, (j,i) => {
+					$(tag).css(j,i);
+					if (j == 'background-image') {
+						let src = i.replace(/(url\(|\))/gi, '');
+						console.log(j, src);
+						w.images.push(src);
+					}
+				})
+			}
+		});
+	}
+	if(typeof(json.content) != "string") {
+		$.each(json.content, (k,v)=>{
+			tag.appendChild(objectJson.prototype.drawExport(v));
+		})
+	} else {
+		$(tag).html(json.content);
+	}
 	return tag;
 };
 

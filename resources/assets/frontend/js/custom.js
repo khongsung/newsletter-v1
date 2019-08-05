@@ -33,7 +33,6 @@ w.exportZip = function(){
 		return false;
 	}
 	var html_content = '';
-	var bootstrap_css = "";
 	var docco = "";
 	var hljs = "";
 	getData();
@@ -43,46 +42,37 @@ w.exportZip = function(){
 			success: (response) => {
 				html_content += response;
 				$.each(w.object.content, (k,v) => {
-					html_content +=  w.objectJson.draw(v).outerHTML;
+					html_content +=  w.objectJson.drawExport(v).outerHTML;
 				});
+				console.log(w.images);
 				html_content += 
 				`</body>
-				<script type="text/javascript" src="js/highlight.min.js"></script>
-				<script>
-				document.querySelectorAll('pre code').forEach((block) => {
-					hljs.highlightBlock(block);
-				});
-				</script>
+					<script type="text/javascript" src="js/highlight.min.js"></script>
+					<script>
+						document.querySelectorAll('pre code').forEach((block) => {
+							hljs.highlightBlock(block);
+						});
+					</script>
 				</html>`;
 				
 				$.ajax({
-					url: "./css/bootstrap-grid.css",
-					success: (response) => {
-						bootstrap_css += response;
+					url: "./js/highlight.min.js",
+					success: function(response) {
+						hljs += response;
 						$.ajax({
-							url: "./js/highlight.min.js",
-							success: function(response) {
-								hljs += response;
-								$.ajax({
-									url: "./css/docco.min.css",
-									success: (response) => {
-										docco += response;
-										zip(html_content, bootstrap_css, hljs, docco);
-									},
-									error: (response) => {
-										console.log('error', response);
-									}
-								});
+							url: "./css/docco.min.css",
+							success: (response) => {
+								docco += response;
+								zip(html_content, hljs, docco);
 							},
 							error: (response) => {
 								console.log('error', response);
 							}
 						});
-					}, 
-					error : (response) => {
-						alert('có lỗi xảy ra!');
+					},
+					error: (response) => {
+						console.log('error', response);
 					}
-
 				});
 			}, 
 			error : (response) => {
@@ -91,14 +81,8 @@ w.exportZip = function(){
 		});
 	}
 
-
-	function zip(html_content, bootstrap_css, hljs, docco){
-		html_content = html_content.replace(/contenteditable\=\"true\"/gi,'');
-		html_content = html_content.replace(/ui-sortable/gi, '');
-		html_content = html_content.replace(/ui-sortable-handle/gi, '');
-		html_content = html_content.replace(/ui-sortable-handle/gi, '');
+	function zip(html_content, hljs, docco){
 		var zip = new JSZip();
-		zip.file("css/bootstrap-grid.css", bootstrap_css);
 		zip.file("index.html", html_content);
 		zip.file("js/highlight.min.js", hljs);
 		zip.file("css/docco.min.css", docco);
@@ -107,6 +91,7 @@ w.exportZip = function(){
 		.then(function (blob) {
 			saveAs(blob, file_name);
 		});
+		w.images = [];
 	}
 };
 

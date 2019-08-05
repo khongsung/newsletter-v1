@@ -53,10 +53,32 @@ class HomeController extends Controller
         $files = File::allFiles($path);
         foreach ($files as $path) {
             $file = pathinfo($path);
-            $pathName = $file['dirname'] . $file['basename'];
+            $pathName = $file['dirname'] . '/' . $file['basename'];
             $arr[] = $pathName;
         }
 
-        echo json_encode($list);
+        echo json_encode($arr);
+    }
+
+    public function deleteImage(Request $request) {
+        $value = $request->value;
+        if(file_exists($value)) {
+            unlink($value);
+            return "deleted";
+        } else {
+            echo "file not exist";
+        }
+    }
+
+    public function addImage(Request $request) {
+        $url = $request->url;
+        $path = 'images/'. Auth::id() . '/';
+        $name = time() . '.png';
+        $img = $path . $name;
+        if(file_put_contents($img, file_get_contents($url))) {
+            echo $img;
+        } else {
+            echo '';
+        }
     }
 }

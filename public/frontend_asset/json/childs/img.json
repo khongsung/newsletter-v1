@@ -3,7 +3,7 @@
 	"category" : "image",
 	"attr" : {
 		"class" : "box",
-		"src" : "frontend_asset/images/test.jpg",
+		"src" : "images/default-photo.png",
 		"style" : {					
 			"width" : "200px",
 			"height" : "auto"

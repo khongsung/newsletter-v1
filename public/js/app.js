@@ -723,7 +723,7 @@ createBoxByStyle.prototype.create = function (json, el, box) {
           });
           $(div).append(button);
           $(button).click(function () {
-            $('#modal-filemanager').modal('show');
+            w.isImage.init('src');
           });
         } else {
           var input = document.createElement('input');
@@ -1319,25 +1319,41 @@ function isImage() {}
 ;
 var w = window;
 
-isImage.prototype.readImage = function (el, obj) {
-  $('#modal-filemanager .type-file input').change(function () {
+isImage.prototype.init = function (type) {
+  w.type = type;
+  $('#modal-filemanager').modal('show');
+  readImage();
+  getAllImages();
+  AddImgFormUrl();
+};
+
+function assign(name, value) {
+  if (name == 'src') {
+    $(w.el).attr('src', value);
+    w.obj.attr['src'] = value;
+  } else if (name == 'background-image') {
+    var src = 'url(' + value + ')';
+    $(w.el).css(name, src);
+    w.obj.attr.style[name] = src;
+  }
+}
+
+function readImage() {
+  $('#modal-filemanager .type-file input').unbind().change(function () {
     var reader = new FileReader();
     var dataImg;
 
     reader.onload = function (e) {
       dataImg = e.target.result;
-      $(el).attr('src', dataImg);
-      obj.attr['src'] = dataImg;
+      assign(w.type, dataImg);
     };
 
     reader.readAsDataURL(this.files[0]);
-    var src = $(this).val();
-    var arr = src.split("\\");
-    src = arr[arr.length - 1];
-    obj.attr.src = "./frontend_asset/images/" + src;
     pushImage();
   });
-};
+}
+
+;
 
 function pushImage() {
   var myFormData = new FormData();
@@ -1354,20 +1370,90 @@ function pushImage() {
     success: function success(data) {
       var result = data.split('|');
       var path = w.location.origin + result[1];
-      var html = "<div class=\"item\">\n\t\t\t\t\t\t\t<img src=\"".concat(path, "\">\n\t\t\t\t\t\t\t<span>").concat(result[0], "</span>\n\t\t\t\t\t\t</div>");
-      $('#modal-filemanager .content').prepend(html);
+      getAllImages();
+      assign(w.type, path);
     }
   });
 }
 
 function getAllImages() {
   $.ajax({
-    url: '/get-all-img',
+    url: 'design/get-all-img',
     success: function success(response) {
-      console.log(response);
+      // $('#modal-filemanager .content')
+      var images = JSON.parse(response);
+      $('#modal-filemanager .content').empty();
+      $.each(images, function (k, v) {
+        var name = v.split('/');
+        name = name[name.length - 1];
+        var html = "<div class=\"item\">\n\t\t\t\t\t\t\t\t<img src=\"".concat(v, "\">\n\t\t\t\t\t\t\t\t<span>").concat(name, "</span>\n\t\t\t\t\t\t\t\t<span class=\"del-img\" data-value='").concat(v, "'><i class=\"fa fa-times\"></i></span>\n\t\t\t\t\t\t\t</div>");
+        $('#modal-filemanager .content').prepend(html);
+      });
+      deleteImg();
+      changeImg();
     },
     error: function error(err) {
       console.log('error : ', err.message);
+    }
+  });
+}
+
+function deleteImg() {
+  $('#modal-filemanager .content .item .del-img .fa').unbind().click(function () {
+    var that = this;
+    $.ajax({
+      url: 'design/delete-img',
+      type: 'POST',
+      data: {
+        value: $(this).parent().attr('data-value')
+      },
+      success: function success(response) {
+        if (response == 'deleted') {
+          $(that).parent().parent().remove();
+        }
+      },
+      error: function error(er) {
+        console.log("error : ", er.message);
+      }
+    });
+  });
+}
+
+function changeImg() {
+  $('#modal-filemanager .content .item').unbind().click(function () {
+    var src = $(this).find('img').attr('src');
+    assign(w.type, src);
+    $('#modal-filemanager .content .selected').removeClass('selected');
+    $(this).addClass('selected');
+  });
+}
+
+function AddImgFormUrl() {
+  $('#modal-filemanager .head .type-text button').unbind().click(function () {
+    var input = $(this).prev();
+
+    if (input.val() != '') {
+      $.ajax({
+        url: 'design/add-img',
+        data: {
+          url: input.val()
+        },
+        type: 'POST',
+        success: function success(response) {
+          if (response != '') {
+            getAllImages();
+            input.val('');
+            assign(w.type, response);
+          }
+        },
+        error: function error(er) {
+          console.log('error: ', er.message);
+          alert('Error: image not found!');
+        }
+      });
+    } else {
+      alert('Please enter link!');
+      input.focus();
     }
   });
 }
@@ -1513,6 +1599,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _getObjParent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getObjParent */ "./resources/assets/frontend/js/components/objectJson/getObjParent.js");
 
 var w = window;
+w.images = [];
 
 function objectJson() {}
 
@@ -1556,6 +1643,45 @@ objectJson.prototype.draw = function (json) {
     $(tag).html(json.content);
   } // objectJson.prototype.drawTreeData();
 
+
+  return tag;
+};
+
+objectJson.prototype.drawExport = function (json) {
+  var tag = document.createElement(json.tag);
+
+  if (json.attr != null) {
+    $.each(json.attr, function (k, v) {
+      if (k != "class" && k != "contenteditable" && k.match(/data-/g) == null) {
+        $(tag).attr(k, v);
+      }
+
+      if (k == 'src') {
+        console.log(k, v);
+        w.images.push(v);
+      }
+
+      if (k == "style") {
+        $.each(v, function (j, i) {
+          $(tag).css(j, i);
+
+          if (j == 'background-image') {
+            var src = i.replace(/(url\(|\))/gi, '');
+            console.log(j, src);
+            w.images.push(src);
+          }
+        });
+      }
+    });
+  }
+
+  if (typeof json.content != "string") {
+    $.each(json.content, function (k, v) {
+      tag.appendChild(objectJson.prototype.drawExport(v));
+    });
+  } else {
+    $(tag).html(json.content);
+  }
 
   return tag;
 };
@@ -2150,22 +2276,8 @@ function checkIsNegativeNumber(styleName) {
 ;
 
 function backgroundImage() {
-  $('.right .base #background input[type="file"]').change(function () {
-    try {
-      var reader = new FileReader();
-      var dataImg;
-
-      reader.onload = function (e) {
-        dataImg = e.target.result;
-        console.log('test', dataImg);
-        $(el).css('background-image', 'url("' + dataImg + '")');
-        obj.attr.style['background-image'] = 'url("' + dataImg + '")';
-      };
-
-      reader.readAsDataURL(this.files[0]);
-    } catch (err) {
-      console.log(err.message);
-    }
+  $('.right .base #background #background-image .fields button').click(function () {
+    w.isImage.init('background-image');
   });
 }
 
@@ -2326,7 +2438,6 @@ w.exportZip = function () {
   }
 
   var html_content = '';
-  var bootstrap_css = "";
   var docco = "";
   var hljs = "";
   getData();
@@ -2337,27 +2448,19 @@ w.exportZip = function () {
       success: function success(response) {
         html_content += response;
         $.each(w.object.content, function (k, v) {
-          html_content += w.objectJson.draw(v).outerHTML;
+          html_content += w.objectJson.drawExport(v).outerHTML;
         });
-        html_content += "</body>\n\t\t\t\t<script type=\"text/javascript\" src=\"js/highlight.min.js\"></script>\n\t\t\t\t<script>\n\t\t\t\tdocument.querySelectorAll('pre code').forEach((block) => {\n\t\t\t\t\thljs.highlightBlock(block);\n\t\t\t\t});\n\t\t\t\t</script>\n\t\t\t\t</html>";
+        console.log(w.images);
+        html_content += "</body>\n\t\t\t\t\t<script type=\"text/javascript\" src=\"js/highlight.min.js\"></script>\n\t\t\t\t\t<script>\n\t\t\t\t\t\tdocument.querySelectorAll('pre code').forEach((block) => {\n\t\t\t\t\t\t\thljs.highlightBlock(block);\n\t\t\t\t\t\t});\n\t\t\t\t\t</script>\n\t\t\t\t</html>";
         $.ajax({
-          url: "./css/bootstrap-grid.css",
+          url: "./js/highlight.min.js",
           success: function success(response) {
-            bootstrap_css += response;
+            hljs += response;
             $.ajax({
-              url: "./js/highlight.min.js",
+              url: "./css/docco.min.css",
               success: function success(response) {
-                hljs += response;
-                $.ajax({
-                  url: "./css/docco.min.css",
-                  success: function success(response) {
-                    docco += response;
-                    zip(html_content, bootstrap_css, hljs, docco);
-                  },
-                  error: function error(response) {
-                    console.log('error', response);
-                  }
-                });
+                docco += response;
+                zip(html_content, hljs, docco);
               },
               error: function error(response) {
                 console.log('error', response);
@@ -2365,7 +2468,7 @@ w.exportZip = function () {
             });
           },
           error: function error(response) {
-            alert('có lỗi xảy ra!');
+            console.log('error', response);
           }
         });
       },
@@ -2375,13 +2478,8 @@ w.exportZip = function () {
     });
   }
 
-  function zip(html_content, bootstrap_css, hljs, docco) {
-    html_content = html_content.replace(/contenteditable\=\"true\"/gi, '');
-    html_content = html_content.replace(/ui-sortable/gi, '');
-    html_content = html_content.replace(/ui-sortable-handle/gi, '');
-    html_content = html_content.replace(/ui-sortable-handle/gi, '');
+  function zip(html_content, hljs, docco) {
     var zip = new JSZip();
-    zip.file("css/bootstrap-grid.css", bootstrap_css);
     zip.file("index.html", html_content);
     zip.file("js/highlight.min.js", hljs);
     zip.file("css/docco.min.css", docco);
@@ -2391,6 +2489,7 @@ w.exportZip = function () {
     }).then(function (blob) {
       saveAs(blob, file_name);
     });
+    w.images = [];
   }
 };
 
@@ -2667,7 +2766,6 @@ $(document).ready(function () {
       success: function success(response) {
         createBoxStyle.create(response, w.el, box);
         ele.editElement(w.el, w.obj);
-        img.readImage(w.el, w.obj);
       },
       error: function error(response) {
         console.log("error : ", response);

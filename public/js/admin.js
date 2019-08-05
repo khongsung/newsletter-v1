@@ -860,6 +860,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _getObjParent__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./getObjParent */ "./resources/assets/frontend/js/components/objectJson/getObjParent.js");
 
 var w = window;
+w.images = [];
 
 function objectJson() {}
 
@@ -903,6 +904,45 @@ objectJson.prototype.draw = function (json) {
     $(tag).html(json.content);
   } // objectJson.prototype.drawTreeData();
 
+
+  return tag;
+};
+
+objectJson.prototype.drawExport = function (json) {
+  var tag = document.createElement(json.tag);
+
+  if (json.attr != null) {
+    $.each(json.attr, function (k, v) {
+      if (k != "class" && k != "contenteditable" && k.match(/data-/g) == null) {
+        $(tag).attr(k, v);
+      }
+
+      if (k == 'src') {
+        console.log(k, v);
+        w.images.push(v);
+      }
+
+      if (k == "style") {
+        $.each(v, function (j, i) {
+          $(tag).css(j, i);
+
+          if (j == 'background-image') {
+            var src = i.replace(/(url\(|\))/gi, '');
+            console.log(j, src);
+            w.images.push(src);
+          }
+        });
+      }
+    });
+  }
+
+  if (typeof json.content != "string") {
+    $.each(json.content, function (k, v) {
+      tag.appendChild(objectJson.prototype.drawExport(v));
+    });
+  } else {
+    $(tag).html(json.content);
+  }
 
   return tag;
 };

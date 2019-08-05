@@ -66,7 +66,11 @@ Route::prefix('/')->group(function(){
     Route::post('/upload-img','Frontend\HomeController@uploadImage');
     //get img
     Route::get('/get-all-img','Frontend\HomeController@getAllImages');
-  	//Route::get('/get-template-public','Frontend\TemplateController@getTemplatePublic')->name('template.getTemplatePublic');
+    //delete img
+    Route::post('/delete-img','Frontend\HomeController@deleteImage');
+    //add img
+    Route::post('/add-img','Frontend\HomeController@addImage');
+    
   });
  
   Auth::routes();

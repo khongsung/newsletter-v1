@@ -387,10 +387,7 @@
 						</div>
 						<div class="fields">
 							<div class="field file">
-								<div id="input-holder">
-									<input type="file">
-									<input type="text" placeholder="http://ex_image.jpg">
-								</div>
+								<button class="btn btn-xs" style="color: #111;">Chose Image</button>
 							</div>
 						</div>
 					</div>

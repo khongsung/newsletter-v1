@@ -35,7 +35,7 @@ createBoxByStyle.prototype.create = function(json, el, box, property="attr") {
 					$(button).css({'color' : '#111', 'margin-left': '20px'});
 					$(div).append(button);
 					$(button).click(function() {
-						$('#modal-filemanager').modal('show');
+						w.isImage.init('src')
 					});
 				} else {
 					let input = document.createElement('input');

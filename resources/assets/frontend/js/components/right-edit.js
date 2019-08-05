@@ -413,21 +413,8 @@ function checkIsNegativeNumber(styleName) {
 };
 
 function backgroundImage() {
-	$('.right .base #background input[type="file"]').change(function() {
-		try {
-			let reader = new FileReader();
-			let dataImg;
-			reader.onload = function (e) {
-				dataImg = e.target.result;
-				console.log('test', dataImg);
-				$(el).css('background-image', 'url("'+dataImg+'")');
-				obj.attr.style['background-image'] = 'url("'+dataImg+'")';
-			};
-			reader.readAsDataURL(this.files[0]);
-		} catch(err) {
-			console.log(err.message);
-		}
-		
+	$('.right .base #background #background-image .fields button').click(function() {
+		w.isImage.init('background-image');
 	});
 };
 

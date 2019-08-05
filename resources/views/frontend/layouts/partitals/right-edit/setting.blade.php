@@ -10,12 +10,12 @@
             </div>
          </div>
 
-          <div class="trait">
+         {{-- <div class="trait">
             <div class="label" title="Class">Classes</div>
             <div class="field field-text">
                <div class="input-holder"><input type="text" name="class" placeholder="eg. Text here"></div>
             </div>
-         </div>
+         </div> --}}
 
          <div class="trait">
             <div class="label" title="Title">Title</div>
