@@ -52,15 +52,15 @@ objectJson.prototype.drawExport = function(json) {
 				$(tag).attr(k, v);	
 			}
 			if (k == 'src') {
-				console.log(k, v);
 				w.images.push(v);
+				$(tag).attr(k, 'images/' + detachNameImg(v));
 			}
 			if(k == "style") {
 				$.each(v, (j,i) => {
 					$(tag).css(j,i);
 					if (j == 'background-image') {
 						let src = i.replace(/(url\(|\))/gi, '');
-						console.log(j, src);
+						$(tag).css(j, 'images/' + detachNameImg(src));
 						w.images.push(src);
 					}
 				})
@@ -76,6 +76,11 @@ objectJson.prototype.drawExport = function(json) {
 	}
 	return tag;
 };
+
+function detachNameImg(string) {
+	let arr = string.split('/');
+	return arr[arr.length - 1];
+}
 
 objectJson.prototype.drawTreeData = function() {
 	objectJson.prototype.saveLocalStorage();

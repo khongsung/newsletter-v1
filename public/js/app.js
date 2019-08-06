@@ -1657,8 +1657,8 @@ objectJson.prototype.drawExport = function (json) {
       }
 
       if (k == 'src') {
-        console.log(k, v);
         w.images.push(v);
+        $(tag).attr(k, 'images/' + detachNameImg(v));
       }
 
       if (k == "style") {
@@ -1667,7 +1667,7 @@ objectJson.prototype.drawExport = function (json) {
 
           if (j == 'background-image') {
             var src = i.replace(/(url\(|\))/gi, '');
-            console.log(j, src);
+            $(tag).css(j, 'images/' + detachNameImg(src));
             w.images.push(src);
           }
         });
@@ -1685,6 +1685,11 @@ objectJson.prototype.drawExport = function (json) {
 
   return tag;
 };
+
+function detachNameImg(string) {
+  var arr = string.split('/');
+  return arr[arr.length - 1];
+}
 
 objectJson.prototype.drawTreeData = function () {
   objectJson.prototype.saveLocalStorage();
@@ -2450,8 +2455,7 @@ w.exportZip = function () {
         $.each(w.object.content, function (k, v) {
           html_content += w.objectJson.drawExport(v).outerHTML;
         });
-        console.log(w.images);
-        html_content += "</body>\n\t\t\t\t\t<script type=\"text/javascript\" src=\"js/highlight.min.js\"></script>\n\t\t\t\t\t<script>\n\t\t\t\t\t\tdocument.querySelectorAll('pre code').forEach((block) => {\n\t\t\t\t\t\t\thljs.highlightBlock(block);\n\t\t\t\t\t\t});\n\t\t\t\t\t</script>\n\t\t\t\t</html>";
+        html_content += "</body>\n\t\t\t\t<script type=\"text/javascript\" src=\"js/highlight.min.js\"></script>\n\t\t\t\t<script>\n\t\t\t\tdocument.querySelectorAll('pre code').forEach((block) => {\n\t\t\t\t\thljs.highlightBlock(block);\n\t\t\t\t});\n\t\t\t\t</script>\n\t\t\t\t</html>";
         $.ajax({
           url: "./js/highlight.min.js",
           success: function success(response) {
@@ -2460,7 +2464,7 @@ w.exportZip = function () {
               url: "./css/docco.min.css",
               success: function success(response) {
                 docco += response;
-                zip(html_content, hljs, docco);
+                zipFile(html_content, hljs, docco);
               },
               error: function error(response) {
                 console.log('error', response);
@@ -2478,9 +2482,26 @@ w.exportZip = function () {
     });
   }
 
-  function zip(html_content, hljs, docco) {
+  function zipFile(html_content, hljs, docco) {
     var zip = new JSZip();
     zip.file("index.html", html_content);
+
+    if (w.images != '') {
+      $.each(w.images, function (k, v) {
+        JSZipUtils.getBinaryContent(v, function (err, data) {
+          if (err) {
+            throw err; // or handle the error
+          }
+
+          var arr = v.split('/');
+          var name = arr[arr.length - 1];
+          zip.file('images/' + name, data, {
+            binary: true
+          });
+        });
+      });
+    }
+
     zip.file("js/highlight.min.js", hljs);
     zip.file("css/docco.min.css", docco);
     var file_name = Math.floor(Math.random() * 10000) + "_snap-page.zip";

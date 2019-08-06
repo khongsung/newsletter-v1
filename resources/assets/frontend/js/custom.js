@@ -23,7 +23,7 @@ $(document).ready(function() {
 	// }
 
 	window.addEventListener('beforeunload', (event) => {
-	  w.objectJson.saveLocalStorage();
+		w.objectJson.saveLocalStorage();
 	});
 });
 
@@ -44,15 +44,14 @@ w.exportZip = function(){
 				$.each(w.object.content, (k,v) => {
 					html_content +=  w.objectJson.drawExport(v).outerHTML;
 				});
-				console.log(w.images);
 				html_content += 
 				`</body>
-					<script type="text/javascript" src="js/highlight.min.js"></script>
-					<script>
-						document.querySelectorAll('pre code').forEach((block) => {
-							hljs.highlightBlock(block);
-						});
-					</script>
+				<script type="text/javascript" src="js/highlight.min.js"></script>
+				<script>
+				document.querySelectorAll('pre code').forEach((block) => {
+					hljs.highlightBlock(block);
+				});
+				</script>
 				</html>`;
 				
 				$.ajax({
@@ -63,7 +62,7 @@ w.exportZip = function(){
 							url: "./css/docco.min.css",
 							success: (response) => {
 								docco += response;
-								zip(html_content, hljs, docco);
+								zipFile(html_content, hljs, docco);
 							},
 							error: (response) => {
 								console.log('error', response);
@@ -81,9 +80,21 @@ w.exportZip = function(){
 		});
 	}
 
-	function zip(html_content, hljs, docco){
+	function zipFile(html_content, hljs, docco){
 		var zip = new JSZip();
 		zip.file("index.html", html_content);
+		if (w.images != '') {
+			$.each(w.images, (k,v) => {
+				JSZipUtils.getBinaryContent(v, function (err, data) {
+					if(err) {
+				     	throw err; // or handle the error
+				    }
+				    let arr  = v.split('/');
+					let name = arr[arr.length - 1];
+				    zip.file('images/' + name, data, {binary:true});
+				});
+			});
+		}
 		zip.file("js/highlight.min.js", hljs);
 		zip.file("css/docco.min.css", docco);
 		var file_name = Math.floor(Math.random() * 10000)+"_snap-page.zip";
@@ -126,15 +137,15 @@ w.save = function(){
 			url: 'get-category', 
 			type: 'get',   
 			success: function(data){
-					for (var i = 0; i < data.length; i++) {
-						option += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
-					}
-					$(".modal-title").html('Save layout');
-					$("#form").attr('action', 'design/save-template');
-					$.get("frontend_asset/partital-views/add-new.html", function(data){
-						$("#group").html(data);
-						$("#content").val(content); 
-					});
+				for (var i = 0; i < data.length; i++) {
+					option += '<option value="'+data[i].id+'">'+data[i].name+'</option>';
+				}
+				$(".modal-title").html('Save layout');
+				$("#form").attr('action', 'design/save-template');
+				$.get("frontend_asset/partital-views/add-new.html", function(data){
+					$("#group").html(data);
+					$("#content").val(content); 
+				});
 				//}
 			},error: function(data){
 
@@ -193,43 +204,43 @@ $("#form").validate({
 
 
 w.addContent= function(){
-    $("#form #content").val(JSON.stringify(w.object.content));
+	$("#form #content").val(JSON.stringify(w.object.content));
 }
 
 $(document).ready(function() {
 	$("#search_button").click(function() {
-	    var search_key = $('#search_key').val();
-	   	var _token = $('input[name="_token"]').val(); 
-	    $.ajax({
-		    url:"search", 
-		    method:"POST",
-		    data:{search_key:search_key, _token:_token},
+		var search_key = $('#search_key').val();
+		var _token = $('input[name="_token"]').val(); 
+		$.ajax({
+			url:"search", 
+			method:"POST",
+			data:{search_key:search_key, _token:_token},
 		    success:function(data){ //dữ liệu nhận về
-		       $('#collapse-my-template').html(data[0]); 
-		       $('#collapse-template-public').html(data[1]);
-		       $('#collapse-my-template').addClass('in'); 
-		       $('#collapse-template-public').addClass('in');
-		       w.element.sortableArea();
+		    	$('#collapse-my-template').html(data[0]); 
+		    	$('#collapse-template-public').html(data[1]);
+		    	$('#collapse-my-template').addClass('in'); 
+		    	$('#collapse-template-public').addClass('in');
+		    	w.element.sortableArea();
 		    }
-		   });
+		});
 	});
 	$('#search_key').keyup(function(e){ 
 		var _token = $('input[name="_token"]').val(); 
 		$.ajax({
-		    url:"search", 
-		    method:"POST",
-		    data:{ _token:_token},
+			url:"search", 
+			method:"POST",
+			data:{ _token:_token},
 		    success:function(data){ //dữ liệu nhận về
-		       $('#collapse-my-template').html(data[0]); 
-		       $('#collapse-template-public').html(data[1]);
-		       $('#collapse-my-template').removeClass('in'); 
-		       $('#collapse-template-public').removeClass('in');
-		       w.element.sortableArea();
+		    	$('#collapse-my-template').html(data[0]); 
+		    	$('#collapse-template-public').html(data[1]);
+		    	$('#collapse-my-template').removeClass('in'); 
+		    	$('#collapse-template-public').removeClass('in');
+		    	w.element.sortableArea();
 		    }
-	   	});
+		});
 
-	   	if(e.keyCode === 13) {
-	   		$("#search_button").click();
-	   	}
+		if(e.keyCode === 13) {
+			$("#search_button").click();
+		}
 	});
 });

@@ -918,8 +918,8 @@ objectJson.prototype.drawExport = function (json) {
       }
 
       if (k == 'src') {
-        console.log(k, v);
         w.images.push(v);
+        $(tag).attr(k, 'images/' + detachNameImg(v));
       }
 
       if (k == "style") {
@@ -928,7 +928,7 @@ objectJson.prototype.drawExport = function (json) {
 
           if (j == 'background-image') {
             var src = i.replace(/(url\(|\))/gi, '');
-            console.log(j, src);
+            $(tag).css(j, 'images/' + detachNameImg(src));
             w.images.push(src);
           }
         });
@@ -946,6 +946,11 @@ objectJson.prototype.drawExport = function (json) {
 
   return tag;
 };
+
+function detachNameImg(string) {
+  var arr = string.split('/');
+  return arr[arr.length - 1];
+}
 
 objectJson.prototype.drawTreeData = function () {
   objectJson.prototype.saveLocalStorage();
