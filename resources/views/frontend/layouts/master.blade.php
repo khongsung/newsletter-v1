@@ -40,6 +40,7 @@
     <script src="{{ asset('js/jszip.min.js') }}"></script>
     <script src="{{ asset('js/filesaver.js') }}"></script>
     <script src="{{ asset('frontend_asset/ckeditor/ckeditor.js') }}"></script>
+    
     <script src="{{ asset('js/jquery.multi-select.js')}}"></script>
     <script src="{{ asset('js/jszip-utils.js')}}"></script>
 </head><!--/head-->

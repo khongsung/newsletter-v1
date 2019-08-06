@@ -723,7 +723,11 @@ createBoxByStyle.prototype.create = function (json, el, box) {
           });
           $(div).append(button);
           $(button).click(function () {
+<<<<<<< HEAD
             w.isImage.init('src');
+=======
+            $('#modal-filemanager').modal('show');
+>>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
           });
         } else {
           var input = document.createElement('input');
@@ -1318,6 +1322,7 @@ function isImage() {}
 
 ;
 var w = window;
+<<<<<<< HEAD
 
 isImage.prototype.init = function (type) {
   w.type = type;
@@ -1340,6 +1345,11 @@ function assign(name, value) {
 
 function readImage() {
   $('#modal-filemanager .type-file input').unbind().change(function () {
+=======
+
+isImage.prototype.readImage = function (el, obj) {
+  $('#modal-filemanager .type-file input').change(function () {
+>>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
     var reader = new FileReader();
     var dataImg;
 
@@ -1349,11 +1359,21 @@ function readImage() {
     };
 
     reader.readAsDataURL(this.files[0]);
+<<<<<<< HEAD
     pushImage();
   });
 }
 
 ;
+=======
+    var src = $(this).val();
+    var arr = src.split("\\");
+    src = arr[arr.length - 1];
+    obj.attr.src = "./frontend_asset/images/" + src;
+    pushImage();
+  });
+};
+>>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
 
 function pushImage() {
   var myFormData = new FormData();
@@ -1376,6 +1396,7 @@ function pushImage() {
   });
 }
 
+<<<<<<< HEAD
 function getAllImages() {
   $.ajax({
     url: 'design/get-all-img',
@@ -1458,6 +1479,8 @@ function AddImgFormUrl() {
   });
 }
 
+=======
+>>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
 w.isImage = new isImage();
 /* harmony default export */ __webpack_exports__["default"] = (isImage);
 
@@ -2453,7 +2476,11 @@ w.exportZip = function () {
       success: function success(response) {
         html_content += response;
         $.each(w.object.content, function (k, v) {
+<<<<<<< HEAD
           html_content += w.objectJson.drawExport(v).outerHTML;
+=======
+          html_content += w.objectJson.draw(v).outerHTML;
+>>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
         });
         html_content += "</body>\n\t\t\t\t<script type=\"text/javascript\" src=\"js/highlight.min.js\"></script>\n\t\t\t\t<script>\n\t\t\t\tdocument.querySelectorAll('pre code').forEach((block) => {\n\t\t\t\t\thljs.highlightBlock(block);\n\t\t\t\t});\n\t\t\t\t</script>\n\t\t\t\t</html>";
         $.ajax({

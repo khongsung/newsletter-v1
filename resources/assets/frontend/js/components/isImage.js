@@ -1,5 +1,6 @@
 function isImage() {};
 var w = window;
+<<<<<<< HEAD
 
 isImage.prototype.init = function(type) {
 	w.type = type;

@@ -37,6 +37,7 @@ class HomeController extends Controller
 
         if($request->hasFile('file')) {
             $image = $request->file('file');
+<<<<<<< HEAD
             $name = time() . $image->getClientOriginalName();
             $name = str_replace(' ', '', $name);
             $destinationPath = public_path('/images/'. Auth::id() .'/');
@@ -79,6 +80,12 @@ class HomeController extends Controller
             echo $img;
         } else {
             echo '';
+=======
+            $name = $image->getClientOriginalName();
+            $name = date('Y-m-d H i s') . '.' . $image->getClientOriginalExtension();
+            $destinationPath = public_path('/images/'. \Auth::id() . '/');
+            $image->move($destinationPath, $name);
+>>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
         }
     }
 }

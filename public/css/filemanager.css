@@ -2,6 +2,7 @@
   widows: 600px;
   height: 500px;
 }
+<<<<<<< HEAD
 #file-manager .head {
   display: flex;
   justify-content: space-between;
@@ -19,12 +20,15 @@
 #file-manager .head .type-file input {
   display: none;
 }
+=======
+>>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
 #file-manager .content {
   height: 83%;
   padding: 10px;
   border: 1px solid #ccc;
 }
 #file-manager .content .item {
+<<<<<<< HEAD
   width: 125px;
   height: 140px;
   padding: 7px;
@@ -64,4 +68,15 @@
   background: #e9e9e9;
   border: 1px solid #ccc;
   border-radius: 5px;
+=======
+  width: 100px;
+  margin: 10px 15px;
+  float: left;
+}
+#file-manager .content .item img {
+  width: 100%;
+}
+#file-manager .content .item span {
+  font-size: 0.8em;
+>>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
 }
