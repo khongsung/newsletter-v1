@@ -38,7 +38,6 @@ w.exportZip = function(){
 				$.each(w.object.content, (k,v) => {
 					html_content +=  w.objectJson.drawExport(v).outerHTML;
 				});
-				console.log('test', html_content);
 				html_content += 
 				`</body>
 					<script type="text/javascript" src="js/highlight.min.js"></script>
@@ -67,7 +66,9 @@ w.exportZip = function(){
 		w.images = w.images.filter((i) => i != '');
 		if (w.images != '') {
 			$.each(w.images, (k,v) => {
+				console.log('val', k, v);
 				JSZipUtils.getBinaryContent(v, function (err, data) {
+					console.log('data img', data);
 					if(err) {
 				     	throw err; // or handle the error
 				    }

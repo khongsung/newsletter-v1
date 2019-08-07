@@ -2455,7 +2455,6 @@ w.exportZip = function () {
         $.each(w.object.content, function (k, v) {
           html_content += w.objectJson.drawExport(v).outerHTML;
         });
-        console.log('test', html_content);
         html_content += "</body>\n\t\t\t\t\t<script type=\"text/javascript\" src=\"js/highlight.min.js\"></script>\n\t\t\t\t\t<script>\n\t\t\t\t\t\tdocument.querySelectorAll('pre code').forEach((block) => {\n\t\t\t\t\t\t\thljs.highlightBlock(block);\n\t\t\t\t\t\t});\n\t\t\t\t\t</script>\n\t\t\t\t</html>";
         zipFile(html_content);
       },
@@ -2478,7 +2477,10 @@ w.exportZip = function () {
 
     if (w.images != '') {
       $.each(w.images, function (k, v) {
+        console.log('val', k, v);
         JSZipUtils.getBinaryContent(v, function (err, data) {
+          console.log('data img', data);
+
           if (err) {
             throw err; // or handle the error
           }
