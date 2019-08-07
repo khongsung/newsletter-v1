@@ -723,11 +723,7 @@ createBoxByStyle.prototype.create = function (json, el, box) {
           });
           $(div).append(button);
           $(button).click(function () {
-<<<<<<< HEAD
             w.isImage.init('src');
-=======
-            $('#modal-filemanager').modal('show');
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
           });
         } else {
           var input = document.createElement('input');
@@ -1322,7 +1318,6 @@ function isImage() {}
 
 ;
 var w = window;
-<<<<<<< HEAD
 
 isImage.prototype.init = function (type) {
   w.type = type;
@@ -1345,11 +1340,6 @@ function assign(name, value) {
 
 function readImage() {
   $('#modal-filemanager .type-file input').unbind().change(function () {
-=======
-
-isImage.prototype.readImage = function (el, obj) {
-  $('#modal-filemanager .type-file input').change(function () {
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
     var reader = new FileReader();
     var dataImg;
 
@@ -1359,21 +1349,11 @@ isImage.prototype.readImage = function (el, obj) {
     };
 
     reader.readAsDataURL(this.files[0]);
-<<<<<<< HEAD
     pushImage();
   });
 }
 
 ;
-=======
-    var src = $(this).val();
-    var arr = src.split("\\");
-    src = arr[arr.length - 1];
-    obj.attr.src = "./frontend_asset/images/" + src;
-    pushImage();
-  });
-};
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
 
 function pushImage() {
   var myFormData = new FormData();
@@ -1396,7 +1376,6 @@ function pushImage() {
   });
 }
 
-<<<<<<< HEAD
 function getAllImages() {
   $.ajax({
     url: 'design/get-all-img',
@@ -1479,8 +1458,6 @@ function AddImgFormUrl() {
   });
 }
 
-=======
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
 w.isImage = new isImage();
 /* harmony default export */ __webpack_exports__["default"] = (isImage);
 
@@ -2476,12 +2453,9 @@ w.exportZip = function () {
       success: function success(response) {
         html_content += response;
         $.each(w.object.content, function (k, v) {
-<<<<<<< HEAD
           html_content += w.objectJson.drawExport(v).outerHTML;
-=======
-          html_content += w.objectJson.draw(v).outerHTML;
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
         });
+        console.log('test', w.images);
         html_content += "</body>\n\t\t\t\t<script type=\"text/javascript\" src=\"js/highlight.min.js\"></script>\n\t\t\t\t<script>\n\t\t\t\tdocument.querySelectorAll('pre code').forEach((block) => {\n\t\t\t\t\thljs.highlightBlock(block);\n\t\t\t\t});\n\t\t\t\t</script>\n\t\t\t\t</html>";
         $.ajax({
           url: "./js/highlight.min.js",
@@ -2511,11 +2485,20 @@ w.exportZip = function () {
 
   function zipFile(html_content, hljs, docco) {
     var zip = new JSZip();
-    zip.file("index.html", html_content);
+    zip.file("index.html", html_content); // return false;
+
+    zip.file("js/highlight.min.js", hljs);
+    zip.file("css/docco.min.css", docco);
+    var file_name = Math.floor(Math.random() * 10000) + "_snap-page.zip";
+    var count = w.images.length,
+        countindex = 0;
 
     if (w.images != '') {
       $.each(w.images, function (k, v) {
+        console.log('val', k, v);
         JSZipUtils.getBinaryContent(v, function (err, data) {
+          console.log('data img', data);
+
           if (err) {
             throw err; // or handle the error
           }
@@ -2525,19 +2508,25 @@ w.exportZip = function () {
           zip.file('images/' + name, data, {
             binary: true
           });
+          countindex++;
+
+          if (countindex == count) {
+            zip.generateAsync({
+              type: "blob"
+            }).then(function (blob) {
+              saveAs(blob, file_name);
+            });
+            w.images = [];
+          }
         });
       });
+    } else {
+      zip.generateAsync({
+        type: "blob"
+      }).then(function (blob) {
+        saveAs(blob, file_name);
+      });
     }
-
-    zip.file("js/highlight.min.js", hljs);
-    zip.file("css/docco.min.css", docco);
-    var file_name = Math.floor(Math.random() * 10000) + "_snap-page.zip";
-    zip.generateAsync({
-      type: "blob"
-    }).then(function (blob) {
-      saveAs(blob, file_name);
-    });
-    w.images = [];
   }
 };
 

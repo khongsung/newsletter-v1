@@ -54,6 +54,5 @@
 			<img src="https://tinyjpg.com/images/social/website.jpg">
 			<span>name img</span>
 		</div>
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
 	</div>
 </div>

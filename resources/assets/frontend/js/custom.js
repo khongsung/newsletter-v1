@@ -44,6 +44,7 @@ w.exportZip = function(){
 				$.each(w.object.content, (k,v) => {
 					html_content +=  w.objectJson.drawExport(v).outerHTML;
 				});
+				console.log('test', w.images);
 				html_content += 
 				`</body>
 				<script type="text/javascript" src="js/highlight.min.js"></script>
@@ -82,27 +83,45 @@ w.exportZip = function(){
 
 	function zipFile(html_content, hljs, docco){
 		var zip = new JSZip();
+		
 		zip.file("index.html", html_content);
+		// return false;
+		zip.file("js/highlight.min.js", hljs);
+		zip.file("css/docco.min.css", docco);
+		var file_name = Math.floor(Math.random() * 10000)+"_snap-page.zip";
+
+		var count=w.images.length,countindex=0;
 		if (w.images != '') {
 			$.each(w.images, (k,v) => {
+				console.log('val', k, v);
 				JSZipUtils.getBinaryContent(v, function (err, data) {
+					console.log('data img', data);
 					if(err) {
 				     	throw err; // or handle the error
 				    }
 				    let arr  = v.split('/');
 					let name = arr[arr.length - 1];
 				    zip.file('images/' + name, data, {binary:true});
+				    countindex++;
+				    if(countindex==count){
+				    	zip.generateAsync({type:"blob"})
+						.then(function (blob) {
+							saveAs(blob, file_name);
+						});
+						w.images = [];
+				    }
 				});
 			});
 		}
-		zip.file("js/highlight.min.js", hljs);
-		zip.file("css/docco.min.css", docco);
-		var file_name = Math.floor(Math.random() * 10000)+"_snap-page.zip";
-		zip.generateAsync({type:"blob"})
-		.then(function (blob) {
-			saveAs(blob, file_name);
-		});
-		w.images = [];
+		else{
+			zip.generateAsync({type:"blob"})
+			.then(function (blob) {
+				saveAs(blob, file_name);
+			});
+		}		
+		
+
+		
 	}
 };
 

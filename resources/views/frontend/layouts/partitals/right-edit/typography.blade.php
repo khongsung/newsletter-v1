@@ -215,7 +215,7 @@
 		</div>
 	</div>
 
-	<div id="font-style" class="property radio property__font-style property--full" style="display: block;">
+	<div id="font-style" class="property radio property__font-style property--full" style="display: none;">
 		<div class="label">
 			<span class="icon " title="">
 				Font style
@@ -238,7 +238,7 @@
 		</div>
 	</div>
 
-	<div id="vertical-align" class="property select property__vertical-align" style="display: block;">
+	<div id="vertical-align" class="property select property__vertical-align" style="display: none;">
 		<div class="label">
 			<span class="icon undefined" title="undefined">
 				Vertical align

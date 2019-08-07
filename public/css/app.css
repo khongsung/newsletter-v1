@@ -1017,6 +1017,10 @@ label {
     padding-bottom: 9px !important;
   }
 }
+body {
+  font-family: Arial;
+}
+
 .header .container-fluid {
   width: 100%;
   display: flex;
