@@ -1,6 +1,5 @@
 function isImage() {};
 var w = window;
-<<<<<<< HEAD
 
 isImage.prototype.init = function(type) {
 	w.type = type;
@@ -46,7 +45,7 @@ function pushImage () {
         url: "design/upload-img",
         success: function(data){
         	let result = data.split('|');
-        	let path = w.location.origin + result[1];
+        	let path = result[1];
         	getAllImages();
         	assign(w.type, path);
         }
@@ -58,20 +57,24 @@ function getAllImages() {
 		url: 'design/get-all-img',
 		success: function(response) {
 			// $('#modal-filemanager .content')
-			let images = JSON.parse(response);
-			$('#modal-filemanager .content').empty();
-			$.each(images, (k,v) => {
-				let name = v.split('/');
-				name = name[name.length - 1];
-				let html = `<div class="item">
-								<img src="${v}">
-								<span>${name}</span>
-								<span class="del-img" data-value='${v}'><i class="fa fa-times"></i></span>
-							</div>`;
-				$('#modal-filemanager .content').prepend(html);
-			});
-			deleteImg();
-			changeImg();
+			if (response != '') {
+				let images = JSON.parse(response);
+				$('#modal-filemanager .content').empty();
+				$.each(images, (k,v) => {
+					let name = v.split('/');
+					name = name[name.length - 1];
+					let html = `<div class="item">
+									<img src="${v}">
+									<span>${name}</span>
+									<span class="del-img" data-value='${v}'><i class="fa fa-times"></i></span>
+								</div>`;
+					$('#modal-filemanager .content').prepend(html);
+				});
+				deleteImg();
+				changeImg();
+			} else {
+				$('#modal-filemanager .content').empty();
+			}
 		},
 		error: function(err) {
 			console.log('error : ', err.message);

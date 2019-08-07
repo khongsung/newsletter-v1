@@ -723,11 +723,7 @@ createBoxByStyle.prototype.create = function (json, el, box) {
           });
           $(div).append(button);
           $(button).click(function () {
-<<<<<<< HEAD
             w.isImage.init('src');
-=======
-            $('#modal-filemanager').modal('show');
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
           });
         } else {
           var input = document.createElement('input');
@@ -1322,7 +1318,6 @@ function isImage() {}
 
 ;
 var w = window;
-<<<<<<< HEAD
 
 isImage.prototype.init = function (type) {
   w.type = type;
@@ -1345,11 +1340,6 @@ function assign(name, value) {
 
 function readImage() {
   $('#modal-filemanager .type-file input').unbind().change(function () {
-=======
-
-isImage.prototype.readImage = function (el, obj) {
-  $('#modal-filemanager .type-file input').change(function () {
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
     var reader = new FileReader();
     var dataImg;
 
@@ -1359,21 +1349,11 @@ isImage.prototype.readImage = function (el, obj) {
     };
 
     reader.readAsDataURL(this.files[0]);
-<<<<<<< HEAD
     pushImage();
   });
 }
 
 ;
-=======
-    var src = $(this).val();
-    var arr = src.split("\\");
-    src = arr[arr.length - 1];
-    obj.attr.src = "./frontend_asset/images/" + src;
-    pushImage();
-  });
-};
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
 
 function pushImage() {
   var myFormData = new FormData();
@@ -1389,29 +1369,32 @@ function pushImage() {
     url: "design/upload-img",
     success: function success(data) {
       var result = data.split('|');
-      var path = w.location.origin + result[1];
+      var path = result[1];
       getAllImages();
       assign(w.type, path);
     }
   });
 }
 
-<<<<<<< HEAD
 function getAllImages() {
   $.ajax({
     url: 'design/get-all-img',
     success: function success(response) {
       // $('#modal-filemanager .content')
-      var images = JSON.parse(response);
-      $('#modal-filemanager .content').empty();
-      $.each(images, function (k, v) {
-        var name = v.split('/');
-        name = name[name.length - 1];
-        var html = "<div class=\"item\">\n\t\t\t\t\t\t\t\t<img src=\"".concat(v, "\">\n\t\t\t\t\t\t\t\t<span>").concat(name, "</span>\n\t\t\t\t\t\t\t\t<span class=\"del-img\" data-value='").concat(v, "'><i class=\"fa fa-times\"></i></span>\n\t\t\t\t\t\t\t</div>");
-        $('#modal-filemanager .content').prepend(html);
-      });
-      deleteImg();
-      changeImg();
+      if (response != '') {
+        var images = JSON.parse(response);
+        $('#modal-filemanager .content').empty();
+        $.each(images, function (k, v) {
+          var name = v.split('/');
+          name = name[name.length - 1];
+          var html = "<div class=\"item\">\n\t\t\t\t\t\t\t\t\t<img src=\"".concat(v, "\">\n\t\t\t\t\t\t\t\t\t<span>").concat(name, "</span>\n\t\t\t\t\t\t\t\t\t<span class=\"del-img\" data-value='").concat(v, "'><i class=\"fa fa-times\"></i></span>\n\t\t\t\t\t\t\t\t</div>");
+          $('#modal-filemanager .content').prepend(html);
+        });
+        deleteImg();
+        changeImg();
+      } else {
+        $('#modal-filemanager .content').empty();
+      }
     },
     error: function error(err) {
       console.log('error : ', err.message);
@@ -1479,8 +1462,6 @@ function AddImgFormUrl() {
   });
 }
 
-=======
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
 w.isImage = new isImage();
 /* harmony default export */ __webpack_exports__["default"] = (isImage);
 
@@ -1663,7 +1644,7 @@ objectJson.prototype.draw = function (json) {
       tag.appendChild(objectJson.prototype.draw(v));
     });
   } else {
-    $(tag).html(json.content);
+    tag.innerHTML = json.content;
   } // objectJson.prototype.drawTreeData();
 
 
@@ -1675,25 +1656,27 @@ objectJson.prototype.drawExport = function (json) {
 
   if (json.attr != null) {
     $.each(json.attr, function (k, v) {
-      if (k != "class" && k != "contenteditable" && k.match(/data-/g) == null) {
-        $(tag).attr(k, v);
-      }
-
-      if (k == 'src') {
-        w.images.push(v);
-        $(tag).attr(k, 'images/' + detachNameImg(v));
-      }
-
       if (k == "style") {
         $.each(v, function (j, i) {
-          $(tag).css(j, i);
-
-          if (j == 'background-image') {
+          if (j == 'background-image' && i != '' && i != 'url("")') {
+            console.log('bg', i);
             var src = i.replace(/(url\(|\))/gi, '');
-            $(tag).css(j, 'images/' + detachNameImg(src));
+            $(tag).css(j, 'url(images/' + detachNameImg(src) + ')');
             w.images.push(src);
+          } else {
+            $(tag).css(j, i);
           }
         });
+      } else {
+        if (k != "class" && k != "contenteditable" && k.match(/data-/g) == null) {
+          $(tag).attr(k, v);
+        }
+
+        if (k == 'src' && v != '') {
+          console.log('src', v);
+          w.images.push(v);
+          $(tag).attr(k, 'images/' + detachNameImg(v));
+        }
       }
     });
   }
@@ -1703,7 +1686,7 @@ objectJson.prototype.drawExport = function (json) {
       tag.appendChild(objectJson.prototype.drawExport(v));
     });
   } else {
-    $(tag).html(json.content);
+    tag.innerHTML = json.content;
   }
 
   return tag;
@@ -2439,6 +2422,7 @@ $(document).ready(function () {
   if (localStorage.getItem("object") !== null) {
     var obj = JSON.parse(localStorage.getItem("object"));
     w.object.content = obj;
+    $('#sortable-area2').empty();
     $.each(obj, function (k, v) {
       $('#sortable-area2').append(w.objectJson.draw(v));
     });
@@ -2447,12 +2431,7 @@ $(document).ready(function () {
     });
     w.objectJson.drawTreeData();
     ele.sortableArea();
-  } // if ($("#name_template").innerHTML == null && w.location.pathname == "/my-template") {
-  // 	$("#side-bar").css('display', 'none');
-  // }else{
-  // 	$("#side-bar").css('display', 'block');
-  // }
-
+  }
 
   window.addEventListener('beforeunload', function (event) {
     w.objectJson.saveLocalStorage();
@@ -2466,8 +2445,6 @@ w.exportZip = function () {
   }
 
   var html_content = '';
-  var docco = "";
-  var hljs = "";
   getData();
 
   function getData() {
@@ -2476,32 +2453,11 @@ w.exportZip = function () {
       success: function success(response) {
         html_content += response;
         $.each(w.object.content, function (k, v) {
-<<<<<<< HEAD
           html_content += w.objectJson.drawExport(v).outerHTML;
-=======
-          html_content += w.objectJson.draw(v).outerHTML;
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
         });
-        html_content += "</body>\n\t\t\t\t<script type=\"text/javascript\" src=\"js/highlight.min.js\"></script>\n\t\t\t\t<script>\n\t\t\t\tdocument.querySelectorAll('pre code').forEach((block) => {\n\t\t\t\t\thljs.highlightBlock(block);\n\t\t\t\t});\n\t\t\t\t</script>\n\t\t\t\t</html>";
-        $.ajax({
-          url: "./js/highlight.min.js",
-          success: function success(response) {
-            hljs += response;
-            $.ajax({
-              url: "./css/docco.min.css",
-              success: function success(response) {
-                docco += response;
-                zipFile(html_content, hljs, docco);
-              },
-              error: function error(response) {
-                console.log('error', response);
-              }
-            });
-          },
-          error: function error(response) {
-            console.log('error', response);
-          }
-        });
+        console.log('test', html_content);
+        html_content += "</body>\n\t\t\t\t\t<script type=\"text/javascript\" src=\"js/highlight.min.js\"></script>\n\t\t\t\t\t<script>\n\t\t\t\t\t\tdocument.querySelectorAll('pre code').forEach((block) => {\n\t\t\t\t\t\t\thljs.highlightBlock(block);\n\t\t\t\t\t\t});\n\t\t\t\t\t</script>\n\t\t\t\t</html>";
+        zipFile(html_content);
       },
       error: function error(response) {
         alert('có lỗi xảy ra!');
@@ -2509,9 +2465,16 @@ w.exportZip = function () {
     });
   }
 
-  function zipFile(html_content, hljs, docco) {
+  function zipFile(html_content) {
     var zip = new JSZip();
     zip.file("index.html", html_content);
+    var file_name = Math.floor(Math.random() * 10000) + "_snap-page.zip";
+    debugger;
+    var count = w.images.length,
+        countindex = 0;
+    w.images = w.images.filter(function (i) {
+      return i != '';
+    });
 
     if (w.images != '') {
       $.each(w.images, function (k, v) {
@@ -2525,19 +2488,25 @@ w.exportZip = function () {
           zip.file('images/' + name, data, {
             binary: true
           });
+          countindex++;
+
+          if (countindex == count) {
+            zip.generateAsync({
+              type: "blob"
+            }).then(function (blob) {
+              saveAs(blob, file_name);
+            });
+            w.images = [];
+          }
         });
       });
+    } else {
+      zip.generateAsync({
+        type: "blob"
+      }).then(function (blob) {
+        saveAs(blob, file_name);
+      });
     }
-
-    zip.file("js/highlight.min.js", hljs);
-    zip.file("css/docco.min.css", docco);
-    var file_name = Math.floor(Math.random() * 10000) + "_snap-page.zip";
-    zip.generateAsync({
-      type: "blob"
-    }).then(function (blob) {
-      saveAs(blob, file_name);
-    });
-    w.images = [];
   }
 };
 

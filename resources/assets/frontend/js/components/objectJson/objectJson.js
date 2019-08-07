@@ -38,7 +38,7 @@ objectJson.prototype.draw = function(json) {
 			tag.appendChild(objectJson.prototype.draw(v));
 		})
 	} else {
-		$(tag).html(json.content);
+		tag.innerHTML = json.content;
 	}
 	// objectJson.prototype.drawTreeData();
 	return tag;
@@ -48,22 +48,26 @@ objectJson.prototype.drawExport = function(json) {
 	let tag   = document.createElement(json.tag);
 	if(json.attr != null) {
 		$.each(json.attr, (k,v) => {
-			if(k != "class" && k != "contenteditable" && k.match(/data-/g) == null) {
-				$(tag).attr(k, v);	
-			}
-			if (k == 'src') {
-				w.images.push(v);
-				$(tag).attr(k, 'images/' + detachNameImg(v));
-			}
 			if(k == "style") {
 				$.each(v, (j,i) => {
-					$(tag).css(j,i);
-					if (j == 'background-image') {
+					if (j == 'background-image' && i != '' && i != 'url("")') {
+						console.log('bg', i);
 						let src = i.replace(/(url\(|\))/gi, '');
-						$(tag).css(j, 'images/' + detachNameImg(src));
+						$(tag).css(j, 'url(images/' + detachNameImg(src) + ')' );
 						w.images.push(src);
+					} else {
+						$(tag).css(j,i);
 					}
 				})
+			} else {
+				if(k != "class" && k != "contenteditable" && k.match(/data-/g) == null) {
+					$(tag).attr(k, v);	
+				}
+				if (k == 'src' && v != '') {
+					console.log('src', v);
+					w.images.push(v);
+					$(tag).attr(k, 'images/' + detachNameImg(v));
+				}
 			}
 		});
 	}
@@ -72,7 +76,7 @@ objectJson.prototype.drawExport = function(json) {
 			tag.appendChild(objectJson.prototype.drawExport(v));
 		})
 	} else {
-		$(tag).html(json.content);
+		tag.innerHTML = json.content;
 	}
 	return tag;
 };

@@ -7,6 +7,7 @@ $(document).ready(function() {
 	if (localStorage.getItem("object") !== null) {
 		let obj = JSON.parse(localStorage.getItem("object"));
 		w.object.content = obj;
+		$('#sortable-area2').empty();
 		$.each(obj, (k,v) => {
 			$('#sortable-area2').append(w.objectJson.draw(v));
 		});
@@ -16,11 +17,6 @@ $(document).ready(function() {
 		w.objectJson.drawTreeData();
 		ele.sortableArea();
 	}
-	// if ($("#name_template").innerHTML == null && w.location.pathname == "/my-template") {
-	// 	$("#side-bar").css('display', 'none');
-	// }else{
-	// 	$("#side-bar").css('display', 'block');
-	// }
 
 	window.addEventListener('beforeunload', (event) => {
 		w.objectJson.saveLocalStorage();
@@ -33,8 +29,6 @@ w.exportZip = function(){
 		return false;
 	}
 	var html_content = '';
-	var docco = "";
-	var hljs = "";
 	getData();
 	function getData(){
 		$.ajax({
@@ -44,35 +38,18 @@ w.exportZip = function(){
 				$.each(w.object.content, (k,v) => {
 					html_content +=  w.objectJson.drawExport(v).outerHTML;
 				});
+				console.log('test', html_content);
 				html_content += 
 				`</body>
-				<script type="text/javascript" src="js/highlight.min.js"></script>
-				<script>
-				document.querySelectorAll('pre code').forEach((block) => {
-					hljs.highlightBlock(block);
-				});
-				</script>
+					<script type="text/javascript" src="js/highlight.min.js"></script>
+					<script>
+						document.querySelectorAll('pre code').forEach((block) => {
+							hljs.highlightBlock(block);
+						});
+					</script>
 				</html>`;
 				
-				$.ajax({
-					url: "./js/highlight.min.js",
-					success: function(response) {
-						hljs += response;
-						$.ajax({
-							url: "./css/docco.min.css",
-							success: (response) => {
-								docco += response;
-								zipFile(html_content, hljs, docco);
-							},
-							error: (response) => {
-								console.log('error', response);
-							}
-						});
-					},
-					error: (response) => {
-						console.log('error', response);
-					}
-				});
+				zipFile(html_content);
 			}, 
 			error : (response) => {
 				alert('có lỗi xảy ra!');
@@ -80,9 +57,14 @@ w.exportZip = function(){
 		});
 	}
 
-	function zipFile(html_content, hljs, docco){
+	function zipFile(html_content){
 		var zip = new JSZip();
+		
 		zip.file("index.html", html_content);
+		var file_name = Math.floor(Math.random() * 10000)+"_snap-page.zip";
+		debugger;
+		var count=w.images.length,countindex=0;
+		w.images = w.images.filter((i) => i != '');
 		if (w.images != '') {
 			$.each(w.images, (k,v) => {
 				JSZipUtils.getBinaryContent(v, function (err, data) {
@@ -92,17 +74,23 @@ w.exportZip = function(){
 				    let arr  = v.split('/');
 					let name = arr[arr.length - 1];
 				    zip.file('images/' + name, data, {binary:true});
+				    countindex++;
+				    if(countindex==count){
+				    	zip.generateAsync({type:"blob"})
+						.then(function (blob) {
+							saveAs(blob, file_name);
+						});
+						w.images = [];
+				    }
 				});
 			});
 		}
-		zip.file("js/highlight.min.js", hljs);
-		zip.file("css/docco.min.css", docco);
-		var file_name = Math.floor(Math.random() * 10000)+"_snap-page.zip";
-		zip.generateAsync({type:"blob"})
-		.then(function (blob) {
-			saveAs(blob, file_name);
-		});
-		w.images = [];
+		else{
+			zip.generateAsync({type:"blob"})
+			.then(function (blob) {
+				saveAs(blob, file_name);
+			});
+		}	
 	}
 };
 

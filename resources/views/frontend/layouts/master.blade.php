@@ -20,8 +20,6 @@
     
     <!-- font google -->
     <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
-
-    <link rel="stylesheet" href="{{ asset('css/filemanager.css') }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('css/font-awesome.min.css') }}">
     <link rel="shortcut icon" href="{{ asset('favicon.ico') }}"/>
@@ -42,6 +40,8 @@
     <script src="{{ asset('frontend_asset/ckeditor/ckeditor.js') }}"></script>
     
     <script src="{{ asset('js/jquery.multi-select.js')}}"></script>
+
+    <link rel="stylesheet" href="{{ asset('css/filemanager.css') }}">
     <script src="{{ asset('js/jszip-utils.js')}}"></script>
 </head><!--/head-->
 

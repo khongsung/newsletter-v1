@@ -487,6 +487,12 @@
   box-sizing: border-box;
 }
 
+a.column {
+  display: inline-block;
+  width: 50px;
+  height: 20px;
+}
+
 .right {
   width: 180px;
   height: 95vh;
@@ -1017,6 +1023,10 @@ label {
     padding-bottom: 9px !important;
   }
 }
+body {
+  font-family: Arial;
+}
+
 .header .container-fluid {
   width: 100%;
   display: flex;

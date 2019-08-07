@@ -5,6 +5,10 @@
 		'components/right-box-edit', 
 		'components/overide-bootstrap';
 
+body {
+	font-family: $font-family;
+}
+
 .header {
 	.container-fluid {
 		width: 100%;

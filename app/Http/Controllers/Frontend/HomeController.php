@@ -37,12 +37,11 @@ class HomeController extends Controller
 
         if($request->hasFile('file')) {
             $image = $request->file('file');
-<<<<<<< HEAD
             $name = time() . $image->getClientOriginalName();
             $name = str_replace(' ', '', $name);
             $destinationPath = public_path('/images/'. Auth::id() .'/');
             $image->move($destinationPath, $name);
-            $path = '/images/'. Auth::id() . '/' . $name;
+            $path = 'images/'. Auth::id() . '/' . $name;
             echo $name . '|' . $path;
         }
     }
@@ -51,14 +50,17 @@ class HomeController extends Controller
         $host = $actual_link = 'http://'.$_SERVER['HTTP_HOST'];
         $path = 'images/' . Auth::id();
         $arr = [];
-        $files = File::allFiles($path);
-        foreach ($files as $path) {
-            $file = pathinfo($path);
-            $pathName = $file['dirname'] . '/' . $file['basename'];
-            $arr[] = $pathName;
+        if (file_exists($path)) {
+            $files = File::allFiles($path);
+            foreach ($files as $path) {
+                $file = pathinfo($path);
+                $pathName = $file['dirname'] . '/' . $file['basename'];
+                $arr[] = $pathName;
+            }
+            echo json_encode($arr);
+        } else {
+            echo '';
         }
-
-        echo json_encode($arr);
     }
 
     public function deleteImage(Request $request) {
@@ -80,12 +82,6 @@ class HomeController extends Controller
             echo $img;
         } else {
             echo '';
-=======
-            $name = $image->getClientOriginalName();
-            $name = date('Y-m-d H i s') . '.' . $image->getClientOriginalExtension();
-            $destinationPath = public_path('/images/'. \Auth::id() . '/');
-            $image->move($destinationPath, $name);
->>>>>>> 31025e09e5b13750fadaba4a1fef33485ecae4eb
         }
     }
 }
