@@ -1,9 +1,11 @@
 import objectJson from '../objectJson/objectJson';
 import sortableElement from './sortableElement';
+import rightEdit from '../right-edit';
 
 function element() {};
 
 var w = window;
+var rightEd = new rightEdit();
 w.objectJson = new objectJson();
 
 element.prototype = new sortableElement;
@@ -97,6 +99,7 @@ element.prototype.editBaseStyle = function(el, obj) {
 		} else {
 			colorpkr(e.target, style, false);
 		}
+		rightEd.highlightLabel(e.target);
 	});
 
 	function colorpkr(div, styleName, none) {

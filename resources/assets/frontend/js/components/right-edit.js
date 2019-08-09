@@ -30,6 +30,7 @@ rightEdit.prototype.edit = function(el, obj) {
 	keyEventSetting();
 	backgroundImage();
 	backgroundGradient();
+	clearstyle();
 };
 
 function detachValue(v) {
@@ -51,25 +52,21 @@ function detachValue(v) {
 };
 
 rightEdit.prototype.fillStyleInRight = function() {
-	$('.base input[type=number], .base input[type=text]').val('');
-	$('.base input[type=number], .base input[type=text]').blur(); //remove focus
-	$('.base input[type=radio]').prop('checked', false); //reset raido input
-	$('.base select').prop('selectedIndex',0); //reset select
-	$('.base select').blur(); //remove focus
-	$('.base .field-color-picker').css('background-color', 'transparent'); //remove focus
+	reset('.base');
 
 	let style = w.obj.attr.style;
 	let backgroundGradient = '';
 	$.each(style, (k,v) => {
 		if($('.base').find('#'+k).hasClass('properties--group')) {
 			let value = v.trim().split(' ');
+			rightEdit.prototype.highlightLabel($('.right #'+k));
 			$.each(value, (i,j) => {
 				let values = new detachValue(j.trim());
 				$($('.base').find('#'+k).find('.input-holder')[i]).children().val(values.regNumber);
 				$($('.base').find('#'+k).find('.input-unit')[i]).val(values.regUnit);
 				if(checkIsColor( $($('.base').find('#'+k).find('.input-holder')[i]).children() )) {
 					$('.base').find('#'+k).find('.field-color-picker').css('background-color', values.regNumber);
-				}				
+				}			
 			});
 		}
 		else {
@@ -91,9 +88,13 @@ rightEdit.prototype.fillStyleInRight = function() {
 			if (patt.test(v) == true && k == 'background-image') {
 				backgroundGradient = v;
 			}
+			rightEdit.prototype.highlightLabel($('.right #'+k));
 		}
 	});
-	if(backgroundGradient != '') fillStyleBackgroundGradient(backgroundGradient);
+	if(backgroundGradient != '') {
+		fillStyleBackgroundGradient(backgroundGradient);
+		rightEdit.prototype.highlightLabel($('#background-gradient'));
+	}
 
 	$.each($('.base-setting .trait input'), (k,v) => {
 		let attrName = $(el).attr($(v).attr('name'));
@@ -102,6 +103,47 @@ rightEdit.prototype.fillStyleInRight = function() {
 		}
 	});
 };
+
+function reset(el) {
+	$(el).find('input[type=number], input[type=text]').val('');
+	$(el).find('input[type=number], input[type=text]').blur(); //remove focus
+	$(el).find('input[type=radio]').prop('checked', false); //reset raido input
+	$(el).find('select').prop('selectedIndex',0); //reset select
+	$(el).find('select').blur(); //remove focus
+	$(el).find('.field-color-picker').css('background-color', 'transparent'); //remove focus
+	$(el).find('.label').removeClass('four-color');
+	$(el).find('.clear').hide();
+}
+
+rightEdit.prototype.highlightLabel = function(e) {
+	let nameGroup;
+	
+	if($(e).hasClass('property')) {
+		nameGroup = $(e).attr('id');
+	} else {
+		if(checkIsGroup(e)) {
+			nameGroup = getNameGroup(e);
+		} else {
+			nameGroup = findNameSytle(e);
+		}
+	}
+	$('#' + nameGroup).find('> .label').addClass('four-color');
+	$('#' + nameGroup).find('> .label').find('b').show();
+	$('#' + nameGroup).find('> .label').find('b').attr('data-clear-style', nameGroup);
+}
+
+function clearstyle() {
+	$('.right .clear').click(function() {
+		let styleName = $(this).attr('data-clear-style');
+		if(styleName != '' && w.obj.attr.style[styleName] != undefined) {
+			delete w.obj.attr.style[styleName];
+			$(w.el).css(styleName, "");
+			$(this).hide();
+			$(this).parent().removeClass('four-color');
+			reset($(this).parent().parent());
+		}
+	})
+}
 
 function checkIsColor(e) {
 	let isColor = false;
@@ -124,15 +166,6 @@ function isColor(strColor){
 	} else{
 		return false;
 	}
-};
-
-function checkIsSelect(e) {
-	let isSelect = false;
-	let id = findNameSytle(id);
-	if($(id).hasClass('select')) {
-		isSelect = true;
-	}
-	return isSelect;
 };
 
 function getNameGroup(e) {
@@ -189,6 +222,7 @@ function groupEvent(e) {
 	let divShow = $(selector).find('.field-color-picker')[0];
 	let value   = test(nameGroup, selector);
 	assign(nameGroup, value);
+	rightEdit.prototype.highlightLabel(e);
 	colorpkr(divShow, nameGroup, value);
 };
 
@@ -341,7 +375,7 @@ function keyEventSetting() {
 };
 
 function keyEventInput() {
-	$('.base .field input, .base .select select').unbind().on('keyup change click', function(e) {
+	$('.base .field input, .base .select select').unbind().on('keyup change', function(e) {
 		if(!checkIsGroup(this)) {
 			let styleName = findNameSytle(this);
 			let unit  = $(this).parent().siblings('.field-units').find('select').val();
@@ -364,6 +398,7 @@ function keyEventInput() {
 		} else {
 			groupEvent(e.target);
 		}
+		rightEdit.prototype.highlightLabel(e.target);
 		e.stopPropagation();
 	});
 
@@ -421,7 +456,7 @@ function backgroundImage() {
 function backgroundGradient() {
 	let basePath = '.right .base #background-gradient ';
 
-	$( basePath ).find('input, select').unbind().on('click keyup change', function(e) {
+	$( basePath ).find('input, select').unbind().on('keyup change', function(e) {
 		keEventBackgroundGradient(basePath);
 	});
 

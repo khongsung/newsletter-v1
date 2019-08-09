@@ -85,7 +85,8 @@
 			</div>
 		</div>
 	</div>
-	<div id="margin" class="property composite property__margin" >
+	
+	<div id="margin" class="property composite property__margin properties--group" >
 		<div class="label">
 			<span class="icon " title="">
 				Margin
@@ -183,7 +184,8 @@
 
 		</div>
 	</div>
-	<div id="padding" class="property composite property__padding" >
+
+	<div id="padding" class="property composite property__padding properties--group" >
 		<div class="label">
 
 			<span class="icon " title="">

@@ -49,9 +49,13 @@
 	}
 
 	.column, .grid-td {
-		min-height: 30px;
+		height: 30px;
 		outline: .5px dashed #bbb9b9;
 		box-sizing: border-box;
+	}
+
+	.grid-td {
+		width: 10px;
 	}
 
 }

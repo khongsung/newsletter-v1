@@ -33,6 +33,7 @@ sortableElement.prototype.draggable = function() {
 
 	$('body .box-tr').draggable({
 		connectToSortable: ".grid-tbody",
+		appendTo: ".grid-tbody",
 		helper: "clone",
 		handle: ".drag",
 		scroll: false
@@ -40,6 +41,7 @@ sortableElement.prototype.draggable = function() {
 
 	$('body .box-td').draggable({
 		connectToSortable: ".grid-tr",
+		appendTo: ".grid-tr",
 		helper: "clone",
 		handle: ".drag",
 		scroll: false
@@ -50,10 +52,10 @@ sortableElement.prototype.sortableArea = function() {
 	sortableElement.prototype.draggable();
 	
 	sort('#sortable-area2', '.grid-td');
-	// sort('#sortable-area2 .grid-table', '.grid-td');
+	sort('#sortable-area2 .grid-table', '.grid-td');
 	sort('#sortable-area2 .grid-tbody', '.grid-tbody');
-	sort('#sortable-area2 .grid-tr', '.grid-tr', '.grid-tbody');
-	sort('#sortable-area2 .grid-td', '.grid-td, #sortable-area2', '.grid-tr');
+	sort('#sortable-area2 .grid-tr', '.grid-tr');
+	sort('#sortable-area2 .grid-td', '.grid-td');
 };
 
 sortableElement.prototype.dragdrop = function(el, obj) {
@@ -186,16 +188,15 @@ function sort(selector, connect, append) {
 				console.log('receive area');
 				let tree = w.objectJson.getParent(ui.helper);
 				sortableElement.prototype.dragdrop(ui,tree);
-				sortableElement.prototype.sortableArea();
 			}
+			sortableElement.prototype.sortableArea();
 		},
 		scroll: false,
 		tolerance: "pointer",
 		placeholder: "ui-state-highlight",
-		cursorAt: { left: 0, top: 0 },
+		cursorAt: { left: -5, top: -5 },
 		cancel: '',
-		connectWith: connect,
-		appendTo: append
+		connectWith: connect
 	});
 }
 

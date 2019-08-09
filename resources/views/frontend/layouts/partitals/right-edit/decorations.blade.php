@@ -49,7 +49,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="border-radius" class="property composite property__border-radius  properties--group" >
+	<div id="border-radius" class="property composite property__border-radius properties--group" >
 		<div class="label">
 
 			<span class="icon " title="">
@@ -234,7 +234,7 @@
 	</div>
 
 	<div id="box-shadow" class="property stack property__box-shadow properties--group" style="display: block;">
-		<div class="label four-color">
+		<div class="label ">
 			<span class="icon " title="">
 				Box shadow
 			</span>
@@ -370,7 +370,7 @@
 	</div>
 
 	<div id="background" class="property stack property__background" style="display: block;">
-		<div class="label four-color">
+		<div class="label ">
 			<span class="icon " title="">
 				Background Image
 			</span>

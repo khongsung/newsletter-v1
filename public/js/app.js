@@ -773,6 +773,8 @@ createBoxByStyle.prototype.create = function (json, el, box) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _objectJson_objectJson__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../objectJson/objectJson */ "./resources/assets/frontend/js/components/objectJson/objectJson.js");
 /* harmony import */ var _sortableElement__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./sortableElement */ "./resources/assets/frontend/js/components/element/sortableElement.js");
+/* harmony import */ var _right_edit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../right-edit */ "./resources/assets/frontend/js/components/right-edit.js");
+
 
 
 
@@ -780,6 +782,7 @@ function element() {}
 
 ;
 var w = window;
+var rightEd = new _right_edit__WEBPACK_IMPORTED_MODULE_2__["default"]();
 w.objectJson = new _objectJson_objectJson__WEBPACK_IMPORTED_MODULE_0__["default"]();
 element.prototype = new _sortableElement__WEBPACK_IMPORTED_MODULE_1__["default"]();
 
@@ -880,6 +883,8 @@ element.prototype.editBaseStyle = function (el, obj) {
     } else {
       colorpkr(e.target, style, false);
     }
+
+    rightEd.highlightLabel(e.target);
   });
 
   function colorpkr(div, styleName, none) {
@@ -1034,12 +1039,14 @@ sortableElement.prototype.draggable = function () {
   });
   $('body .box-tr').draggable({
     connectToSortable: ".grid-tbody",
+    appendTo: ".grid-tbody",
     helper: "clone",
     handle: ".drag",
     scroll: false
   });
   $('body .box-td').draggable({
     connectToSortable: ".grid-tr",
+    appendTo: ".grid-tr",
     helper: "clone",
     handle: ".drag",
     scroll: false
@@ -1048,11 +1055,11 @@ sortableElement.prototype.draggable = function () {
 
 sortableElement.prototype.sortableArea = function () {
   sortableElement.prototype.draggable();
-  sort('#sortable-area2', '.grid-td'); // sort('#sortable-area2 .grid-table', '.grid-td');
-
+  sort('#sortable-area2', '.grid-td');
+  sort('#sortable-area2 .grid-table', '.grid-td');
   sort('#sortable-area2 .grid-tbody', '.grid-tbody');
-  sort('#sortable-area2 .grid-tr', '.grid-tr', '.grid-tbody');
-  sort('#sortable-area2 .grid-td', '.grid-td, #sortable-area2', '.grid-tr');
+  sort('#sortable-area2 .grid-tr', '.grid-tr');
+  sort('#sortable-area2 .grid-td', '.grid-td');
 };
 
 sortableElement.prototype.dragdrop = function (el, obj) {
@@ -1202,19 +1209,19 @@ function sort(selector, connect, append) {
         console.log('receive area');
         var tree = w.objectJson.getParent(ui.helper);
         sortableElement.prototype.dragdrop(ui, tree);
-        sortableElement.prototype.sortableArea();
       }
+
+      sortableElement.prototype.sortableArea();
     },
     scroll: false,
     tolerance: "pointer",
     placeholder: "ui-state-highlight",
     cursorAt: {
-      left: 0,
-      top: 0
+      left: -5,
+      top: -5
     },
     cancel: '',
-    connectWith: connect,
-    appendTo: append
+    connectWith: connect
   });
 }
 
@@ -1833,6 +1840,7 @@ rightEdit.prototype.edit = function (el, obj) {
   keyEventSetting();
   backgroundImage();
   backgroundGradient();
+  clearstyle();
 };
 
 function detachValue(v) {
@@ -1857,22 +1865,13 @@ function detachValue(v) {
 ;
 
 rightEdit.prototype.fillStyleInRight = function () {
-  $('.base input[type=number], .base input[type=text]').val('');
-  $('.base input[type=number], .base input[type=text]').blur(); //remove focus
-
-  $('.base input[type=radio]').prop('checked', false); //reset raido input
-
-  $('.base select').prop('selectedIndex', 0); //reset select
-
-  $('.base select').blur(); //remove focus
-
-  $('.base .field-color-picker').css('background-color', 'transparent'); //remove focus
-
+  reset('.base');
   var style = w.obj.attr.style;
   var backgroundGradient = '';
   $.each(style, function (k, v) {
     if ($('.base').find('#' + k).hasClass('properties--group')) {
       var value = v.trim().split(' ');
+      rightEdit.prototype.highlightLabel($('.right #' + k));
       $.each(value, function (i, j) {
         var values = new detachValue(j.trim());
         $($('.base').find('#' + k).find('.input-holder')[i]).children().val(values.regNumber);
@@ -1903,9 +1902,16 @@ rightEdit.prototype.fillStyleInRight = function () {
       if (patt.test(v) == true && k == 'background-image') {
         backgroundGradient = v;
       }
+
+      rightEdit.prototype.highlightLabel($('.right #' + k));
     }
   });
-  if (backgroundGradient != '') fillStyleBackgroundGradient(backgroundGradient);
+
+  if (backgroundGradient != '') {
+    fillStyleBackgroundGradient(backgroundGradient);
+    rightEdit.prototype.highlightLabel($('#background-gradient'));
+  }
+
   $.each($('.base-setting .trait input'), function (k, v) {
     var attrName = $(el).attr($(v).attr('name'));
 
@@ -1914,6 +1920,54 @@ rightEdit.prototype.fillStyleInRight = function () {
     }
   });
 };
+
+function reset(el) {
+  $(el).find('input[type=number], input[type=text]').val('');
+  $(el).find('input[type=number], input[type=text]').blur(); //remove focus
+
+  $(el).find('input[type=radio]').prop('checked', false); //reset raido input
+
+  $(el).find('select').prop('selectedIndex', 0); //reset select
+
+  $(el).find('select').blur(); //remove focus
+
+  $(el).find('.field-color-picker').css('background-color', 'transparent'); //remove focus
+
+  $(el).find('.label').removeClass('four-color');
+  $(el).find('.clear').hide();
+}
+
+rightEdit.prototype.highlightLabel = function (e) {
+  var nameGroup;
+
+  if ($(e).hasClass('property')) {
+    nameGroup = $(e).attr('id');
+  } else {
+    if (checkIsGroup(e)) {
+      nameGroup = getNameGroup(e);
+    } else {
+      nameGroup = findNameSytle(e);
+    }
+  }
+
+  $('#' + nameGroup).find('> .label').addClass('four-color');
+  $('#' + nameGroup).find('> .label').find('b').show();
+  $('#' + nameGroup).find('> .label').find('b').attr('data-clear-style', nameGroup);
+};
+
+function clearstyle() {
+  $('.right .clear').click(function () {
+    var styleName = $(this).attr('data-clear-style');
+
+    if (styleName != '' && w.obj.attr.style[styleName] != undefined) {
+      delete w.obj.attr.style[styleName];
+      $(w.el).css(styleName, "");
+      $(this).hide();
+      $(this).parent().removeClass('four-color');
+      reset($(this).parent().parent());
+    }
+  });
+}
 
 function checkIsColor(e) {
   var isColor = false;
@@ -1939,19 +1993,6 @@ function isColor(strColor) {
   } else {
     return false;
   }
-}
-
-;
-
-function checkIsSelect(e) {
-  var isSelect = false;
-  var id = findNameSytle(id);
-
-  if ($(id).hasClass('select')) {
-    isSelect = true;
-  }
-
-  return isSelect;
 }
 
 ;
@@ -2023,6 +2064,7 @@ function groupEvent(e) {
   var divShow = $(selector).find('.field-color-picker')[0];
   var value = test(nameGroup, selector);
   assign(nameGroup, value);
+  rightEdit.prototype.highlightLabel(e);
   colorpkr(divShow, nameGroup, value);
 }
 
@@ -2196,7 +2238,7 @@ function keyEventSetting() {
 ;
 
 function keyEventInput() {
-  $('.base .field input, .base .select select').unbind().on('keyup change click', function (e) {
+  $('.base .field input, .base .select select').unbind().on('keyup change', function (e) {
     if (!checkIsGroup(this)) {
       var styleName = findNameSytle(this);
       var unit = $(this).parent().siblings('.field-units').find('select').val();
@@ -2225,6 +2267,7 @@ function keyEventInput() {
       groupEvent(e.target);
     }
 
+    rightEdit.prototype.highlightLabel(e.target);
     e.stopPropagation();
   });
   $('.base .field input').change(function (e) {
@@ -2296,7 +2339,7 @@ function backgroundImage() {
 
 function backgroundGradient() {
   var basePath = '.right .base #background-gradient ';
-  $(basePath).find('input, select').unbind().on('click keyup change', function (e) {
+  $(basePath).find('input, select').unbind().on('keyup change', function (e) {
     keEventBackgroundGradient(basePath);
   });
   $(basePath + '#add-color').unbind().click(function () {

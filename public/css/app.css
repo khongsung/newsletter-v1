@@ -482,9 +482,12 @@
   border-collapse: separate;
 }
 .content .column, .content .grid-td {
-  min-height: 30px;
+  height: 30px;
   outline: 0.5px dashed #bbb9b9;
   box-sizing: border-box;
+}
+.content .grid-td {
+  width: 10px;
 }
 
 a.column {
@@ -722,6 +725,9 @@ a.column {
 }
 .right .two-color {
   color: #eaeaea !important;
+}
+.right .four-color {
+  color: #ffbb00;
 }
 
 .title {

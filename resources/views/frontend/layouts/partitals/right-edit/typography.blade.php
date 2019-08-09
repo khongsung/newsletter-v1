@@ -4,7 +4,7 @@
 	Typography
 </div>
 <div class="properties" style="">
-	<div id="font-family" class="property select property__font-family" style="display: block;">
+	<div id="font-family" class="property select property__font-family">
 		<div class="label color-warn">
 			<span class="icon undefined" title="undefined">
 				Font
@@ -36,7 +36,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="font-size" class="property integer property__font-size" style="display: block;">
+	<div id="font-size" class="property integer property__font-size">
 		<div class="label">
 			<span class="icon " title="">
 				Font size
@@ -49,6 +49,7 @@
 				<span class="field-units">
 					<select class="input-unit">
 						<option>px</option>
+						<option>pt</option>
 						<option>em</option>
 						<option>rem</option>
 						<option>%</option>
@@ -61,7 +62,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="font-weight" class="property select property__font-weight" style="display: block;">
+	<div id="font-weight" class="property select property__font-weight">
 		<div class="label color-warn">
 			<span class="icon undefined" title="undefined">
 				Weight
@@ -89,7 +90,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="letter-spacing" class="property integer property__letter-spacing" style="display: block;">
+	<div id="letter-spacing" class="property integer property__letter-spacing">
 		<div class="label">
 			<span class="icon " title="">
 				Letter spacing
@@ -114,12 +115,12 @@
 			</div>
 		</div>
 	</div>
-	<div id="color" class="property color property__color" style="display: block;">
-		<div class="label four-color">
+	<div id="color" class="property color property__color">
+		<div class="label">
 			<span class="icon " title="">
 				Font color
 			</span>
-			<b class="clear" data-clear-style="" style="display: inline;">⨯</b>
+			<b class="clear" data-clear-style="" style="display: none;">⨯</b>
 		</div>
 		<div class="fields">
 			<div class="field field-color">
@@ -132,12 +133,12 @@
 			</div>
 		</div>
 	</div>
-	<div id="line-height" class="property integer property__line-height" style="display: block;">
-		<div class="label four-color">
+	<div id="line-height" class="property integer property__line-height">
+		<div class="label ">
 			<span class="icon " title="">
 				Line height
 			</span>
-			<b class="clear" data-clear-style="" style="display: inline;">⨯</b>
+			<b class="clear" data-clear-style="" style="display: none;">⨯</b>
 		</div>
 		<div class="fields">
 			<div class="field field-integer">
@@ -157,7 +158,7 @@
 			</div>
 		</div>
 	</div>
-	<div id="text-align" class="property radio property__text-align property--full" style="display: block;">
+	<div id="text-align" class="property radio property__text-align property--full">
 		<div class="label">
 			<span class="icon " title="">
 				Text align
@@ -188,7 +189,7 @@
 		</div>
 	</div>
 	
-	<div id="text-decoration" class="property radio property__text-decoration property--full" style="display: block;">
+	<div id="text-decoration" class="property radio property__text-decoration property--full">
 		<div class="label color-warn">
 			<span class="icon " title="">
 				Text decoration
@@ -263,7 +264,7 @@
 	</div>
 
 	<div id="text-shadow" class="property stack property__text-shadow properties--group">
-		<div class="label four-color">
+		<div class="label ">
 			<span class="icon " title="">
 				Text shadow
 			</span>
