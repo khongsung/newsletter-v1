@@ -1951,15 +1951,22 @@ rightEdit.prototype.highlightLabel = function (e) {
   }
 
   $('#' + nameGroup).find('> .label').addClass('four-color');
-  $('#' + nameGroup).find('> .label').find('b').show();
-  $('#' + nameGroup).find('> .label').find('b').attr('data-clear-style', nameGroup);
+  $('#' + nameGroup).find('> .label').find('> b').show();
+  $('#' + nameGroup).find('> .label').find('> b').attr('data-clear-style', nameGroup);
 };
 
 function clearstyle() {
   $('.right .clear').click(function () {
+    debugger;
     var styleName = $(this).attr('data-clear-style');
 
-    if (styleName != '' && w.obj.attr.style[styleName] != undefined) {
+    if (styleName == "background-gradient") {
+      delete w.obj.attr.style['background-image'];
+      $(w.el).css('background-image', '');
+      $(this).hide();
+      $(this).parent().removeClass('four-color');
+      reset($(this).parent().parent());
+    } else if (styleName != '' && w.obj.attr.style[styleName] != undefined) {
       delete w.obj.attr.style[styleName];
       $(w.el).css(styleName, "");
       $(this).hide();

@@ -384,6 +384,7 @@
 							<span class="icon " title="">
 								Image
 							</span>
+							<b class="clear" data-clear-style="" style="display: none;">⨯</b>
 						</div>
 						<div class="fields">
 							<div class="field file">
@@ -396,6 +397,7 @@
 							<span class="icon undefined" title="undefined">
 								Repeat
 							</span>
+							<b class="clear" data-clear-style="" style="display: none;">⨯</b>
 						</div>
 						<div class="fields">
 							<div class="field select">
@@ -418,6 +420,7 @@
 							<span class="icon undefined" title="undefined">
 								Position
 							</span>
+							<b class="clear" data-clear-style="" style="display: none;">⨯</b>
 						</div>
 						<div class="fields">
 							<div class="field select">
@@ -445,6 +448,7 @@
 							<span class="icon undefined" title="undefined">
 								Attachment
 							</span>
+							<b class="clear" data-clear-style="" style="display: none;">⨯</b>
 						</div>
 						<div class="fields">
 							<div class="field select">
@@ -466,6 +470,7 @@
 							<span class="icon undefined" title="undefined">
 								Size
 							</span>
+							<b class="clear" data-clear-style="" style="display: none;">⨯</b>
 						</div>
 						<div class="fields">
 							<div class="field select">

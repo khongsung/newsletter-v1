@@ -248,9 +248,14 @@ $left-hove-transition: .3s;
 			color: $color-focus;
 		}
 		.tree-angle {
+			cursor: pointer;
 			display: inline-block;
 			margin-left: -3px;
 			margin-right: -5px;
+		}
+		.fa-trash {
+			padding: 2px;
+			cursor: pointer;
 		}
 	}
 }

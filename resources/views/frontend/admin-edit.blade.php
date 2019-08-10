@@ -87,7 +87,7 @@
                         let id           = <?php echo $template->id; ?>;
                         w.object.content = [];
                         $('#sortable-area2').empty();
-                        if (localStorage.object != "[]" && categoryId == localStorage.category_id && id == localStorage.id) {
+                        if (localStorage.object != "[]" && localStorage.object != undefined  && categoryId == localStorage.category_id && id == localStorage.id) {
                             console.log('test111');
                             $.each(JSON.parse(localStorage.object), (k,v) => {
                                 w.object.content.push(v);

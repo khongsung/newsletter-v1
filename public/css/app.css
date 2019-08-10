@@ -429,9 +429,14 @@
   color: orange;
 }
 .left #tree-data .tree-angle {
+  cursor: pointer;
   display: inline-block;
   margin-left: -3px;
   margin-right: -5px;
+}
+.left #tree-data .fa-trash {
+  padding: 2px;
+  cursor: pointer;
 }
 
 #content {
